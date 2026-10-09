@@ -711,13 +711,23 @@ onUnmounted(() => {
 
 .project-hero__title {
   font-family: $font-serif;
-  font-size: clamp(3rem, 5.8vw, 5.8rem);
+  font-size: clamp(2.4rem, 5.5vw, 5.8rem);
   font-weight: 400;
   line-height: 0.96;
   letter-spacing: -0.03em;
   color: #ffffff;
   margin: 0;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+
+  @include tablet {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    line-height: 1.0;
+  }
+
+  @include mobile {
+    font-size: clamp(1.75rem, 7.5vw, 2.75rem);
+    line-height: 1.05;
+  }
 }
 
 .title-mask {
@@ -748,6 +758,12 @@ onUnmounted(() => {
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+
+  @include tablet-down {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    padding: 1.25rem;
+  }
 
   @include mobile {
     grid-template-columns: 1fr;
@@ -808,8 +824,10 @@ onUnmounted(() => {
   text-decoration: none;
   border-radius: 4px;
   cursor: pointer;
+  min-height: 48px;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
+  box-sizing: border-box;
 
   .btn-icon {
     display: inline-flex;
@@ -829,7 +847,8 @@ onUnmounted(() => {
     border: 1px solid #ffffff;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 
-    &:hover {
+    &:hover,
+    &:active {
       background: #f0ece1;
       border-color: #f0ece1;
       transform: translateY(-2px);
@@ -845,7 +864,8 @@ onUnmounted(() => {
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
-    &:hover {
+    &:hover,
+    &:active {
       background: rgba(255, 255, 255, 0.15);
       border-color: rgba(255, 255, 255, 0.45);
       transform: translateY(-2px);
@@ -862,9 +882,9 @@ onUnmounted(() => {
 /* 4. MONOGRAPHIC OVERVIEW & ARCHITECTURAL SPECS                             */
 /* ========================================================================= */
 .project-monograph__overview-section {
-  padding-top: clamp(4rem, 8vh, 7rem);
-  padding-bottom: clamp(4rem, 8vh, 7rem);
-  margin-bottom: clamp(4rem, 8vh, 7rem);
+  padding-top: clamp(3.5rem, 6vh, 7rem);
+  padding-bottom: clamp(3.5rem, 6vh, 7rem);
+  margin-bottom: clamp(3.5rem, 6vh, 7rem);
   border-bottom: 1px solid rgba(17, 17, 17, 0.08);
 }
 
@@ -872,22 +892,27 @@ onUnmounted(() => {
 .project-lead-block {
   width: 100%;
   max-width: 1240px;
-  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
+  margin-bottom: clamp(2.5rem, 5vh, 5.5rem);
 }
 
 .project-lead-serif {
   font-family: $font-serif;
-  font-size: clamp(28px, 3.2vw, 50px);
+  font-size: clamp(22px, 3vw, 48px);
   font-weight: 400;
-  line-height: 1.22;
+  line-height: 1.25;
   letter-spacing: -0.015em;
   color: #111111;
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.5rem 0;
+
+  @include mobile {
+    font-size: clamp(18px, 5.5vw, 24px);
+    line-height: 1.35;
+  }
 }
 
 .project-lead-desc {
   font-family: $font-sans;
-  font-size: clamp(16px, 1.2vw, 19px);
+  font-size: clamp(15px, 1.15vw, 19px);
   line-height: 1.78;
   color: #555555;
   max-width: 920px;
@@ -900,8 +925,8 @@ onUnmounted(() => {
   width: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-  padding: clamp(2.25rem, 3.5vh, 3.25rem) 0;
-  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
+  padding: clamp(1.75rem, 3.5vh, 3.25rem) 0;
+  margin-bottom: clamp(2.5rem, 5vh, 5.5rem);
 }
 
 .project-meta-grid {
@@ -915,16 +940,23 @@ onUnmounted(() => {
     gap: 28px 24px;
   }
 
+  @include tablet {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px 20px;
+  }
+
   @include mobile {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px 16px;
+    gap: 20px 14px;
   }
 }
 
 .project-meta-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .project-meta-label {
@@ -942,17 +974,19 @@ onUnmounted(() => {
   font-weight: 500;
   color: #111111;
   line-height: 1.45;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* Specifications Matrix */
 .project-specs-matrix {
   width: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 2.5rem;
+  padding-top: 2rem;
 }
 
 .project-specs-header {
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .project-specs-title {
@@ -971,10 +1005,12 @@ onUnmounted(() => {
 
   @include tablet {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 2rem;
   }
 
   @include mobile {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 
@@ -982,7 +1018,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  padding-bottom: 1.25rem;
+  padding-bottom: 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 
   &__idx {
@@ -1004,6 +1040,9 @@ onUnmounted(() => {
     font-size: 14px;
     font-weight: 500;
     color: #111111;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 }
 
@@ -1011,8 +1050,8 @@ onUnmounted(() => {
 /* 5. WORK EXECUTED TABLE                                                    */
 /* ========================================================================= */
 .project-section {
-  padding-bottom: clamp(4rem, 8vh, 7rem);
-  margin-bottom: clamp(4rem, 8vh, 7rem);
+  padding-bottom: clamp(3.5rem, 6vh, 7rem);
+  margin-bottom: clamp(3.5rem, 6vh, 7rem);
   border-bottom: 1px solid rgba(17, 17, 17, 0.08);
 
   &--cta {
@@ -1023,12 +1062,12 @@ onUnmounted(() => {
 }
 
 .section-header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .section-title {
   font-family: $font-serif;
-  font-size: clamp(2rem, 3.2vw, 3.2rem);
+  font-size: clamp(1.85rem, 3vw, 3.2rem);
   font-weight: 400;
   color: #111111;
   margin: 0.5rem 0 0 0;
@@ -1055,10 +1094,20 @@ onUnmounted(() => {
     padding-left: 1.25rem;
   }
 
-  @include tablet {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-    padding: 1.4rem 0;
+  @include tablet-down {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+    padding: 1.25rem;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+
+    &:hover {
+      padding-left: 1.25rem;
+    }
   }
 }
 
@@ -1066,6 +1115,14 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+
+  @include tablet-down {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 0.5rem;
+  }
 }
 
 .work-phase-num {
@@ -1105,11 +1162,11 @@ onUnmounted(() => {
   border-left: 1px solid rgba(0, 0, 0, 0.06);
   padding-left: 1.5rem;
 
-  @include tablet {
+  @include tablet-down {
     border-left: none;
     padding-left: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 0.65rem;
   }
 }
 
@@ -1119,6 +1176,8 @@ onUnmounted(() => {
   font-weight: 500;
   color: #111111;
   line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .work-meta-duration {
@@ -1134,14 +1193,14 @@ onUnmounted(() => {
 .perspective-blocks-list {
   display: flex;
   flex-direction: column;
-  gap: clamp(80px, 14vh, 160px);
-  margin-top: clamp(40px, 6vh, 80px);
+  gap: clamp(60px, 10vh, 160px);
+  margin-top: clamp(32px, 5vh, 80px);
 }
 
 .perspective-block {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
-  gap: clamp(40px, 6vw, 100px);
+  gap: clamp(32px, 5vw, 100px);
   align-items: center;
 
   &--right {
@@ -1155,21 +1214,21 @@ onUnmounted(() => {
       order: 1;
     }
 
-    @include tablet {
+    @include tablet-down {
       grid-template-columns: 1fr;
 
       .perspective-text {
-        order: 1;
+        order: 2;
       }
       .perspective-media {
-        order: 2;
+        order: 1;
       }
     }
   }
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 28px;
   }
 }
 
@@ -1189,9 +1248,9 @@ onUnmounted(() => {
 
 .perspective-heading {
   font-family: $font-sans;
-  font-size: clamp(28px, 3.2vw, 44px);
+  font-size: clamp(24px, 3vw, 44px);
   font-weight: 400;
-  line-height: 1.05;
+  line-height: 1.1;
   letter-spacing: -0.025em;
   color: #111111;
   margin: 0 0 1rem 0;
@@ -1216,13 +1275,15 @@ onUnmounted(() => {
 
 .perspective-quote {
   font-family: $font-serif;
-  font-size: clamp(18px, 1.6vw, 24px);
+  font-size: clamp(16px, 1.5vw, 24px);
   line-height: 1.45;
   color: #111111;
   border-left: 2px solid $color-accent;
-  padding-left: 1.5rem;
-  margin: 0 0 2rem 0;
+  padding-left: 1.25rem;
+  margin: 0 0 1.75rem 0;
   font-style: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .perspective-mini-specs {
@@ -1240,7 +1301,7 @@ onUnmounted(() => {
 
   &__val {
     font-family: $font-sans;
-    font-size: 1.25rem;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
     font-weight: 600;
     color: #111111;
   }
@@ -1280,10 +1341,12 @@ onUnmounted(() => {
 
   @include tablet {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
   }
 
   @include mobile {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }
 
@@ -1340,20 +1403,21 @@ onUnmounted(() => {
   background: #fbfbf9;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: clamp(2rem, 4vw, 4rem);
+  padding: clamp(1.75rem, 4vw, 4rem);
   display: grid;
   grid-template-columns: 1.4fr 1fr;
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 }
 
 .acquisition-title {
   font-family: $font-serif;
-  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-size: clamp(1.85rem, 2.8vw, 2.8rem);
   font-weight: 400;
   color: #111111;
   margin: 0.5rem 0 1rem 0;
@@ -1373,6 +1437,19 @@ onUnmounted(() => {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+  }
 }
 
 .acquisition-right {

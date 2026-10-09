@@ -1,515 +1,501 @@
 <template>
   <section
-    ref="sectionRef"
-    class="people-process"
+    ref="elRef"
+    class="nwv"
+    id="about"
     aria-label="People, Process, and Studio Foundation"
   >
-    <!-- Pinned Visual Stage (100vw x 100vh) -->
-    <div ref="stageRef" class="people-process__stage">
-
+    <div class="ctr">
       <!-- ========================================================= -->
-      <!-- LAYER 1: Editorial Statement (Upper-Left Quadrant)       -->
+      <!-- 1. EDITORIAL / PROCESS (People & Process)                 -->
       <!-- ========================================================= -->
-      <div ref="editorialRef" class="people-process__editorial">
-        <div class="people-process__editorial-content">
-          <div class="people-process__eyebrow">
-            <span>People &amp;</span>
-            <span>Process</span>
-          </div>
-          <div class="people-process__statement-box">
-            <h2 class="people-process__statement">
-              <span class="statement-mask"><span class="statement-line">A studio shaped by</span></span>
-              <span class="statement-mask"><span class="statement-line">clarity, trust, and a</span></span>
-              <span class="statement-mask"><span class="statement-line">collective pursuit of</span></span>
-              <span class="statement-mask"><span class="statement-line">thoughtful design.</span></span>
-            </h2>
-          </div>
-        </div>
+      <div ref="elProcessRef" class="enr">
+        <h2 class="fn-b1 amv f-sf">People &amp; Process</h2>
+        <h3 class="fn-h3 kca">
+          A studio shaped by clarity, trust, and a collective pursuit of thoughtful design.
+        </h3>
       </div>
 
       <!-- ========================================================= -->
-      <!-- LAYER 2: 12-Image Continuous Morphing Path                -->
-      <!-- (Spline Conveyor -> 360° Ring -> Left Crescent)           -->
+      <!-- 2. FOUNDATION YEAR & 360° ORBITAL RING                    -->
       <!-- ========================================================= -->
-      <div class="people-process__photos-layer">
-        <div
-          v-for="photo in STUDIO_PHOTOS"
-          :key="photo.id"
-          class="photo-card"
-        >
-          <div class="photo-card__inner">
-            <img
-              :src="photo.src"
-              :alt="photo.alt"
-              class="photo-card__img"
-              loading="eager"
-              decoding="async"
-            />
-            <div class="photo-card__sheen" aria-hidden="true" />
+      <div ref="elYearRef" class="uwg">
+        <div ref="elYearRingRef" class="vrc">
+          <!-- 17-Image Morphing Ribbon Layer -->
+          <div
+            ref="peopleImgsRef"
+            class="vnj"
+            :style="ringStyle"
+          >
+            <div
+              v-for="(photo, index) in PEOPLE_IMAGES"
+              :key="photo.id"
+              class="mimg hyy elr"
+              role="img"
+              :aria-label="`People ${index + 1}`"
+              :style="{ '--angle': getPhotoAngle(index) }"
+            >
+              <img
+                :src="photo.src"
+                :alt="photo.alt"
+                class="elr-img"
+                draggable="false"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
           </div>
-        </div>
-      </div>
-
-      <!-- ========================================================= -->
-      <!-- LAYER 3: 2011 Year of Foundation (Ring Center)           -->
-      <!-- ========================================================= -->
-      <div ref="foundationRef" class="people-process__foundation">
-        <div class="foundation-title-wrap">
-          <h2 class="foundation-title">
-            <span class="foundation-mask"><span class="foundation-line">2011 Year</span></span>
-            <span class="foundation-mask"><span class="foundation-line">of Foundation</span></span>
+          <h2 class="fn-h2 kca f-mn">
+            2011 Year<br>of Foundation
           </h2>
-        </div>      </div>
-
-      <!-- ========================================================= -->
-      <!-- LAYER 4: Studio Metrics (Right Side of Half-Circle)      -->
-      <!-- ========================================================= -->
-      <div ref="statsContainerRef" class="people-process__stats">
-        <div
-          v-for="stat in STATS_DATA"
-          :key="stat.number"
-          class="stat-item"
-        >
-          <div class="stat-item__number">{{ stat.number }}</div>
-          <div class="stat-item__label">{{ stat.label }}</div>
+        </div>
+        <div class="ciz">
+          <p class="iek tpv">
+            Design approach grounded in passive strategies, material logic, and environmental responsibility.
+          </p>
+          <p class="iek nyp">
+            Lifecycle-focused architecture with efficient systems, sustainable choices, and long-term value.
+          </p>
         </div>
       </div>
 
+      <!-- ========================================================= -->
+      <!-- 3. STUDIO METRICS & LEFT CRESCENT ARC                     -->
+      <!-- ========================================================= -->
+      <div ref="elRecordRef" class="ima">
+        <div class="ppi">
+          <div
+            v-for="record in COMPANY_RECORDS"
+            :key="record.number"
+            class="ohb"
+          >
+            <h3 class="fn-h2 pqf f-mn">{{ record.number }}</h3>
+            <h3 class="fn-h3 kca">{{ record.title }}</h3>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-if (import.meta.client) {
+if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-// Primary DOM references for container boundaries
-const sectionRef = ref<HTMLElement | null>(null);
-const stageRef = ref<HTMLElement | null>(null);
-const editorialRef = ref<HTMLElement | null>(null);
-const foundationRef = ref<HTMLElement | null>(null);
-const statsContainerRef = ref<HTMLElement | null>(null);
+// DOM References matching reference naming
+const elRef = ref<HTMLElement | null>(null);
+const elProcessRef = ref<HTMLElement | null>(null);
+const elYearRef = ref<HTMLElement | null>(null);
+const elYearRingRef = ref<HTMLElement | null>(null);
+const elRecordRef = ref<HTMLElement | null>(null);
+const peopleImgsRef = ref<HTMLElement | null>(null);
 
 let mm: gsap.MatchMedia | null = null;
-let stageObserver: IntersectionObserver | null = null;
-let updateDimensionsHandler: (() => void) | null = null;
+let rafId = 0;
 
 // =========================================================================
-// 12 STUDIO & PROCESS PHOTOS (Exact Portrait Ratio 3:4)
+// 17 STUDIO & PROCESS PHOTOS (Mapped to People 1..17)
 // =========================================================================
-const STUDIO_PHOTOS = [
-  { id: 1,  src: '/images/studio-01.jpg', alt: 'Architects collaborating in design atelier' },
-  { id: 2,  src: '/images/studio-02.jpg', alt: 'Material palettes and stone swatches' },
-  { id: 3,  src: '/images/studio-03.jpg', alt: 'Architect portrait in studio discussion' },
-  { id: 4,  src: '/images/studio-04.jpg', alt: 'Reviewing architectural physical model' },
-  { id: 5,  src: '/images/studio-05.jpg', alt: 'Design team at blackboard gallery' },
-  { id: 6,  src: '/images/studio-06.jpg', alt: 'Drafting table and architectural Polaroid' },
-  { id: 7,  src: '/images/studio-07.jpg', alt: 'Monolithic concrete facade detail' },
-  { id: 8,  src: '/images/studio-08.jpg', alt: 'Tactile joinery and material discipline' },
-  { id: 9,  src: '/images/studio-09.jpg', alt: 'Architectural landscape perspective' },
-  { id: 10, src: '/images/studio-10.jpg', alt: 'Gestural conceptual charcoal sketch' },
-  { id: 11, src: '/images/studio-11.jpg', alt: 'Technical elevation and spatial section' },
-  { id: 12, src: '/images/studio-12.jpg', alt: 'Preliminary structural blueprinting' }
+const PEOPLE_IMAGES = [
+  { id: 1,  src: '/images/studio-01.jpg', alt: 'People 1' },
+  { id: 2,  src: '/images/studio-02.jpg', alt: 'People 2' },
+  { id: 3,  src: '/images/studio-03.jpg', alt: 'People 3' },
+  { id: 4,  src: '/images/studio-04.jpg', alt: 'People 4' },
+  { id: 5,  src: '/images/studio-05.jpg', alt: 'People 5' },
+  { id: 6,  src: '/images/studio-06.jpg', alt: 'People 6' },
+  { id: 7,  src: '/images/studio-07.jpg', alt: 'People 7' },
+  { id: 8,  src: '/images/studio-08.jpg', alt: 'People 8' },
+  { id: 9,  src: '/images/studio-09.jpg', alt: 'People 9' },
+  { id: 10, src: '/images/studio-10.jpg', alt: 'People 10' },
+  { id: 11, src: '/images/studio-11.jpg', alt: 'People 11' },
+  { id: 12, src: '/images/studio-12.jpg', alt: 'People 12' },
+  { id: 13, src: '/images/studio-01.jpg', alt: 'People 13' },
+  { id: 14, src: '/images/studio-03.jpg', alt: 'People 14' },
+  { id: 15, src: '/images/studio-05.jpg', alt: 'People 15' },
+  { id: 16, src: '/images/studio-07.jpg', alt: 'People 16' },
+  { id: 17, src: '/images/studio-09.jpg', alt: 'People 17' },
 ];
 
 // =========================================================================
-// 4 STUDIO METRICS
+// 4 STUDIO METRICS / COMPANY RECORD
 // =========================================================================
-const STATS_DATA = [
-  { number: '15+', label: 'Years of\nexperience' },
-  { number: '490+', label: 'Completed\nprojects' },
-  { number: '45+', label: 'Professionals\non the team' },
-  { number: '40K+', label: 'Total area\ncovered' }
+const COMPANY_RECORDS = [
+  { number: '15+', label: 'Years of\nexperience', title: 'Years of experience' },
+  { number: '490+', label: 'Completed\nprojects', title: 'Completed projects' },
+  { number: '45+', label: 'Professionals\non the team', title: 'Professionals on the team' },
+  { number: '40K', label: 'Total area\ncovered', title: 'Total area covered' },
 ];
 
-// Shortest-distance angular interpolation helper (prevents 360-spin glitch)
-const lerpAngle = (a: number, b: number, t: number) => {
+// Mobile fallback ring geometry calculations
+const totalImages = computed(() => PEOPLE_IMAGES.length);
+const totalPairs = computed(() => Math.ceil(totalImages.value / 2)); // 9
+
+const ringStyle = computed(() => {
+  const C = totalPairs.value || 1;
+  const Y = 345;
+  const q = Math.min(130, (Math.PI * Y) / (C * 1.5 + Math.PI));
+  const Z = (Y - q) / 2;
+  return {
+    '--ring-size': `${q.toFixed(2)}rem`,
+    '--ring-radius': `${Z.toFixed(2)}rem`,
+  };
+});
+
+function getPhotoAngle(index: number): string {
+  const angle = (Math.floor(index / 2) / (totalPairs.value || 1)) * 360;
+  return `${Math.round(angle)}deg`;
+}
+
+function clamp(v: number, min: number, max: number): number {
+  return Math.max(min, Math.min(max, v));
+}
+
+function lerp(a: number, b: number, t: number): number {
+  return a + (b - a) * t;
+}
+
+function lerpAngle(a: number, b: number, t: number): number {
   let diff = (b - a) % 360;
   if (diff < -180) diff += 360;
   if (diff > 180) diff -= 360;
   return a + diff * t;
-};
+}
 
 onMounted(() => {
   nextTick(() => {
-    if (!sectionRef.value || !stageRef.value) return;
+    if (!elRef.value || !peopleImgsRef.value) return;
 
-    // Cache DOM queries natively once via gsap.utils.selector
-    // Eliminates Vue 3 reactive Proxy getter overhead during 60-120 FPS loops
-    const q = gsap.utils.selector(stageRef.value);
-    const photoCards = q('.photo-card') as HTMLElement[];
-    const statItems = q('.stat-item') as HTMLElement[];
-    const statementLines = q('.statement-line');
-    const foundationLines = q('.foundation-line');
-    const foundationDesc = q('.foundation-columns');
-    const eyebrow = q('.people-process__eyebrow');
+    const section = elRef.value;
+    const imgsLayer = peopleImgsRef.value;
+    const photoCards = Array.from(imgsLayer.children) as HTMLElement[];
+    const n = photoCards.length;
 
-    let width = stageRef.value.clientWidth;
-    let height = stageRef.value.clientHeight;
-    let isStageVisible = false;
-
-    // Master Morph State (driven smoothly by ScrollTrigger scrub)
-    const morphState = {
-      conveyorProgress: 0,   // 0 -> 1: Phase 1 bottom sweep
-      morphToCircle: 0,      // 0 -> 1: Transition into 360° Ring
-      circleRotation: 0,     // Gentle continuous orbital rotation of Ring
-      ringOffsetY: 0,        // Vertical pan through foundation core
-      morphToCrescent: 0,    // 0 -> 1: Ring breaks into Left Crescent
-      crescentScroll: 0,     // Gentle movement along Left Crescent
-      photosOpacity: 1,      // Overall cards layer opacity
-      statsActiveIndex: 0,   // 0 -> 3: Continuous camera pan index for metrics
-      statsOpacity: 0,       // Metrics container opacity
-      exitY: 0
-    };
-
-    const updateDimensions = () => {
-      if (!stageRef.value) return;
-      width = window.innerWidth;
-      height = window.innerHeight;
-      ScrollTrigger.refresh();
-    };
-    updateDimensionsHandler = updateDimensions;
-    window.addEventListener('resize', updateDimensions, { passive: true });
-
-    // IntersectionObserver with 300px inflated margins: pre-calculates matrices before entering viewport
-    stageObserver = new IntersectionObserver((entries) => {
-      isStageVisible = entries[0].isIntersecting;
-    }, { rootMargin: '300px 0px 300px 0px' });
-    stageObserver.observe(sectionRef.value);
-
-    // =====================================================================
-    // HARDWARE-ACCELERATED RENDER LOOP (Synchronized with GSAP Ticker)
-    // =====================================================================
-    const renderLoop = () => {
-      if (!isStageVisible || width === 0 || height === 0) return;
-
-      const N = photoCards.length;
-      const isMobile = width < 768;
-
-      // -------------------------------------------------------------
-      // Shape 2: Oversized 360° Orbital Ring (Frames 016 - 036)
-      // -------------------------------------------------------------
-      const ringRadius = isMobile 
-        ? Math.min(width, height) * 0.40 
-        : Math.min(width * 0.44, height * 0.52);
-      const ringCX = width * 0.50;
-      const ringCY = height * 0.50 + morphState.ringOffsetY;
-      const ringScale = isMobile ? 0.85 : 0.92;
-
-      // -------------------------------------------------------------
-      // Shape 3: Left Half-Circle Crescent Arc (Frames 037 - 065)
-      // -------------------------------------------------------------
-      const crescCX = isMobile ? width * 0.02 : width * 0.04;
-      const crescCY = height * 0.50;
-      const crescRadius = isMobile 
-        ? Math.min(width, height) * 0.38 
-        : Math.min(width * 0.33, height * 0.46);
-      const crescentAngleStep = 0.125 * Math.PI;
-      const crescScale = isMobile ? 0.88 : 0.95;
-
-      const mu = Math.min(Math.max(morphState.morphToCircle, 0), 1);
-      const lambda = Math.min(Math.max(morphState.morphToCrescent, 0), 1);
-
-      // Mutate Foundation Core Vertical Pan natively via 3D translation
-      if (foundationRef.value) {
-        foundationRef.value.style.transform = `translate3d(-50%, calc(-50% + ${morphState.ringOffsetY.toFixed(1)}px), 0)`;
-      }
-
-      // Render each of the 12 photo cards natively
-      for (let i = 0; i < N; i++) {
-        const card = photoCards[i];
-        if (!card) continue;
-
-        // Shape 1: Sweeping Spline Conveyor (Frames 001 - 015)
-        const step = 0.28;
-        const u = 0.15 + (i * step) - (morphState.conveyorProgress * 1.85);
-
-        const convX = width * (0.02 + 0.76 * u);
-        const convY = height * (0.91 - 0.04 * u - 0.34 * u * u);
-
-        const dx = width * 0.76;
-        const dy = height * (-0.04 - 0.68 * u);
-        const convRot = Math.atan2(dy, dx) * (180 / Math.PI);
-        const convScale = isMobile ? 0.92 : 1.0;
-
-        // Opacity culling at conveyor boundaries (strictly 4-5 cards visible)
-        let convAlpha = 1;
-        if (u < -0.22 || u > 1.34) {
-          convAlpha = 0;
-        } else if (u < -0.06) {
-          convAlpha = Math.max(0, (u - (-0.22)) / 0.16);
-        } else if (u > 1.15) {
-          convAlpha = Math.max(0, (1.34 - u) / 0.19);
-        }
-
-        // Shape 2: Oversized 360° Orbital Ring
-        const ringAngle = (i / N) * Math.PI * 2 + morphState.circleRotation - Math.PI / 2;
-        const ringX = ringCX + ringRadius * Math.cos(ringAngle);
-        const ringY = ringCY + ringRadius * Math.sin(ringAngle);
-        const ringRot = (ringAngle * 180 / Math.PI) + 90;
-
-        // Shape 3: Left Half-Circle Crescent
-        const halfAngle = (i - 5.5) * crescentAngleStep + morphState.crescentScroll;
-        const crescX = crescCX + crescRadius * Math.cos(halfAngle);
-        const crescY = crescCY + crescRadius * Math.sin(halfAngle);
-        const crescRot = (halfAngle * 180 / Math.PI) + 90;
-
-        // Anti-teleportation initialization
-        const effectiveConvX = convAlpha > 0 ? convX : ringX;
-        const effectiveConvY = convAlpha > 0 ? convY : ringY;
-        const effectiveConvRot = convAlpha > 0 ? convRot : ringRot;
-        const effectiveConvScale = convAlpha > 0 ? convScale : ringScale;
-
-        let curX = 0;
-        let curY = 0;
-        let curRot = 0;
-        let curScale = 0;
-
-        // Phase Morphing State Machine with Lerp Interpolation
-        if (lambda <= 0.001) {
-          curX = (1 - mu) * effectiveConvX + mu * ringX;
-          curY = (1 - mu) * effectiveConvY + mu * ringY;
-          curRot = lerpAngle(effectiveConvRot, ringRot, mu);
-          curScale = (1 - mu) * effectiveConvScale + mu * ringScale;
-        } else {
-          curX = (1 - lambda) * ringX + lambda * crescX;
-          curY = (1 - lambda) * ringY + lambda * crescY + morphState.exitY;
-          curRot = lerpAngle(ringRot, crescRot, lambda);
-          curScale = (1 - lambda) * ringScale + lambda * crescScale;
-        }
-
-        // Alpha fade across shapes
-        let finalAlpha = 1;
-        if (mu <= 0.001) {
-          finalAlpha = convAlpha;
-        } else if (mu < 1.0) {
-          finalAlpha = (1 - mu) * convAlpha + mu * 1.0;
-        } else if (lambda > 0.25) {
-          const distFromCenterY = Math.abs(curY - height * 0.50);
-          const maxCrescDist = height * 0.46;
-          if (distFromCenterY > maxCrescDist) {
-            finalAlpha = Math.max(0, 1 - (distFromCenterY - maxCrescDist) / (height * 0.18));
-          }
-        }
-
-        // Hardware GPU compositing via translate3d
-        card.style.transform = `translate3d(${curX.toFixed(1)}px, ${curY.toFixed(1)}px, 0) translate(-50%, -50%) rotate(${curRot.toFixed(2)}deg) scale(${curScale.toFixed(3)})`;
-        card.style.opacity = `${(morphState.photosOpacity * finalAlpha).toFixed(3)}`;
-      }
-
-      // -------------------------------------------------------------
-      // Studio Metrics Dynamic Y-Panning (Phase 3)
-      // Generous vertical spacing + dynamic travel up the screen
-      // -------------------------------------------------------------
-      if (statItems.length > 0) {
-        const itemSpacing = Math.max(height * 0.60, 500);
-        for (let sIdx = 0; sIdx < statItems.length; sIdx++) {
-          const item = statItems[sIdx];
-          if (!item) continue;
-          const offset = sIdx - morphState.statsActiveIndex;
-          const yPos = offset * itemSpacing;
-          const dist = Math.abs(offset);
-
-          let highlight = 0;
-          let itemOpacity = 0;
-
-          if (dist < 0.35) {
-            highlight = 1.0;
-            itemOpacity = 1.0;
-          } else if (dist < 0.85) {
-            const t = (dist - 0.35) / 0.50;
-            highlight = 1 - t;
-            itemOpacity = 1.0 - t * 0.82;
-          } else if (dist < 1.25) {
-            const t = (dist - 0.85) / 0.40;
-            highlight = 0;
-            itemOpacity = 0.18 * (1 - t);
-          } else {
-            itemOpacity = 0;
-          }
-
-          const scaleVal = 0.94 + 0.06 * highlight;
-          item.style.transform = `translate3d(0, ${yPos.toFixed(1)}px, 0) translateY(-50%) scale(${scaleVal.toFixed(3)})`;
-          item.style.opacity = `${(itemOpacity * morphState.statsOpacity).toFixed(3)}`;
-        }
-      }
-    };
-
-    // =====================================================================
-    // ACCESSIBILITY & MOTION COMPLIANCE (gsap.matchMedia)
-    // =====================================================================
     mm = gsap.matchMedia();
 
-    // Standard Experience: High-Performance Kinetic Motion
-    mm.add('(prefers-reduced-motion: no-preference)', () => {
-      // Direct GSAP ticker integration (eliminates drift against Lenis)
-      gsap.ticker.add(renderLoop);
+    // =========================================================================
+    // DESKTOP: PRECISE GEOMETRIC CIRCLE ENGINE
+    // Core Idea: Every photo sits on ONE big circle ("ring"), evenly spaced,
+    // and rotated to match its position on the circle:
+    // Top of ring = upright (0°), Right side = 90° clockwise,
+    // Bottom = 180° upside down, Left = -90° counter-clockwise.
+    // Between stages only radius, center and photo size change.
+    // =========================================================================
+    mm.add('(min-width: 768px)', () => {
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let visible = false;
 
-      // Initial visual states
-      gsap.set([editorialRef.value, statementLines, eyebrow], { opacity: 1, y: 0, visibility: 'visible' });
-      gsap.set(foundationRef.value, { opacity: 0, visibility: 'hidden' });
-      gsap.set(foundationLines, { y: '110%', opacity: 0 });
-      gsap.set(foundationDesc, { opacity: 0, y: 22 });
-      gsap.set(statsContainerRef.value, { opacity: 0, visibility: 'hidden' });
+      const morphState = {
+        scrollProgress: 0,
+        section1Progress: 0,
+        morphProgress: 0,
+        halfProgress: 0,
+        section3Progress: 0,
+        exitProgress: 0,
+        photosOpacity: 0,
+      };
 
-      const stageH = stageRef.value?.clientHeight || window.innerHeight;
+      const setVisible = (val: boolean) => {
+        if (visible === val) return;
+        visible = val;
+        imgsLayer.classList.toggle('is-visible', val);
+        morphState.photosOpacity = val ? 1 : 0;
+      };
 
-      // Pinned master timeline: 800% virtual scroll track
-      const masterTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.value,
-          start: 'top top',
-          end: '+=800%',
-          pin: stageRef.value,
-          pinSpacing: true,
-          scrub: 1.2,
-          anticipatePin: 1,
-          invalidateOnRefresh: true
-        }
-      });
+      const measure = () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+      };
 
-      // ------------------------------------------------------------
-      // PHASE 1 (0.00 -> 0.28): STICKY CONTENT + CONVEYOR RING SCROLL
-      // Content stays firmly sticky in place (zero upward translation).
-      // Photo cards scroll smoothly along the conveyor as user scrolls.
-      // ------------------------------------------------------------
-      masterTl.to(morphState, {
-        conveyorProgress: 1.0,
-        duration: 0.28,
-        ease: 'none'
-      }, 0.00);
+      const vw = (v: number) => (v * width) / 100;
+      const vh = (v: number) => (v * height) / 100;
 
-      // Clean in-place fade when transitioning to center ring (NO upward movement)
-      masterTl.to(editorialRef.value, {
-        opacity: 0,
-        duration: 0.06,
-        ease: 'power2.out'
-      }, 0.25);
+      // Ultra-smooth cosine ease: slow start, leisurely glide, slow gentle ease-end
+      const slowEase = (t: number) => {
+        const c = clamp(t, 0, 1);
+        return 0.5 * (1 - Math.cos(Math.PI * c));
+      };
 
-      masterTl.set(editorialRef.value, { visibility: 'hidden' }, 0.31);
+      // -------------------------------------------------------------
+      // 1. SECTION 1: Giant Conveyor Arc with Smooth Scroll Sliding
+      // Apex tracks headline 1:1 (~35vh below headline bottom, apexX ~20vw)
+      // Radius: ~106vw, Photos: ~19.5vw square, rot = -alpha (counter-clockwise)
+      // As user scrolls, photos slide along the arc from right to left
+      // -------------------------------------------------------------
+      function getStateA(i: number, scrollP: number, hbVal: number) {
+        const R = vw(106);
+        const size = vw(19.5);
+        const hb = hbVal;
+        const k = clamp((vh(97) - hb) / vh(31), 0, 1);   // 0 at entry, 1 at first view
+        const apexX = lerp(vw(34), vw(20), k);
+        const apexY = Math.max(vh(20), hb + vh(35));     // follows the headline, parks near the top
 
-      // ------------------------------------------------------------
-      // PHASE 2A (0.26 -> 0.38): SPLINE MORPHS INTO 360° ORBITAL RING
-      // ------------------------------------------------------------
-      masterTl.to(morphState, {
-        morphToCircle: 1,
-        circleRotation: Math.PI * 0.12,
-        ringOffsetY: stageH * 0.16,
-        duration: 0.12,
-        ease: 'power2.inOut'
-      }, 0.26);
+        // Smooth scroll sliding along the conveyor track
+        const slideOffset = scrollP * 25;                // Slow, stately slide across the arc
+        const alpha = (i - 1) * 12.5 - slideOffset;
+        const rad = (alpha * Math.PI) / 180;
 
-      masterTl.set(foundationRef.value, { visibility: 'visible' }, 0.28);
-      masterTl.to(foundationRef.value, { opacity: 1, duration: 0.06 }, 0.29);
+        const x = apexX + R * Math.sin(rad);
+        const y = apexY - R * (1 - Math.cos(rad));
+        const rot = -alpha;
 
-      if (foundationLines && foundationLines.length) {
-        masterTl.to(foundationLines, {
-          y: '0%',
-          opacity: 1,
-          duration: 0.09,
-          stagger: 0.025,
-          ease: 'power3.out'
-        }, 0.29);
+        return { x, y, rot, size, opacity: 1 };
       }
 
-      // ------------------------------------------------------------
-      // PHASE 2B (0.38 -> 0.62): SLOW 360° RING ROTATION & VERTICAL PAN
-      // ------------------------------------------------------------
-      masterTl.to(morphState, {
-        circleRotation: Math.PI * 0.48,
-        ringOffsetY: -stageH * 0.18,
-        duration: 0.24,
-        ease: 'none'
-      }, 0.38);
+      // -------------------------------------------------------------
+      // 2. SECTION 2: Closed 360° Orbital Ring around Foundation Year
+      // Radius: ~36vw (72vw wide), Photos: ~9vw, Spacing: ~21.18°
+      // Center at 50vw and vertical midpoint of "2011 Year of Foundation"
+      // Non-crossing angular mapping: Apex (i=1) maps to bottom of ring (180°)
+      // Photos 2, 3, 4 map to right, photo 0 maps to left
+      // -------------------------------------------------------------
+      function getStateB(i: number, scrollP: number, cyVal: number) {
+        const R = vw(36);
+        const cardSize = vw(9);
+        const cx = vw(50);
+        const cy = cyVal;
 
-      masterTl.to(foundationDesc, { opacity: 1, y: 0, duration: 0.08, ease: 'power2.out' }, 0.42);
+        const delta = 360 / n;
+        const ringRotation = scrollP * 60;
+        // Apex photo (i=1) maps to bottom of ring (180°), i=2,3,4 to right, i=0,16 to left
+        const theta = 180 - (i - 1) * delta + ringRotation;
+        const rad = (theta * Math.PI) / 180;
 
-      // ------------------------------------------------------------
-      // TRANSITION 2 -> 3 (0.62 -> 0.72): RING BREAKS INTO CRESCENT
-      // ------------------------------------------------------------
-      masterTl.to(foundationRef.value, { opacity: 0, y: -40, duration: 0.06, ease: 'power2.in' }, 0.60);
-      masterTl.set(foundationRef.value, { visibility: 'hidden' }, 0.66);
+        const x = cx + R * Math.sin(rad);
+        const y = cy - R * Math.cos(rad);
+        const rot = theta;
 
-      masterTl.to(morphState, {
-        morphToCrescent: 1,
-        ringOffsetY: 0,
-        duration: 0.10,
-        ease: 'power2.inOut'
-      }, 0.62);
+        return { x, y, rot, size: cardSize, opacity: 1 };
+      }
 
-      // ------------------------------------------------------------
-      // PHASE 3 (0.69 -> 1.03): LEFT CRESCENT & CONTINUOUS FLOWING METRICS
-      // ------------------------------------------------------------
-      masterTl.set(statsContainerRef.value, { visibility: 'visible' }, 0.68);
-      masterTl.to(statsContainerRef.value, { opacity: 1, duration: 0.05, ease: 'power2.out' }, 0.69);
-      masterTl.to(morphState, { statsOpacity: 1, duration: 0.05 }, 0.69);
+      // -------------------------------------------------------------
+      // 3. SECTION 3: 2-Page Spanning Semi-Circle Motion Engine
+      // Radius: ~44vw, Photos: ~9vw, center (-7vw, cy)
+      // At scrollP = 0 (Page 1 / Stat 1): cy = 96vh -> Top half of circle visible
+      // At scrollP = 1 (Page 2 / Stat 4): cy = 8vh  -> Bottom / other half of circle visible & ends perfectly
+      // Exact uniform spacing across all 17 photos: delta = 360 / 17 ≈ 21.176°
+      // -------------------------------------------------------------
+      function getStateC(i: number, scrollP: number) {
+        const R = vw(44);
+        const cardSize = vw(9);
+        const cx = vw(-7);
+        // cy smoothly travels from bottom (96vh) to top (8vh) across the 2-page section, then continues upwards with the text exit
+        const cy = lerp(vh(96), vh(8), scrollP) - morphState.exitProgress * vh(25);
 
-      masterTl.to(morphState, {
-        crescentScroll: -Math.PI * 0.28,
-        duration: 0.34,
-        ease: 'none'
-      }, 0.69);
+        // Exact uniform spacing across all 17 photos: exactly delta between every neighbor!
+        const delta = 360 / n;
+        // Continuous, smooth motion as user traverses through the stats
+        const loopRotation = scrollP * 80 + morphState.exitProgress * 20;
 
-      // Continuous vertical camera panning through the 4 studio metrics
-      // Elements physically travel up the screen: approaching center, illuminating, and passing by
-      masterTl.to(morphState, {
-        statsActiveIndex: 3.0,
-        duration: 0.34,
-        ease: 'none'
-      }, 0.69);
+        // Angle around the circle: uniform spacing for all 17 photos
+        let theta = (10 + (i - 1) * delta - loopRotation) % 360;
+        if (theta < 0) theta += 360;
 
-      // ------------------------------------------------------------
-      // PHASE 4 (1.03 -> 1.09): SMOOTH SECTION EXIT
-      // ------------------------------------------------------------
-      masterTl.to(statsContainerRef.value, { opacity: 0, y: -40, duration: 0.06, ease: 'power2.in' }, 1.03);
-      masterTl.to(morphState, {
-        statsOpacity: 0,
-        photosOpacity: 0,
-        exitY: -60,
-        duration: 0.06,
-        ease: 'power2.in'
-      }, 1.03);
+        const rad = (theta * Math.PI) / 180;
+        const x = cx + R * Math.sin(rad);
+        const y = cy - R * Math.cos(rad);
+        const rot = theta;
+
+        // Opacity: Fully visible (1) on the crescent arc; naturally fades only as it crosses the left viewport border
+        let opacity = 1;
+        if (x < -cardSize * 0.5) {
+          opacity = 0;
+        } else if (x < 0) {
+          opacity = clamp((x + cardSize * 0.5) / (cardSize * 0.5), 0, 1);
+        }
+
+        return { x, y, rot, size: cardSize, opacity };
+      }
+
+      const render = () => {
+        if (!visible || width < 10 || height < 10) return;
+
+        // Batch all DOM queries at frame start (eliminates layout thrashing / lag / flicker)
+        const hb = elProcessRef.value ? elProcessRef.value.getBoundingClientRect().bottom : vh(100);
+        let cyB = vh(73);
+        if (elYearRingRef.value) {
+          const rect = elYearRingRef.value.getBoundingClientRect();
+          cyB = rect.top + rect.height * 0.5;
+        }
+
+        // Slow, luxurious cosine easing between animations
+        const mu = slowEase(morphState.morphProgress);
+        const lam = slowEase(morphState.halfProgress);
+        const p1 = morphState.section1Progress;
+        const p2 = morphState.scrollProgress;
+        const p3 = morphState.section3Progress;
+
+        for (let i = 0; i < n; i++) {
+          const card = photoCards[i];
+          if (!card) continue;
+
+          const ptA = getStateA(i, p1, hb);
+          const ptB = getStateB(i, p2, cyB);
+          const ptC = getStateC(i, p3);
+
+          let x: number;
+          let y: number;
+          let rot: number;
+          let size: number;
+          let cardOpacity: number;
+
+          if (lam <= 0.001) {
+            x = lerp(ptA.x, ptB.x, mu);
+            y = lerp(ptA.y, ptB.y, mu);
+            rot = lerpAngle(ptA.rot, ptB.rot, mu);
+            size = lerp(ptA.size, ptB.size, mu);
+            cardOpacity = lerp(ptA.opacity, ptB.opacity, mu);
+          } else {
+            x = lerp(ptB.x, ptC.x, lam);
+            y = lerp(ptB.y, ptC.y, lam);
+            rot = lerpAngle(ptB.rot, ptC.rot, lam);
+            size = lerp(ptB.size, ptC.size, lam);
+            cardOpacity = lerp(ptB.opacity, ptC.opacity, lam);
+          }
+
+          const hw = size / 2;
+          const hh = size / 2;
+
+          card.style.width = `${size.toFixed(1)}px`;
+          card.style.height = `${size.toFixed(1)}px`;
+          card.style.transform = `translate3d(${(x - hw).toFixed(1)}px, ${(y - hh).toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+          
+          const finalCardOpacity = cardOpacity * morphState.photosOpacity * (1 - morphState.exitProgress);
+          card.style.opacity = Math.max(0, finalCardOpacity).toFixed(3);
+        }
+      };
+
+      const loop = () => {
+        render();
+        rafId = requestAnimationFrame(loop);
+      };
+
+      measure();
+      window.addEventListener('resize', measure);
+      rafId = requestAnimationFrame(loop);
+
+      // =====================================================================
+      // SCROLL TRIGGERS with 1.5s Physics Damping ("Super Ease" In-Between Stop)
+      // =====================================================================
+      // 1. Entire Section Scroll Master & Visibility
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top bottom',
+        end: 'bottom top',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          morphState.scrollProgress = self.progress;
+          if (self.progress > 0 && self.progress < 1) {
+            setVisible(true);
+          } else {
+            setVisible(false);
+          }
+        },
+        onEnter: () => setVisible(true),
+        onEnterBack: () => setVisible(true),
+        onLeave: () => setVisible(false),
+        onLeaveBack: () => setVisible(false),
+      });
+
+      // 2. Section 1 Headline Conveyor Slide
+      if (elProcessRef.value) {
+        ScrollTrigger.create({
+          trigger: elProcessRef.value,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5,
+          onUpdate: (self) => {
+            morphState.section1Progress = self.progress;
+          },
+        });
+      }
+
+      // 3. Year of Foundation (2011) 360° Ring Assembly Morph (Slow, Eased & Smooth)
+      if (elYearRef.value) {
+        ScrollTrigger.create({
+          trigger: elYearRef.value,
+          start: 'top bottom+=30vh',
+          end: 'center center',
+          scrub: 1.5,
+          onUpdate: (self) => {
+            morphState.morphProgress = self.progress;
+          },
+        });
+      }
+
+      // 4. Company Records Crescent Morph & Continuous Looping Carousel
+      if (elRecordRef.value) {
+        // Slow, eased morph from 360° ring into the half-hidden cutoff circle
+        ScrollTrigger.create({
+          trigger: elRecordRef.value,
+          start: 'top bottom+=25vh',
+          end: 'top center+=15vh',
+          scrub: 1.5,
+          onUpdate: (self) => {
+            morphState.halfProgress = self.progress;
+          },
+        });
+
+        // Continuous revolving loop across the 2-page records section
+        ScrollTrigger.create({
+          trigger: elRecordRef.value,
+          start: 'top center',
+          end: 'bottom center',
+          scrub: 1.5,
+          onUpdate: (self) => {
+            morphState.section3Progress = self.progress;
+          },
+        });
+
+        // Exit synchronization: smoothly fades and carries the photos out in exact harmony as the final stat leaves
+        ScrollTrigger.create({
+          trigger: elRecordRef.value,
+          start: 'bottom center',
+          end: 'bottom top+=15vh',
+          scrub: 1.2,
+          onUpdate: (self) => {
+            morphState.exitProgress = self.progress;
+          },
+        });
+
+        // 5. Highlight Active Stat Item (.ohb -> .ouc) - 100% Intact
+        const statItems = gsap.utils.toArray<HTMLElement>('.ohb', elRecordRef.value);
+        statItems.forEach((item) => {
+          ScrollTrigger.create({
+            trigger: item,
+            start: 'top center',
+            end: 'bottom center',
+            onEnter: () => item.classList.add('ouc'),
+            onEnterBack: () => item.classList.add('ouc'),
+            onLeave: () => item.classList.remove('ouc'),
+            onLeaveBack: () => item.classList.remove('ouc'),
+          });
+        });
+      }
 
       return () => {
-        gsap.ticker.remove(renderLoop);
+        window.removeEventListener('resize', measure);
+        if (rafId) cancelAnimationFrame(rafId);
       };
     });
 
-    // Reduced Motion Fallback: Accessible Opacity Crossfades
+    // Mobile reduced motion fallback
     mm.add('(prefers-reduced-motion: reduce)', () => {
-      gsap.set(photoCards, { display: 'none' });
-
-      const reducedTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.value,
-          start: 'top top',
-          end: '+=300%',
-          pin: stageRef.value,
-          scrub: 1
-        }
-      });
-
-      reducedTl
-        .to(editorialRef.value, { opacity: 0, duration: 1 })
-        .to(foundationRef.value, { opacity: 1, autoAlpha: 1, duration: 1 })
-        .to(foundationRef.value, { opacity: 0, duration: 1 })
-        .to(statsContainerRef.value, { opacity: 1, autoAlpha: 1, duration: 1 });
+      if (peopleImgsRef.value) {
+        gsap.set(peopleImgsRef.value.children, { opacity: 1 });
+      }
     });
   });
 });
 
 onUnmounted(() => {
-  if (typeof window !== 'undefined' && updateDimensionsHandler) {
-    window.removeEventListener('resize', updateDimensionsHandler);
-  }
-  if (stageObserver) {
-    stageObserver.disconnect();
-    stageObserver = null;
+  if (rafId) {
+    cancelAnimationFrame(rafId);
   }
   if (mm) {
     mm.revert();
@@ -519,293 +505,352 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-@use '@/assets/scss/variables' as *;
+@use '~/assets/scss/variables' as *;
 
-.people-process {
+// =========================================================================
+// ARCHITECTURAL BUREAU STYLESHEET (Kononenko 1920-Scaled Rem Architecture)
+// Desktop: 1rem = 0.0520833333vw (1px @ 1920px)
+// Mobile:  1rem = 0.2666666667vw (1px @ 375px)
+// =========================================================================
+.nwv {
+  --rem: 0.0520833333vw;
+  background-color: #000;
+  color: #fff;
+  overflow: visible; // Allows photos to bleed off screen edges
+  padding-bottom: calc(100 * var(--rem));
+  padding-top: calc(256 * var(--rem));
   position: relative;
   width: 100%;
-  background-color: #000000;
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 
-  &__stage {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    min-height: 100vh;
+  @media (max-width: 767.98px) {
+    --rem: 0.2666666667vw;
     overflow: hidden;
-    background-color: #000000;
-    box-sizing: border-box;
+    padding-bottom: calc(60 * var(--rem));
+    padding-top: calc(60 * var(--rem));
   }
+}
 
-  // Layer 1: Editorial (Strictly Upper-Left Quadrant)
-  &__editorial {
-    position: absolute;
-    top: 0;
+.ctr {
+  display: block;
+  padding: 0 1.5vw; // Headline left-aligned at ~1.5vw
+  width: 100%;
+  box-sizing: border-box;
+  overflow: visible;
+
+  @media (max-width: 767.98px) {
+    padding: 0 calc(15 * var(--rem));
+  }
+}
+
+// -------------------------------------------------------------------------
+// 1. EDITORIAL / PROCESS (People & Process)
+// -------------------------------------------------------------------------
+.enr {
+  max-width: calc(1130 * var(--rem));
+  position: relative;
+  width: 100%;
+  z-index: 10;
+
+  .amv {
     left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding: clamp(6.5rem, 13vh, 9rem) clamp(2rem, 4.5vw, 5rem);
-    box-sizing: border-box;
-    z-index: 5;
-    pointer-events: none;
-    will-change: opacity;
-
-    @media (max-width: 768px) {
-      padding: 5.5rem 1.5rem;
-    }
-  }
-
-  &__editorial-content {
-    position: relative;
-    width: 100%;
-    max-width: clamp(750px, 62vw, 1140px);
-  }
-
-  &__eyebrow {
+    width: 6.5vw;
+    max-width: none;
     position: absolute;
-    left: 0;
-    top: clamp(6px, 0.45vw, 12px);
-    width: clamp(90px, 5.8vw, 115px);
-    font-family: $font-heading;
-    font-size: clamp(0.85rem, 0.88vw, 1rem);
-    line-height: 1.15;
-    color: #ffffff;
-    opacity: 0.9;
-    letter-spacing: -0.02em;
-    display: flex;
-    flex-direction: column;
-    z-index: 2;
-
-    @media (max-width: 768px) {
-      position: static;
-      width: 100%;
-      margin-bottom: 0.75rem;
-    }
-  }
-
-  &__statement-box {
-    width: 100%;
-  }
-
-  &__statement {
-    font-family: $font-serif;
-    font-size: clamp(34px, 4.4vw, 82px);
-    font-weight: 400;
-    line-height: 0.92;
-    letter-spacing: -0.035em;
-    color: #FFFFFF;
+    top: calc(6 * var(--rem));
     margin: 0;
-    padding: 0;
+    font-size: 16px;
+    line-height: 1.15;
   }
 
-  .statement-mask {
-    overflow: hidden;
-    display: block;
-    padding: 0.02em 0;
-    text-indent: 0;
+  @media (max-width: 767.98px) {
+    .amv {
+      margin-bottom: calc(8 * var(--rem));
+      max-width: none;
+      position: static;
+      width: auto;
+    }
+  }
 
-    &:first-child {
-      text-indent: clamp(100px, 6.8vw, 135px);
+  .kca {
+    text-indent: 7vw; // First line indented about 7vw
+    margin: 0;
+  }
 
-      @media (max-width: 768px) {
-        text-indent: 0;
+  @media (max-width: 767.98px) {
+    .kca {
+      text-indent: 0;
+    }
+  }
+}
+
+// -------------------------------------------------------------------------
+// 2. FOUNDATION YEAR (2011 Year of Foundation)
+// -------------------------------------------------------------------------
+.uwg {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: calc(1200 * var(--rem)) auto;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+
+  @media (max-width: 767.98px) {
+    margin-bottom: calc(80 * var(--rem));
+    margin-top: calc(80 * var(--rem));
+  }
+
+  .vrc {
+    width: 100%;
+    position: relative;
+  }
+
+  @media (max-width: 767.98px) {
+    .vrc {
+      align-items: center;
+      display: flex;
+      height: calc(345 * var(--rem));
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      width: calc(345 * var(--rem));
+    }
+  }
+
+  .kca {
+    line-height: 0.85;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: min(50vw, calc(990 * var(--rem))); // At least 10vw clear on each side of 72vw ring
+    text-align: center;
+    width: 100%;
+  }
+
+  @media (max-width: 767.98px) {
+    .kca {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .ciz {
+    display: flex;
+    gap: calc(80 * var(--rem));
+    justify-content: center;
+    margin-top: calc(70 * var(--rem));
+
+    @media (max-width: 767.98px) {
+      flex-direction: column;
+      gap: calc(24 * var(--rem));
+      margin-top: calc(40 * var(--rem));
+    }
+
+    .iek {
+      opacity: 0.5;
+      text-align: center;
+      width: calc(356 * var(--rem));
+      margin: 0;
+      line-height: 1.35;
+
+      @media (max-width: 767.98px) {
+        width: 100%;
       }
     }
   }
+}
 
-  .statement-line {
-    display: block;
-    will-change: transform, opacity;
-  }
+// -------------------------------------------------------------------------
+// 3. PHOTO RIBBON / ORBITAL RING / LEFT CRESCENT (vnj & elr)
+// -------------------------------------------------------------------------
+.vnj {
+  display: flex;
+  left: 0;
+  position: absolute;
+  top: 0;
 
-  // Layer 2: 12 Photo Cards (3:4 Portrait Ratio)
-  &__photos-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  // Desktop fixed viewport layer: clips only by viewport, no container clipping
+  @media (min-width: 768px) {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
-    z-index: 3;
-    transform: translateZ(0);
-  }
-
-  .photo-card {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: clamp(160px, 11vw, 210px);
-    aspect-ratio: 3 / 4;
-    border-radius: 3px;
-    overflow: hidden;
-    will-change: transform, opacity;
-    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.85), 0 4px 16px rgba(0, 0, 0, 0.6);
-    background-color: #121212;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-
-    @media (max-width: 768px) {
-      width: clamp(130px, 32vw, 175px);
-    }
-
-    &__inner {
-      width: 100%;
-      height: 100%;
-      position: relative;
-    }
-
-    &__img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      pointer-events: none;
-    }
-
-    &__sheen {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.25) 100%);
-    }
-  }
-
-  // Layer 3: Foundation Year (Centered Inside Orbital Ring)
-  &__foundation {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 860px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    z-index: 4;
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    will-change: transform, opacity;
-  }
-
-  .foundation-title-wrap {
-    margin-bottom: clamp(1.2rem, 2.5vh, 2.2rem);
-  }
-
-  .foundation-title {
-    font-family: $font-heading;
-    font-size: clamp(24px, 6.8vw, 110px);
-    font-weight: $font-weight-regular;
-    line-height: 0.98;
-    letter-spacing: -0.04em;
-    color: #FFFFFF;
-    margin: 0;
-    padding: 0;
-  }
-
-  .foundation-mask {
-    overflow: hidden;
-    display: block;
-    padding: 0.05em 0;
-  }
-
-  .foundation-line {
-    display: block;
-    will-change: transform, opacity;
-  }
-
-  .foundation-columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(2rem, 4.5vw, 5rem);
-    max-width: 760px;
-    margin-top: clamp(1.5rem, 3vh, 3rem);
-    will-change: transform, opacity;
-
-    @media (max-width: 640px) {
-      grid-template-columns: 1fr;
-      gap: 1.25rem;
-    }
-  }
-
-  .foundation-col p {
-    font-family: $font-light;
-    font-size: clamp(13px, 0.95vw, 16px);
-    font-weight: $font-weight-regular;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.70);
-    margin: 0;
-    text-align: left;
-
-    @media (max-width: 640px) {
-      text-align: center;
-    }
-  }
-
-  // Layer 4: Studio Metrics (Phase 3 Half-Circle Stage)
-  &__stats {
-    position: absolute;
-    top: 50%;
-    right: clamp(2.5rem, 6vw, 9rem);
-    transform: translateY(-50%);
-    width: 50%;
-    max-width: 680px;
-    height: 0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    pointer-events: none;
-    z-index: 4;
+    z-index: 5; // Underneath text (z-index: 10)
     overflow: visible;
     opacity: 0;
     visibility: hidden;
-    will-change: opacity, transform;
+    transition: opacity 0.4s ease;
 
-    @media (max-width: 768px) {
-      right: 1.5rem;
-      width: 70%;
+    &.is-visible {
+      opacity: 1;
+      visibility: visible;
     }
   }
 
-  .stat-item {
-    position: absolute;
-    left: 0;
-    top: 0;
+  @media (max-width: 767.98px) {
+    display: block;
+    height: 100%;
     width: 100%;
-    transform: translateY(-50%);
+  }
+
+  .elr {
+    height: calc(377 * var(--rem));
+    width: calc(377 * var(--rem));
+
+    @media (min-width: 768px) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 3px;
+      overflow: hidden;
+      background-color: #141414;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transform-origin: center center;
+      will-change: transform;
+    }
+
+    @media (max-width: 767.98px) {
+      height: calc(var(--ring-size) * var(--rem));
+      width: calc(var(--ring-size) * var(--rem));
+      left: 50%;
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(var(--ring-radius) * var(--rem) * -1)) rotate(calc(var(--angle) * -1));
+      border-radius: 50%;
+      overflow: hidden;
+
+      &:nth-child(2n) {
+        display: none;
+      }
+    }
+  }
+}
+
+.mimg {
+  height: 100%;
+  position: relative;
+  width: 100%;
+
+  .elr-img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+  }
+}
+
+// -------------------------------------------------------------------------
+// 4. STUDIO METRICS / COMPANY RECORD (ima, ppi, ohb)
+// -------------------------------------------------------------------------
+.ima {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+
+  .ppi {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: clamp(1.2rem, 2.5vh, 2.5rem) 0;
-    will-change: transform, opacity;
+    margin-left: 54vw; // Stats text starts at 54vw (photos stay left of 40vw)
+    width: min(44vw, calc(857 * var(--rem)));
 
-    &__number {
-      font-family: $font-heading;
-      font-size: clamp(64px, 8.0vw, 128px);
-      font-weight: $font-weight-regular;
-      line-height: 0.90;
-      letter-spacing: -0.04em;
-      color: #FFFFFF;
-      margin-bottom: clamp(1.2rem, 2.2vh, 2.2rem);
-      text-shadow: 0 0 40px rgba(255, 255, 255, 0.25);
+    @media (max-width: 767.98px) {
+      margin-left: 0;
+      width: 100%;
+      max-width: none;
     }
 
-    &__label {
-      font-family: $font-serif;
-      font-size: clamp(38px, 4.8vw, 80px);
-      font-weight: $font-weight-regular;
-      font-style: normal;
-      line-height: 1.06;
-      letter-spacing: -0.03em;
-      color: #FFFFFF;
-      white-space: pre-line;
+    .ohb {
+      display: flex;
+      flex-direction: column;
+      gap: calc(30 * var(--rem));
+      opacity: 0.2;
+      padding-bottom: calc(150 * var(--rem));
+      transition: opacity 0.35s ease;
+
+      &.ouc {
+        opacity: 1;
+      }
+
+      @media (max-width: 767.98px) {
+        gap: calc(15 * var(--rem));
+        max-width: calc(250 * var(--rem));
+        opacity: 1;
+        padding-bottom: calc(48 * var(--rem));
+      }
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+
+      .kca {
+        opacity: 0.8;
+        text-indent: calc(130 * var(--rem));
+        margin: 0;
+
+        @media (max-width: 767.98px) {
+          text-indent: calc(40 * var(--rem));
+        }
+      }
     }
   }
+}
+
+// -------------------------------------------------------------------------
+// 5. TYPOGRAPHY HELPERS (Matches original Bureau Design System)
+// -------------------------------------------------------------------------
+.fn-h2 {
+  font-family: $font-heading, "Instrument Sans", sans-serif;
+  font-size: calc(175 * var(--rem));
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.7;
+
+  @media (max-width: 767.98px) {
+    font-size: calc(40 * var(--rem));
+    line-height: 0.85;
+  }
+}
+
+.fn-h3 {
+  font-family: $font-serif, "Newsreader", serif;
+  font-size: calc(118 * var(--rem));
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+
+  @media (max-width: 767.98px) {
+    font-size: calc(36 * var(--rem));
+    line-height: 0.95;
+  }
+}
+
+.fn-b1 {
+  font-family: $font-serif, "Newsreader", serif;
+  font-size: calc(16 * var(--rem));
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+
+  @media (max-width: 767.98px) {
+    font-size: calc(14 * var(--rem));
+  }
+}
+
+.f-sf {
+  font-family: $font-serif, "Newsreader", serif;
+}
+
+.f-mn {
+  font-family: $font-heading, "Instrument Sans", sans-serif;
+}
+
+.ln-mask {
+  display: block;
+  overflow: hidden;
 }
 </style>

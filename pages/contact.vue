@@ -537,9 +537,10 @@ onUnmounted(() => {
 // -------------------------------------------------------------
 .contact-hero {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   height: 100svh;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -589,11 +590,11 @@ onUnmounted(() => {
   &__title-block {
     position: absolute;
     bottom: clamp(32px, 5vh, 60px);
-    left: clamp(24px, 3.8vw, 64px);
+    left: clamp(16px, 3.8vw, 64px);
     z-index: 10;
     color: #ffffff;
     pointer-events: none;
-    max-width: 90vw;
+    max-width: calc(100% - 32px);
 
     @include mobile {
       bottom: 2rem;
@@ -621,20 +622,22 @@ onUnmounted(() => {
 
     &--sans {
       font-family: $font-sans;
-      font-size: clamp(2.8rem, 6.2vw, 6.4rem);
+      font-size: clamp(2.4rem, 6.2vw, 6.4rem);
       font-weight: 600;
-      line-height: 0.92;
+      line-height: 0.95;
       letter-spacing: -0.035em;
       color: #ffffff;
+      overflow-wrap: anywhere;
     }
 
     &--serif {
       font-family: $font-serif;
-      font-size: clamp(2.8rem, 6.2vw, 6.4rem);
+      font-size: clamp(2.4rem, 6.2vw, 6.4rem);
       font-weight: 400;
-      line-height: 0.92;
+      line-height: 0.95;
       letter-spacing: -0.01em;
       color: #ffffff;
+      overflow-wrap: anywhere;
     }
   }
 }
@@ -645,19 +648,19 @@ onUnmounted(() => {
 .contact-channels {
   background-color: #ffffff;
   border-bottom: 1px solid $color-border-light;
-  padding-top: clamp(80px, 12vh, 140px);
-  padding-bottom: clamp(80px, 12vh, 140px);
+  padding-top: clamp(48px, 10vh, 140px);
+  padding-bottom: clamp(48px, 10vh, 140px);
 
   &__intro {
     max-width: 840px;
-    margin-bottom: clamp(48px, 6.5vh, 72px);
+    margin-bottom: clamp(32px, 5vh, 72px);
   }
 
   &__heading {
     font-family: $font-heading;
-    font-size: clamp(2.4rem, 4vw, 4rem);
+    font-size: clamp(2rem, 4vw, 4rem);
     font-weight: 400;
-    line-height: 1.0;
+    line-height: 1.05;
     letter-spacing: -0.035em;
     margin: 0 0 1.25rem 0;
     color: #111111;
@@ -665,7 +668,7 @@ onUnmounted(() => {
 
   &__desc {
     font-family: $font-content;
-    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    font-size: clamp(0.95rem, 1.2vw, 1.15rem);
     font-weight: 300;
     line-height: 1.65;
     color: $color-text-secondary;
@@ -676,9 +679,9 @@ onUnmounted(() => {
 .contact-quick-bar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(20px, 2.5vw, 36px);
+  gap: clamp(16px, 2.5vw, 36px);
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
     gap: 16px;
   }
@@ -688,12 +691,13 @@ onUnmounted(() => {
   background: $color-bg-primary;
   border: 1px solid $color-border-light;
   border-radius: 2px;
-  padding: clamp(1.8rem, 2.4vw, 2.4rem) clamp(1.8rem, 2.4vw, 2.5rem);
+  padding: clamp(1.4rem, 2.2vw, 2.4rem) clamp(1.4rem, 2.2vw, 2.5rem);
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1.25rem;
   text-decoration: none;
   color: $color-text-primary;
+  min-height: 48px;
   transition: transform 0.35s $ease-editorial, box-shadow 0.35s $ease-editorial, border-color 0.25s ease, background-color 0.25s ease;
 
   &:hover {
@@ -759,6 +763,7 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 0.35rem;
     flex-grow: 1;
+    min-width: 0;
   }
 
   &__label {
@@ -771,14 +776,17 @@ onUnmounted(() => {
 
   &__value {
     font-family: $font-heading;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
     font-weight: 400;
     letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+    word-break: break-word;
   }
 
   &__arrow {
     font-size: 1.25rem;
     color: $color-text-dim;
+    flex-shrink: 0;
     transition: transform 0.3s ease, color 0.3s ease;
   }
 }
@@ -789,18 +797,18 @@ onUnmounted(() => {
 .contact-hubs-section {
   background-color: $color-bg-primary;
   border-bottom: 1px solid $color-border-light;
-  padding-top: clamp(80px, 13vh, 160px);
-  padding-bottom: clamp(80px, 13vh, 160px);
+  padding-top: clamp(48px, 10vh, 160px);
+  padding-bottom: clamp(48px, 10vh, 160px);
 
   &__header {
-    margin-bottom: clamp(48px, 7vh, 80px);
+    margin-bottom: clamp(32px, 5vh, 80px);
   }
 
   &__title {
     font-family: $font-heading;
-    font-size: clamp(2.4rem, 4vw, 4.2rem);
+    font-size: clamp(2rem, 4vw, 4.2rem);
     font-weight: 400;
-    line-height: 1.0;
+    line-height: 1.05;
     letter-spacing: -0.035em;
     margin: 0;
     color: #111111;
@@ -810,11 +818,16 @@ onUnmounted(() => {
 .contact-hubs-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(24px, 3vw, 44px);
+  gap: clamp(20px, 3vw, 44px);
 
   @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  @include mobile {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
   }
 }
 
@@ -822,7 +835,7 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid $color-border-light;
   border-radius: 2px;
-  padding: clamp(2.2rem, 3vw, 3rem);
+  padding: clamp(1.6rem, 2.5vw, 3rem);
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
@@ -836,7 +849,7 @@ onUnmounted(() => {
 
   &__name {
     font-family: $font-heading;
-    font-size: clamp(1.4rem, 1.8vw, 1.75rem);
+    font-size: clamp(1.3rem, 1.8vw, 1.75rem);
     font-weight: 400;
     letter-spacing: -0.025em;
     margin: 0;
@@ -860,6 +873,7 @@ onUnmounted(() => {
     color: $color-text-secondary;
     margin: 0;
     flex-grow: 1;
+    overflow-wrap: anywhere;
   }
 
   &__meta {
@@ -885,6 +899,8 @@ onUnmounted(() => {
     position: relative;
     width: fit-content;
     padding-bottom: 2px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     transition: color 0.2s ease;
 
     &::after {
@@ -915,19 +931,19 @@ onUnmounted(() => {
 // -------------------------------------------------------------
 .contact-form-section {
   background-color: #ffffff;
-  padding-top: clamp(80px, 14vh, 180px);
-  padding-bottom: clamp(80px, 16vh, 200px);
+  padding-top: clamp(48px, 12vh, 180px);
+  padding-bottom: clamp(60px, 14vh, 200px);
 }
 
 .contact-form-layout {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: clamp(60px, 8vw, 140px);
+  gap: clamp(40px, 8vw, 140px);
   align-items: start;
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
-    gap: 56px;
+    gap: 40px;
   }
 
   &__sidebar {
@@ -938,7 +954,7 @@ onUnmounted(() => {
     position: sticky;
     top: 120px;
 
-    @include tablet {
+    @include tablet-down {
       position: static;
       max-width: 100%;
     }
@@ -946,9 +962,9 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-heading;
-    font-size: clamp(2.4rem, 4.2vw, 4.4rem);
+    font-size: clamp(2rem, 4.2vw, 4.4rem);
     font-weight: 400;
-    line-height: 1.0;
+    line-height: 1.05;
     letter-spacing: -0.035em;
     margin: 0;
     color: #111111;
@@ -956,7 +972,7 @@ onUnmounted(() => {
 
   &__lead {
     font-family: $font-content;
-    font-size: clamp(1rem, 1.2vw, 1.15rem);
+    font-size: clamp(0.95rem, 1.2vw, 1.15rem);
     font-weight: 300;
     line-height: 1.7;
     color: $color-text-secondary;
@@ -972,20 +988,20 @@ onUnmounted(() => {
   background: $color-bg-primary;
   border: 1px solid $color-border-light;
   border-radius: 2px;
-  padding: clamp(32px, 5vw, 64px);
+  padding: clamp(20px, 4vw, 64px);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.03);
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
+  gap: 2rem;
 
   &__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1.5rem;
 
     @include mobile {
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
   }
 
@@ -993,7 +1009,7 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    padding-top: 1rem;
+    padding-top: 0.5rem;
   }
 
   &__btn {
@@ -1005,12 +1021,14 @@ onUnmounted(() => {
     color: #ffffff;
     border: 1px solid #0c0d0e;
     border-radius: 2px;
-    padding: 1.25rem 2.5rem;
+    padding: 1.1rem 2rem;
+    min-height: 48px;
     font-family: $font-content;
-    font-size: 0.9375rem;
+    font-size: 1rem;
     font-weight: 400;
     letter-spacing: -0.01em;
     cursor: pointer;
+    width: 100%;
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.25s ease;
 
     svg {
@@ -1053,7 +1071,7 @@ onUnmounted(() => {
 .contact-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
   margin-top: 0.65rem;
 }
 
@@ -1061,9 +1079,13 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid $color-border-light;
   border-radius: 2px;
-  padding: 0.65rem 1.2rem;
+  padding: 0.65rem 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: $font-content;
-  font-size: 0.8125rem;
+  font-size: 0.85rem;
   font-weight: 300;
   letter-spacing: 0.01em;
   color: $color-text-primary;
@@ -1097,8 +1119,12 @@ onUnmounted(() => {
   border: 1px solid $color-border-light;
   border-radius: 2px;
   padding: 0.85rem 1rem;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: $font-content;
-  font-size: 0.8125rem;
+  font-size: 0.85rem;
   font-weight: 300;
   color: $color-text-primary;
   cursor: pointer;
@@ -1138,9 +1164,10 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid $color-border-light;
   border-radius: 2px;
-  padding: 1.05rem 1.25rem;
+  padding: 0.9rem 1.15rem;
+  min-height: 48px;
   font-family: $font-content;
-  font-size: 0.9375rem;
+  font-size: 1rem; /* 16px to prevent iOS auto-zoom */
   color: $color-text-primary;
   transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
 
@@ -1158,7 +1185,7 @@ onUnmounted(() => {
 
 .form-textarea {
   resize: vertical;
-  min-height: 130px;
+  min-height: 120px;
   line-height: 1.65;
 }
 </style>

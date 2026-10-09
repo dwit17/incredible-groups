@@ -178,9 +178,9 @@ onUnmounted(() => {
 }
 
 .legal-doc-hero {
-  padding-top: clamp(140px, 18vh, 220px);
+  padding-top: clamp(100px, 16vh, 220px);
   border-bottom: 1px solid $color-border-light;
-  padding-bottom: clamp(32px, 5vh, 60px);
+  padding-bottom: clamp(28px, 5vh, 60px);
 
   &__header {
     max-width: 900px;
@@ -188,24 +188,25 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(2.5rem, 5.5vw, 5rem);
+    font-size: clamp(2rem, 5.5vw, 5rem);
     font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.025em;
     margin: 0;
     color: $color-text-primary;
+    overflow-wrap: anywhere;
   }
 }
 
 .legal-doc-grid {
   display: grid;
   grid-template-columns: 280px 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  padding-top: clamp(40px, 6vh, 80px);
+  gap: clamp(32px, 6vw, 80px);
+  padding-top: clamp(32px, 6vh, 80px);
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 32px;
   }
 }
 
@@ -215,10 +216,15 @@ onUnmounted(() => {
   align-self: start;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 
-  @include tablet {
+  @include tablet-down {
     position: static;
+    background: #ffffff;
+    border: 1px solid $color-border-light;
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
   }
 
   &__title {
@@ -236,14 +242,22 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+
+    @include tablet-down {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.6rem;
+    }
   }
 
   &__link {
     font-family: $font-sans;
-    font-size: 0.8125rem;
+    font-size: 0.85rem;
     color: $color-text-secondary;
     text-decoration: none;
     line-height: 1.4;
+    display: inline-block;
+    padding: 0.25rem 0;
     transition: color 0.2s ease;
 
     &:hover {
@@ -255,8 +269,9 @@ onUnmounted(() => {
 .legal-doc-content {
   display: flex;
   flex-direction: column;
-  gap: 3.5rem;
-  max-width: 800px;
+  gap: 3rem;
+  max-width: 75ch;
+  width: 100%;
 }
 
 .legal-doc-block {
@@ -265,6 +280,7 @@ onUnmounted(() => {
   gap: 1rem;
   padding-bottom: 2.5rem;
   border-bottom: 1px solid $color-border-light;
+  scroll-margin-top: 100px;
 
   &:last-of-type {
     border-bottom: none;
@@ -278,7 +294,7 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(1.5rem, 2.2vw, 2.25rem);
+    font-size: clamp(1.4rem, 2.2vw, 2.25rem);
     font-weight: 400;
     line-height: 1.2;
     margin: 0;
@@ -287,11 +303,12 @@ onUnmounted(() => {
 
   p {
     font-family: $font-sans;
-    font-size: 0.95rem;
+    font-size: 1rem;
     font-weight: 300;
     line-height: 1.75;
     color: $color-text-primary;
     margin: 0;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -309,6 +326,7 @@ onUnmounted(() => {
     font-weight: 300;
     line-height: 1.65;
     color: $color-text-primary;
+    overflow-wrap: anywhere;
   }
 }
 
@@ -317,6 +335,8 @@ onUnmounted(() => {
   text-decoration: underline;
   text-underline-offset: 3px;
   font-weight: 500;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   transition: color 0.2s ease;
 
   &:hover {
@@ -329,11 +349,14 @@ onUnmounted(() => {
 
   &__link {
     font-family: $font-sans;
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     font-weight: 500;
     color: $color-text-primary;
     text-decoration: underline;
     text-underline-offset: 4px;
+    display: inline-block;
+    min-height: 44px;
+    line-height: 44px;
     transition: color 0.2s ease;
 
     &:hover {

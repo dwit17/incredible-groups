@@ -504,7 +504,7 @@ onUnmounted(() => {
     align-items: start;
     margin-bottom: clamp(80px, 13vh, 160px);
 
-    @include tablet {
+    @include tablet-down {
       grid-template-columns: 1fr;
       gap: 40px;
       margin-bottom: 60px;
@@ -706,7 +706,7 @@ onUnmounted(() => {
     gap: clamp(20px, 3.5vw, 60px);
     align-items: start;
 
-    @include tablet {
+    @include tablet-down {
       grid-template-columns: 1fr;
       gap: 20px;
     }

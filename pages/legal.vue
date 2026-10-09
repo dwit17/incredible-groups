@@ -60,48 +60,51 @@ useSeoMeta({
   min-height: 100vh;
   background-color: #ffffff;
   color: #111111;
-  padding-top: clamp(140px, 18vh, 220px);
+  padding-top: clamp(100px, 16vh, 220px);
   padding-bottom: 0;
 
   &__container {
     width: 100%;
-    max-width: 960px;
+    max-width: 800px;
     margin: 0 auto;
-    padding-left: clamp(20px, 3vw, 40px);
-    padding-right: clamp(20px, 3vw, 40px);
+    padding-left: clamp(16px, 3vw, 40px);
+    padding-right: clamp(16px, 3vw, 40px);
   }
 
   &__header {
-    margin-bottom: clamp(40px, 6vh, 80px);
+    margin-bottom: clamp(32px, 6vh, 80px);
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     padding-bottom: 2rem;
   }
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(32px, 4vw, 54px);
+    font-size: clamp(2rem, 4.5vw, 54px);
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.025em;
     margin: 0 0 1rem 0;
+    overflow-wrap: anywhere;
   }
 
   &__subtitle {
     font-family: $font-sans;
-    font-size: 13px;
+    font-size: 0.85rem;
     color: #777777;
     margin: 0;
+    line-height: 1.5;
   }
 
   &__content {
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
+    max-width: 75ch;
   }
 
   &__section-title {
     font-family: $font-sans;
-    font-size: 15px;
+    font-size: 1rem;
     font-weight: 600;
     margin: 0 0 0.75rem 0;
     color: #111111;
@@ -109,10 +112,11 @@ useSeoMeta({
 
   p {
     font-family: $font-sans;
-    font-size: 14px;
-    line-height: 1.7;
-    color: #555555;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: #444444;
     margin: 0;
+    overflow-wrap: anywhere;
   }
 
   &__back {
@@ -123,14 +127,18 @@ useSeoMeta({
 
   &__back-link {
     font-family: $font-sans;
-    font-size: 13px;
+    font-size: 0.9rem;
     color: #111111;
     text-decoration: none;
     font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.5rem 0;
     transition: color 0.2s ease;
 
     &:hover {
-      color: #777777;
+      color: $color-accent;
     }
   }
 }

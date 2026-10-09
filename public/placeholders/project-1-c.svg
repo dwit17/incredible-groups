@@ -1,6 +1,0 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
-  <rect width="800" height="600" fill="#0f1114"/>
-  <rect x="150" y="100" width="500" height="400" fill="#1b1f24" stroke="#8e9297" stroke-width="1"/>
-  <line x1="150" y1="300" x2="650" y2="300" stroke="#c8a97e" stroke-width="1"/>
-  <text x="40" y="550" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="20">CANTILEVER SKY TERRACE</text>
-</svg>

@@ -746,7 +746,7 @@ onUnmounted(() => {
   gap: clamp(2rem, 4vw, 5rem);
   align-items: flex-end;
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
     gap: 2rem;
     align-items: flex-start;
@@ -761,7 +761,7 @@ onUnmounted(() => {
 .company-hero-header-line {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   margin-bottom: 1.25rem;
   flex-wrap: wrap;
 }
@@ -775,7 +775,7 @@ onUnmounted(() => {
 
 .company-sector-badge {
   font-family: $font-mono;
-  font-size: 0.75rem;
+  font-size: clamp(0.68rem, 1.2vw, 0.75rem);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #c5a880;
@@ -787,12 +787,14 @@ onUnmounted(() => {
 
 .company-hero__title {
   font-family: $font-serif;
-  font-size: clamp(2.6rem, 5.2vw, 5.2rem);
+  font-size: clamp(2.2rem, 5.5vw, 5.2rem);
   font-weight: 400;
-  line-height: 0.98;
+  line-height: 1.05;
   letter-spacing: -0.025em;
   color: #ffffff;
   margin: 0 0 1rem 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .title-mask {
@@ -808,8 +810,8 @@ onUnmounted(() => {
 
 .company-hero__subtitle {
   font-family: $font-sans;
-  font-size: clamp(1rem, 1.25vw, 1.25rem);
-  line-height: 1.55;
+  font-size: clamp(0.95rem, 1.25vw, 1.25rem);
+  line-height: 1.6;
   color: rgba(255, 255, 255, 0.82);
   font-weight: 300;
   margin: 0;
@@ -820,6 +822,7 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  width: 100%;
 }
 
 .valuation-card {
@@ -828,7 +831,7 @@ onUnmounted(() => {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 8px;
-  padding: 1.75rem 2rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -844,7 +847,7 @@ onUnmounted(() => {
 
   &__val {
     font-family: $font-sans;
-    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-size: clamp(1.75rem, 3vw, 2.8rem);
     font-weight: 600;
     color: #ffffff;
     letter-spacing: -0.02em;
@@ -863,6 +866,17 @@ onUnmounted(() => {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+      min-height: 48px;
+      justify-content: center;
+    }
+  }
 
   .btn--primary {
     background: #ffffff;
@@ -892,8 +906,8 @@ onUnmounted(() => {
 /* 2. 4-COLUMN STRUCTURED CAPITAL STRIP                                      */
 /* ========================================================================= */
 .company-metrics-section {
-  padding-top: clamp(2.5rem, 4vh, 3.5rem);
-  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
+  padding-top: clamp(2rem, 4vh, 3.5rem);
+  margin-bottom: clamp(2.5rem, 6vh, 5.5rem);
   background-color: #f5f5f2;
 }
 
@@ -964,7 +978,7 @@ onUnmounted(() => {
   gap: clamp(2.5rem, 6vw, 6rem);
   align-items: start;
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
   }
 }
@@ -1142,7 +1156,7 @@ onUnmounted(() => {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.75rem;
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
   }
 }
@@ -1387,7 +1401,7 @@ onUnmounted(() => {
   gap: clamp(2rem, 5vw, 5rem);
   align-items: center;
 
-  @include tablet {
+  @include tablet-down {
     grid-template-columns: 1fr;
   }
 }

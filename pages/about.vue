@@ -43,39 +43,55 @@
       <!-- High-Performance Vector Flight Path (Hardware Accelerated) -->
       <div class="about-flight-path-wrap" aria-hidden="true">
         <svg id="about-flight-svg" ref="svgRef" class="about-flight-svg">
-          <!-- 1. Base light dashed trajectory -->
+          <defs>
+            <linearGradient id="flight-grad-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#c8a97e" />
+              <stop offset="50%" stop-color="#dfc5a2" />
+              <stop offset="100%" stop-color="#c8a97e" />
+            </linearGradient>
+            <filter id="flight-glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <!-- 1. Base light architectural trajectory -->
           <path
             id="about-flight-base-path"
             ref="basePathRef"
             d=""
             fill="none"
-            stroke="rgba(17, 17, 17, 0.15)"
-            stroke-width="1.2"
-            stroke-dasharray="4 6"
+            stroke="rgba(200, 169, 126, 0.22)"
+            stroke-width="1.5"
+            stroke-dasharray="3 5"
             stroke-linecap="round"
             stroke-linejoin="round"
           />
-          <!-- 2. Dark active dashed trajectory -->
+          <!-- 2. Rich active glowing gold trajectory -->
           <path
             id="about-flight-active-path"
             ref="activePathRef"
             d=""
             fill="none"
-            stroke="#111111"
-            stroke-width="1.6"
-            stroke-dasharray="4 6"
+            stroke="url(#flight-grad-gold)"
+            stroke-width="2.2"
             stroke-linecap="round"
             stroke-linejoin="round"
+            filter="url(#flight-glow)"
           />
         </svg>
       </div>
 
       <!-- Travelling Flight Node (Hardware Accelerated 3D Transform) -->
       <div id="about-flight-node" ref="nodeRef" class="about-flight-node" aria-hidden="true">
-        <svg viewBox="0 0 40 40" fill="none" class="about-flight-node-icon">
-          <circle cx="20" cy="20" r="17" stroke="#c8a97e" stroke-width="1.2" stroke-dasharray="3 3.5" opacity="0.9" />
-          <circle cx="20" cy="20" r="10" fill="#ffffff" stroke="#111111" stroke-width="1.2" />
-          <path d="M 15 14.5 L 26 20 L 15 25.5 L 17.5 20 Z" fill="#111111" />
+        <div class="about-flight-node__pulse"></div>
+        <svg viewBox="0 0 44 44" fill="none" class="about-flight-node-icon">
+          <!-- Outer Gold Dashed Compass Ring -->
+          <circle cx="22" cy="22" r="19" stroke="#c8a97e" stroke-width="1.2" stroke-dasharray="3 3.5" opacity="0.95" />
+          <!-- Inner Precision Obsidian Disc -->
+          <circle cx="22" cy="22" r="11" fill="#111111" stroke="#c8a97e" stroke-width="1.2" />
+          <circle cx="22" cy="22" r="3.5" fill="#c8a97e" />
+          <!-- Directional Arrow Head -->
+          <path d="M 16 15.5 L 29 22 L 16 28.5 L 19 22 Z" fill="#ffffff" />
         </svg>
       </div>
 
@@ -615,7 +631,8 @@ function buildFlightPath() {
   const rCtaBtn = getRel('about-cta-btn');
 
   let points: { x: number; y: number }[] = [];
-  const isDesktop = W >= 768;
+  const isDesktop = W >= 1024;
+  const isTablet = W >= 640 && W < 1024;
 
   if (isDesktop) {
     const gl = Math.max(28, Math.round(W * 0.035));
@@ -646,38 +663,61 @@ function buildFlightPath() {
       { x: rCtaBtn ? rCtaBtn.centerX : midX, y: yGap4 },
       { x: rCtaBtn ? rCtaBtn.centerX : midX, y: endY }
     ];
-  } else {
-    // Mobile / Tablet Path
-    const gl = Math.max(16, Math.round(W * 0.05));
+  } else if (isTablet) {
+    const gl = 16;
+    const gr = Math.max(W - 16, 600);
     const midX = Math.round(W / 2);
 
-    const topY = rManifesto ? Math.max(0, rManifesto.top - 20) : 0;
-    const yGap1 = rManifesto && rPrinciples ? Math.round((rManifesto.bottom + rPrinciples.top) / 2) : 550;
-    const yGap2 = rPrinciples && rMethod ? Math.round((rPrinciples.bottom + rMethod.top) / 2) : 1100;
-    const yGap3 = rMethod && rCarousel ? Math.round((rMethod.bottom + rCarousel.top) / 2) : 1650;
-    const yGap4 = rCarousel && rCtaBox ? Math.round((rCarousel.bottom + rCtaBox.top) / 2) : 2150;
-    const endY = rCtaBtn ? rCtaBtn.top : (rCtaBox ? rCtaBox.top + 16 : H - 45);
+    const topY = rManifesto ? Math.max(0, rManifesto.top - 30) : 0;
+    const yGap1 = rManifesto && rPrinciples ? Math.round((rManifesto.bottom + rPrinciples.top) / 2) : 580;
+    const yGap2 = rPrinciples && rMethod ? Math.round((rPrinciples.bottom + rMethod.top) / 2) : 1150;
+    const yGap3 = rMethod && rCarousel ? Math.round((rMethod.bottom + rCarousel.top) / 2) : 1700;
+    const yGap4 = rCarousel && rCtaBox ? Math.round((rCarousel.bottom + rCtaBox.top) / 2) : 2200;
+    const endY = rCtaBtn ? rCtaBtn.top + 18 : (rCtaBox ? rCtaBox.top + 20 : H - 48);
 
     points = [
       { x: midX, y: topY },
-      { x: gl, y: topY },
-      { x: gl, y: rManifesto ? rManifesto.centerY : 250 },
+      { x: gl, y: topY + 20 },
       { x: gl, y: yGap1 },
-      { x: gl + 12, y: yGap1 + 8 },
-      { x: gl + 12, y: rPrinciples ? rPrinciples.centerY : 850 },
-      { x: gl + 12, y: yGap2 },
-      { x: gl, y: yGap2 + 8 },
-      { x: gl, y: rMethod ? rMethod.centerY : 1400 },
+      { x: gr, y: yGap1 },
+      { x: gr, y: yGap2 },
+      { x: gl, y: yGap2 },
       { x: gl, y: yGap3 },
-      { x: gl + 12, y: yGap3 + 8 },
-      { x: gl + 12, y: rCarousel ? rCarousel.centerY : 1900 },
-      { x: gl + 12, y: yGap4 },
-      { x: rCtaBtn ? rCtaBtn.centerX : midX, y: yGap4 },
-      { x: rCtaBtn ? rCtaBtn.centerX : midX, y: endY }
+      { x: gr, y: yGap3 },
+      { x: gr, y: yGap4 },
+      { x: rCtaBtn ? Math.min(W - 48, rCtaBtn.centerX) : midX, y: yGap4 },
+      { x: rCtaBtn ? Math.min(W - 48, rCtaBtn.centerX) : midX, y: endY }
+    ];
+  } else {
+    // Dynamic Serpentine Architectural Guide for Mobile (W < 640)
+    // Orthogonal U-turn waypoints that form pure circular rounded S-curves across gaps
+    const gl = 10;
+    const gr = Math.max(W - 10, 310);
+    const midX = Math.round(W / 2);
+
+    const topY = rManifesto ? Math.max(0, rManifesto.top - 20) : 0;
+    const yGap1 = rManifesto && rPrinciples ? Math.round((rManifesto.bottom + rPrinciples.top) / 2) : 520;
+    const yGap2 = rPrinciples && rMethod ? Math.round((rPrinciples.bottom + rMethod.top) / 2) : 1080;
+    const yGap3 = rMethod && rCarousel ? Math.round((rMethod.bottom + rCarousel.top) / 2) : 1620;
+    const yGap4 = rCarousel && rCtaBox ? Math.round((rCarousel.bottom + rCtaBox.top) / 2) : 2120;
+    const endY = rCtaBtn ? rCtaBtn.top + 18 : (rCtaBox ? rCtaBox.top + 18 : H - 45);
+
+    points = [
+      { x: midX, y: topY },
+      { x: gl, y: topY + 16 },
+      { x: gl, y: yGap1 },
+      { x: gr, y: yGap1 },
+      { x: gr, y: yGap2 },
+      { x: gl, y: yGap2 },
+      { x: gl, y: yGap3 },
+      { x: gr, y: yGap3 },
+      { x: gr, y: yGap4 },
+      { x: rCtaBtn ? Math.min(W - 36, rCtaBtn.centerX) : midX, y: yGap4 },
+      { x: rCtaBtn ? Math.min(W - 36, rCtaBtn.centerX) : midX, y: endY }
     ];
   }
 
-  const pathData = buildRoundedPathString(points, isDesktop ? 80 : 40);
+  const pathData = buildRoundedPathString(points, isDesktop ? 80 : (isTablet ? 48 : 38));
   basePathEl.setAttribute('d', pathData);
   activePathEl.setAttribute('d', pathData);
 
@@ -1128,6 +1168,10 @@ onUnmounted(() => {
     color: #ffffff;
     pointer-events: none;
     transform: translate3d(0, 0, 0);
+
+    @include mobile {
+      bottom: clamp(28px, 6vh, 48px);
+    }
   }
 
   &__title {
@@ -1148,19 +1192,22 @@ onUnmounted(() => {
   &__title-line {
     display: block;
     font-family: $font-serif;
-    font-size: clamp(2.4rem, 5.8vw, 5.8rem);
+    font-size: clamp(2.2rem, 5.5vw, 5.8rem);
     font-weight: 400;
     line-height: 0.95;
     letter-spacing: -0.025em;
     color: #ffffff;
     text-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
     will-change: transform, opacity;
-    transform: translate3d(0, 110%, 0);
-    opacity: 0;
     backface-visibility: hidden;
 
+    @include tablet {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      line-height: 1.0;
+    }
+
     @include mobile {
-      font-size: clamp(1.9rem, 8.5vw, 2.8rem);
+      font-size: clamp(1.65rem, 7.5vw, 2.5rem);
       line-height: 1.05;
     }
   }
@@ -1169,14 +1216,29 @@ onUnmounted(() => {
 // 2. JOURNEY WRAPPER & HIGH PERFORMANCE FLIGHT PATH
 .about-journey {
   position: relative;
-  margin-top: clamp(60px, 10vh, 120px);
+  margin-top: clamp(48px, 8vh, 120px);
+
+  @include mobile {
+    margin-top: 32px;
+  }
 
   &__content {
     position: relative;
     z-index: 10;
     display: flex;
     flex-direction: column;
-    gap: clamp(80px, 14vh, 180px);
+    gap: clamp(60px, 12vh, 180px);
+
+    @include tablet {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    @include mobile {
+      padding-left: 18px;
+      padding-right: 18px;
+      gap: 52px;
+    }
   }
 }
 
@@ -1204,18 +1266,48 @@ onUnmounted(() => {
   position: absolute;
   top: 0;
   left: 0;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   z-index: 25;
   pointer-events: none;
   will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
 
+  @include tablet {
+    width: 30px;
+    height: 30px;
+  }
+
+  @include mobile {
+    width: 24px;
+    height: 24px;
+  }
+
+  &__pulse {
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(200, 169, 126, 0.45) 0%, rgba(200, 169, 126, 0) 72%);
+    animation: flightNodePulse 2.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+
   &-icon {
     width: 100%;
     height: 100%;
     display: block;
-    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+    filter: drop-shadow(0 4px 14px rgba(200, 169, 126, 0.45));
+  }
+}
+
+@keyframes flightNodePulse {
+  0%, 100% {
+    transform: scale(0.85);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
   }
 }
 
@@ -1223,13 +1315,13 @@ onUnmounted(() => {
 .about-manifesto {
   &__workshop-wrap {
     max-width: 900px;
-    margin: 0 auto clamp(40px, 6vh, 70px);
+    margin: 0 auto clamp(32px, 5vh, 70px);
   }
 
   &__workshop-inner {
     position: relative;
     width: 100%;
-    height: clamp(280px, 42vh, 460px);
+    height: clamp(240px, 38vh, 460px);
     border-radius: 4px;
     overflow: hidden;
     border: 1px solid $color-border-light;
@@ -1250,14 +1342,14 @@ onUnmounted(() => {
   &__grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: clamp(40px, 6vw, 100px);
+    gap: clamp(32px, 5vw, 100px);
     align-items: start;
     max-width: 1100px;
     margin: 0 auto;
 
-    @include tablet {
+    @include tablet-down {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 28px;
     }
   }
 
@@ -1282,6 +1374,10 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 1.5rem;
     padding-top: 0.5rem;
+
+    @include tablet-down {
+      padding-top: 0;
+    }
   }
 
   &__body {
@@ -1304,12 +1400,12 @@ onUnmounted(() => {
   margin: 0 auto;
 
   &__header {
-    margin-bottom: clamp(32px, 5vh, 60px);
+    margin-bottom: clamp(28px, 4vh, 60px);
   }
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-size: clamp(1.85rem, 3.5vw, 3.5rem);
     font-weight: 400;
     line-height: 1.1;
     margin: 0;
@@ -1323,10 +1419,12 @@ onUnmounted(() => {
 
     @include tablet {
       grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
     }
 
     @include mobile {
       grid-template-columns: 1fr;
+      gap: 16px;
     }
   }
 }
@@ -1335,7 +1433,7 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid $color-border-light;
   border-radius: 2px;
-  padding: clamp(24px, 2.5vw, 36px);
+  padding: clamp(20px, 2.5vw, 36px);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s $ease-editorial, box-shadow 0.3s $ease-editorial, border-color 0.3s ease;
@@ -1354,7 +1452,7 @@ onUnmounted(() => {
     justify-content: center;
     border-radius: 6px;
     background-color: $color-bg-alt;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
   }
 
   &__icon {
@@ -1388,18 +1486,18 @@ onUnmounted(() => {
   color: $color-text-primary;
   border: 1px solid $color-border-light;
   border-radius: 4px;
-  padding: clamp(36px, 6vw, 72px);
+  padding: clamp(24px, 5vw, 72px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
 
   &__grid {
     display: grid;
     grid-template-columns: 1fr 1.1fr;
-    gap: clamp(40px, 6vw, 90px);
+    gap: clamp(32px, 5vw, 90px);
     align-items: center;
 
-    @include tablet {
+    @include tablet-down {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 36px;
     }
   }
 
@@ -1432,7 +1530,7 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(2rem, 3.8vw, 3.75rem);
+    font-size: clamp(1.85rem, 3.5vw, 3.75rem);
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -1456,7 +1554,7 @@ onUnmounted(() => {
   &__metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 20px;
     padding-top: 1.5rem;
     border-top: 1px solid $color-border-light;
 
@@ -1474,9 +1572,10 @@ onUnmounted(() => {
 
   &__metric-num {
     font-family: $font-mono;
-    font-size: 1.35rem;
+    font-size: clamp(1.2rem, 1.8vw, 1.45rem);
     font-weight: 700;
     color: $color-text-primary;
+    white-space: nowrap;
   }
 
   &__metric-lbl {
@@ -1494,12 +1593,12 @@ onUnmounted(() => {
   margin: 0 auto;
 
   &__header {
-    margin-bottom: clamp(32px, 5vh, 60px);
+    margin-bottom: clamp(28px, 4vh, 60px);
   }
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(2rem, 3.5vw, 3.5rem);
+    font-size: clamp(1.85rem, 3.5vw, 3.5rem);
     font-weight: 400;
     line-height: 1.1;
     margin: 0;
@@ -1511,19 +1610,19 @@ onUnmounted(() => {
     border: 1px solid $color-border-light;
     border-radius: 4px;
     overflow: hidden;
-    padding: clamp(24px, 3.5vw, 48px);
+    padding: clamp(20px, 3.5vw, 48px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
   }
 
   &__carousel-grid {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: clamp(32px, 5vw, 70px);
+    gap: clamp(24px, 4vw, 70px);
     align-items: center;
 
-    @include tablet {
+    @include tablet-down {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 28px;
     }
   }
 
@@ -1534,7 +1633,7 @@ onUnmounted(() => {
   &__slide-img-box {
     position: relative;
     width: 100%;
-    height: clamp(260px, 35vh, 380px);
+    height: clamp(220px, 32vh, 380px);
     border-radius: 2px;
     overflow: hidden;
     background-color: $color-bg-alt;
@@ -1573,7 +1672,7 @@ onUnmounted(() => {
 
   &__slide-heading {
     font-family: $font-serif;
-    font-size: clamp(1.6rem, 2.5vw, 2.5rem);
+    font-size: clamp(1.4rem, 2.2vw, 2.5rem);
     font-weight: 400;
     line-height: 1.15;
     margin: 0;
@@ -1604,18 +1703,24 @@ onUnmounted(() => {
   }
 
   &__dot {
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     background-color: rgba(17, 17, 17, 0.2);
     border: none;
     cursor: pointer;
     padding: 0;
+    min-height: 24px;
+    min-width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-clip: content-box;
     transition: transform 0.25s ease, background-color 0.25s ease;
 
     &--active {
       background-color: $color-text-primary;
-      transform: scale(1.4);
+      transform: scale(1.3);
     }
   }
 
@@ -1625,8 +1730,10 @@ onUnmounted(() => {
   }
 
   &__nav-btn {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     border-radius: 50%;
     border: 1px solid $color-border-light;
     background: transparent;
@@ -1635,9 +1742,11 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    touch-action: manipulation;
     transition: background-color 0.2s ease, border-color 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &:active {
       background-color: $color-text-primary;
       color: #ffffff;
       border-color: $color-text-primary;
@@ -1647,17 +1756,17 @@ onUnmounted(() => {
 
 // CTA BANNER
 .about-cta {
-  padding-bottom: clamp(60px, 10vh, 120px);
+  padding-bottom: clamp(48px, 8vh, 120px);
 
   &__box {
     background-color: #ffffff;
     color: $color-text-primary;
     border: 1px solid $color-border-light;
     border-radius: 4px;
-    padding: clamp(36px, 6vw, 72px);
+    padding: clamp(28px, 5vw, 72px);
     display: flex;
     flex-direction: column;
-    gap: 2.5rem;
+    gap: 2rem;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
 
     @include tablet-up {
@@ -1676,7 +1785,7 @@ onUnmounted(() => {
 
   &__heading {
     font-family: $font-serif;
-    font-size: clamp(1.85rem, 3.2vw, 3rem);
+    font-size: clamp(1.75rem, 3vw, 3rem);
     font-weight: 400;
     line-height: 1.1;
     margin: 0;
@@ -1697,13 +1806,28 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 1rem;
     flex-shrink: 0;
+    width: 100%;
+
+    @include tablet-up {
+      width: auto;
+    }
 
     .btn-minimal {
       background-color: $color-text-primary;
       color: #ffffff;
       border-color: $color-text-primary;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
 
-      &:hover {
+      @include tablet-up {
+        width: auto;
+      }
+
+      &:hover,
+      &:active {
         background-color: transparent;
         color: $color-text-primary;
       }
@@ -1717,9 +1841,15 @@ onUnmounted(() => {
     color: $color-text-primary;
     text-decoration: underline;
     text-underline-offset: 4px;
+    text-align: center;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     transition: opacity 0.2s ease;
 
-    &:hover {
+    &:hover,
+    &:active {
       opacity: 0.7;
     }
   }

@@ -5,55 +5,77 @@
 
 // 1. Mobile Small (<= 390px)
 @mixin mobile-sm {
-  @media (max-width: #{$bp-mobile-sm}) {
+  @media (max-width: 390px) {
     @content;
   }
 }
 
-// 2. Mobile Large (<= 430px)
-@mixin mobile-lg {
-  @media (max-width: #{$bp-mobile-lg}) {
-    @content;
-  }
-}
-
-// 3. Mobile General (< 768px)
+// 2. Mobile General (<= 639px)
 @mixin mobile {
-  @media (max-width: #{$bp-tablet - 1px}) {
+  @media (max-width: 639px) {
     @content;
   }
 }
 
-// 4. Tablet (768px to 1023px)
+// 3. Mobile Large / Phablet (<= 767px)
+@mixin mobile-lg {
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+
+// 4. Tablet (640px to 1023px)
 @mixin tablet {
-  @media (min-width: #{$bp-tablet}) and (max-width: #{$bp-desktop-sm - 1px}) {
+  @media (min-width: 640px) and (max-width: 1023px) {
     @content;
   }
 }
 
+// 5. Tablet & Down (<= 1023px)
+@mixin tablet-down {
+  @media (max-width: 1023px) {
+    @content;
+  }
+}
+
+// 6. Tablet & Up (>= 640px)
 @mixin tablet-up {
-  @media (min-width: #{$bp-tablet}) {
+  @media (min-width: 640px) {
     @content;
   }
 }
 
-// 5. Desktop Compact / Laptop (>= 1024px)
+// 7. Desktop Compact / Laptop (>= 1024px)
 @mixin desktop-sm {
-  @media (min-width: #{$bp-desktop-sm}) {
+  @media (min-width: 1024px) {
     @content;
   }
 }
 
-// 6. Desktop Standard (>= 1440px)
+// 8. Desktop Standard (>= 1024px)
 @mixin desktop {
-  @media (min-width: #{$bp-desktop}) {
+  @media (min-width: 1024px) {
     @content;
   }
 }
 
-// 7. Desktop Ultra-Wide (>= 1920px)
+// 9. Desktop Ultra-Wide (>= 1920px)
 @mixin desktop-xl {
-  @media (min-width: #{$bp-desktop-xl}) {
+  @media (min-width: 1920px) {
+    @content;
+  }
+}
+
+// 10. Touch Devices (No hover capability)
+@mixin touch {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+// 11. Mouse / Pointer Devices (Hover capability)
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
     @content;
   }
 }

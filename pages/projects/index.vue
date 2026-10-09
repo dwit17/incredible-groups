@@ -340,6 +340,22 @@
                 </div>
               </div>
 
+              <!-- Mobile Stacked Metadata Pairs -->
+              <div class="directory-mobile-meta">
+                <div class="directory-meta-pair">
+                  <span class="directory-meta-pair__label">Typology</span>
+                  <span class="directory-meta-pair__val">{{ p.category }}</span>
+                </div>
+                <div class="directory-meta-pair">
+                  <span class="directory-meta-pair__label">Location</span>
+                  <span class="directory-meta-pair__val">{{ p.location }}</span>
+                </div>
+                <div class="directory-meta-pair">
+                  <span class="directory-meta-pair__label">Status</span>
+                  <span class="directory-meta-pair__val">{{ p.status }} ({{ p.year }})</span>
+                </div>
+              </div>
+
               <span class="directory-cat">{{ p.category }}</span>
               <span class="directory-loc">{{ p.location }}</span>
               <span class="directory-status">{{ p.status }} ({{ p.year }})</span>
@@ -554,9 +570,10 @@ onUnmounted(() => {
 /* ========================================================================= */
 .projects-hero {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   height: 100svh;
+  height: 100dvh;
   margin: 0;
   padding: 0;
   overflow: hidden;
@@ -672,6 +689,7 @@ onUnmounted(() => {
   padding-top: clamp(6.25rem, 12.5vh, 10rem);
   padding-bottom: clamp(5.75rem, 11.5vh, 9.25rem);
   width: 100%;
+  overflow: hidden;
 
   &__inner {
     width: 100%;
@@ -730,7 +748,7 @@ onUnmounted(() => {
 
   &__image-fullbleed {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 85vh;
     min-height: 85vh;
     overflow: hidden;
@@ -804,7 +822,7 @@ onUnmounted(() => {
     margin-bottom: clamp(4rem, 8vh, 8rem);
     gap: 2rem;
 
-    @include tablet {
+    @include tablet-down {
       flex-direction: column;
       align-items: flex-start;
     }
@@ -1107,6 +1125,7 @@ onUnmounted(() => {
 .directory-list {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 }
 
 .directory-row {
@@ -1120,6 +1139,7 @@ onUnmounted(() => {
   color: #111111;
   border-radius: 4px;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
 
   &:hover {
     background-color: #f6f6f2;
@@ -1153,16 +1173,67 @@ onUnmounted(() => {
   }
 
   @include mobile {
-    grid-template-columns: 32px 1fr 40px;
-    gap: 0.75rem;
-    padding: 1.1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1.25rem;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+    margin-bottom: 0.75rem;
 
     .directory-cat,
     .directory-loc,
-    .directory-status,
-    .directory-action__text {
+    .directory-status {
       display: none;
     }
+
+    .directory-idx {
+      display: none;
+    }
+
+    &:hover {
+      padding-left: 1.25rem;
+    }
+  }
+}
+
+.directory-mobile-meta {
+  display: none;
+
+  @include mobile {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem 1rem;
+    padding: 0.85rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
+.directory-meta-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+
+  &:last-child {
+    grid-column: 1 / -1;
+  }
+
+  &__label {
+    font-family: $font-mono;
+    font-size: 0.68rem;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__val {
+    font-family: $font-sans;
+    font-size: 0.88rem;
+    color: #222222;
+    font-weight: 500;
   }
 }
 
@@ -1196,8 +1267,8 @@ onUnmounted(() => {
   }
 
   @include mobile {
-    width: 46px;
-    height: 34px;
+    width: 52px;
+    height: 38px;
   }
 }
 
@@ -1217,6 +1288,11 @@ onUnmounted(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @include mobile {
+    white-space: normal;
+    font-size: 1.1rem;
+  }
 }
 
 .directory-sub {
@@ -1226,6 +1302,10 @@ onUnmounted(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @include mobile {
+    white-space: normal;
+  }
 }
 
 .directory-cat {
@@ -1257,6 +1337,13 @@ onUnmounted(() => {
   color: #444444;
   transition: color 0.2s ease;
 
+  @include mobile {
+    justify-content: space-between;
+    padding-top: 0.25rem;
+    color: $color-accent;
+    font-size: 0.85rem;
+  }
+
   .directory-arrow {
     font-family: $font-mono;
     font-size: 0.88rem;
@@ -1268,12 +1355,12 @@ onUnmounted(() => {
   background: #fbfbf9;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: clamp(2rem, 4vw, 4rem);
+  padding: clamp(1.75rem, 4vw, 4rem);
 }
 
 .projects-consult-title {
   font-family: $font-serif;
-  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-size: clamp(1.85rem, 2.8vw, 2.8rem);
   font-weight: 400;
   color: #111111;
   margin: 0.5rem 0 1rem 0;
@@ -1293,5 +1380,19 @@ onUnmounted(() => {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.85rem 1.25rem;
+    }
+  }
 }
 </style>

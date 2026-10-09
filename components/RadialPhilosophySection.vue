@@ -94,6 +94,17 @@
             />
           </g>
         </svg>
+
+        <!-- 8 Radial Spoke Numbers (01..08) -->
+        <div ref="labelsEl" class="vision-labels" aria-hidden="true">
+          <span
+            v-for="i in 8"
+            :key="i"
+            class="vision-label-num"
+          >
+            0{{ i }}
+          </span>
+        </div>
       </div>
 
     </div>

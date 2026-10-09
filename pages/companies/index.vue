@@ -512,8 +512,12 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 600px;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
+  background-color: #0c0d0e;
 
   &__canvas {
     position: relative;
@@ -716,9 +720,9 @@ onUnmounted(() => {
 
   &__image-fullbleed {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 75vh;
-    min-height: 480px;
+    min-height: 400px;
     overflow: hidden;
     margin: 0;
   }
@@ -745,16 +749,16 @@ onUnmounted(() => {
 .companies-deck-section {
   position: relative;
   width: 100%;
-  padding: 8rem 0 6rem;
+  padding: clamp(3.5rem, 8vh, 8rem) 0 clamp(3rem, 6vh, 6rem);
   background-color: var(--color-bg, #f5f5f2);
   overflow: hidden;
 
   @include tablet {
-    padding: 5rem 0 4rem;
+    padding: 4.5rem 0 3.5rem;
   }
 
   @include mobile {
-    padding: 3.5rem 0 3rem;
+    padding: 3rem 0 2.5rem;
   }
 }
 
@@ -762,8 +766,8 @@ onUnmounted(() => {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1px solid rgba(17, 17, 17, 0.08);
 
   &__left {
@@ -773,7 +777,7 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+    font-size: clamp(1.65rem, 2.6vw, 2.6rem);
     font-weight: 400;
     color: #111111;
     margin: 0.35rem 0 0 0;
@@ -789,6 +793,7 @@ onUnmounted(() => {
 
   @include tablet {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
   }
 
   @include mobile {
@@ -802,12 +807,12 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: clamp(1.4rem, 1.8vw, 2.2rem) clamp(1.2rem, 1.6vw, 1.8rem);
+  padding: clamp(1.2rem, 1.8vw, 2.2rem) clamp(1rem, 1.6vw, 1.8rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  min-height: 154px;
+  min-height: 140px;
   min-width: 0;
   text-decoration: none;
   color: #111111;
@@ -816,10 +821,22 @@ onUnmounted(() => {
   overflow: hidden;
   will-change: transform, opacity;
 
-  &:hover {
+  &:hover,
+  &:active {
     border-color: #111111;
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+  }
+
+  &__name {
+    font-family: $font-sans;
+    font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+    font-weight: 600;
+    color: #111111;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    letter-spacing: -0.01em;
   }
 }
 
@@ -827,8 +844,8 @@ onUnmounted(() => {
 /* SECTION 04: Sector Pillars & Co-Investment                                */
 /* ========================================================================= */
 .companies-sectors-section {
-  padding-top: clamp(4rem, 6vh, 6rem);
-  padding-bottom: clamp(4rem, 6vh, 8rem);
+  padding-top: clamp(3.5rem, 6vh, 6rem);
+  padding-bottom: clamp(3.5rem, 6vh, 8rem);
   border-top: 1px solid rgba(17, 17, 17, 0.08);
 }
 
@@ -839,7 +856,7 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-serif;
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    font-size: clamp(1.85rem, 3.2vw, 3.2rem);
     font-weight: 400;
     line-height: 1.15;
     letter-spacing: -0.02em;
@@ -852,7 +869,7 @@ onUnmounted(() => {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(1rem, 1.6vw, 1.75rem);
-  margin-bottom: clamp(3rem, 5vh, 4.5rem);
+  margin-bottom: clamp(2.5rem, 5vh, 4.5rem);
 
   @include desktop {
     gap: 1.25rem;
@@ -873,13 +890,14 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: clamp(1.5rem, 2vw, 2rem) clamp(1.25rem, 1.6vw, 1.6rem);
+  padding: clamp(1.4rem, 2vw, 2rem) clamp(1.2rem, 1.6vw, 1.6rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &:hover {
+  &:hover,
+  &:active {
     border-color: rgba(17, 17, 17, 0.28);
     transform: translateY(-3px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
@@ -902,7 +920,7 @@ onUnmounted(() => {
   margin: 0;
   min-height: 2.8rem;
 
-  @include tablet {
+  @include tablet-down {
     min-height: auto;
   }
 }
@@ -934,10 +952,13 @@ onUnmounted(() => {
   font-weight: 500;
   color: #111111;
   text-decoration: none;
+  min-height: 36px;
   padding: 0.4rem 0;
   transition: color 0.2s ease, transform 0.2s ease;
+  touch-action: manipulation;
 
-  &:hover {
+  &:hover,
+  &:active {
     color: $color-accent;
 
     .sector-link__arrow {
@@ -956,12 +977,12 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: clamp(2rem, 4vw, 3.5rem);
+  padding: clamp(1.75rem, 4vw, 3.5rem);
 }
 
 .companies-inquiry-title {
   font-family: $font-serif;
-  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
+  font-size: clamp(1.75rem, 2.6vw, 2.6rem);
   font-weight: 400;
   color: #111111;
   margin: 0 0 1rem 0;
@@ -982,5 +1003,19 @@ onUnmounted(() => {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  @include mobile {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.85rem 1.25rem;
+    }
+  }
 }
 </style>

@@ -245,6 +245,7 @@ onUnmounted(() => {
   justify-content: space-between;
   padding-top: clamp(48px, 8vh, 96px);
   padding-bottom: clamp(20px, 3.5vh, 40px);
+  padding-bottom: max(clamp(20px, 3.5vh, 40px), env(safe-area-inset-bottom));
   overflow: hidden;
   box-sizing: border-box;
 
@@ -252,8 +253,8 @@ onUnmounted(() => {
     width: 100%;
     max-width: 1920px;
     margin: 0 auto;
-    padding-left: clamp(20px, 2.5vw, 48px);
-    padding-right: clamp(20px, 2.5vw, 48px);
+    padding-left: clamp(16px, 2.5vw, 48px);
+    padding-right: clamp(16px, 2.5vw, 48px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -269,22 +270,22 @@ onUnmounted(() => {
     margin-bottom: clamp(24px, 4vh, 48px);
 
     @include tablet {
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 32px 28px;
       margin-bottom: 32px;
     }
 
     @include mobile {
       grid-template-columns: 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
+      gap: 28px;
+      margin-bottom: 28px;
     }
   }
 
   &__logo-col {
     @include tablet {
       grid-column: 1 / -1;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
   }
 
@@ -329,30 +330,38 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 0.55rem;
     font-family: $font-sans;
-    font-size: 12px;
-    line-height: 1.4;
+    font-size: 13px;
+    line-height: 1.45;
     color: #dddddd;
 
     li {
       margin: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
   }
 
   &__list-gap {
-    margin-top: 0.6rem !important;
+    margin-top: 0.75rem !important;
   }
 
   &__link {
     color: #ffffff;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 2px 0;
     position: relative;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     transition: color 0.2s ease, transform 0.2s ease;
+    touch-action: manipulation;
 
     &::after {
       content: '';
       position: absolute;
-      bottom: -1px;
+      bottom: 2px;
       left: 0;
       width: 100%;
       height: 1px;
@@ -362,7 +371,8 @@ onUnmounted(() => {
       transition: transform 0.4s cubic-bezier(0.17, 0.84, 0.44, 1);
     }
 
-    &:hover {
+    &:hover,
+    &:active {
       color: #ffffff;
 
       &::after {
@@ -379,6 +389,7 @@ onUnmounted(() => {
 
   &__text-muted {
     color: #888888;
+    font-size: 12px;
   }
 
   &__text-dim {
@@ -396,11 +407,12 @@ onUnmounted(() => {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
   }
 
   &__monumental-text {
     font-family: $font-sans;
-    font-size: clamp(48px, 13.8vw, 240px);
+    font-size: clamp(34px, 12.8vw, 240px);
     font-weight: 700;
     line-height: 0.82;
     letter-spacing: -0.045em;
@@ -409,6 +421,7 @@ onUnmounted(() => {
     width: 100%;
     will-change: transform, opacity;
     user-select: none;
+    box-sizing: border-box;
   }
 
   // 3. Bottom Bar
@@ -437,17 +450,19 @@ onUnmounted(() => {
     display: flex;
     gap: 12px;
     align-items: center;
+    overflow-wrap: anywhere;
+    word-break: break-word;
 
     &--licenses {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 8px 12px;
     }
 
     &--right {
       justify-content: flex-end;
 
-      @include tablet {
+      @include tablet-down {
         justify-content: flex-start;
       }
     }
@@ -456,9 +471,15 @@ onUnmounted(() => {
   &__bottom-link {
     color: #888888;
     text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 2px;
     transition: color 0.2s ease;
+    touch-action: manipulation;
 
-    &:hover {
+    &:hover,
+    &:active {
       color: #ffffff;
     }
   }

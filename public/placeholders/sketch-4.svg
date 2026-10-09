@@ -1,6 +1,0 @@
-﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 625">
-  <rect width="1000" height="625" fill="#151311"/>
-  <rect x="300" y="220" width="400" height="180" fill="none" stroke="#c8a97e" stroke-width="2" stroke-dasharray="6 3"/>
-  <line x1="0" y1="480" x2="1000" y2="320" stroke="#f3f3f4" stroke-width="1.5"/>
-  <text x="50" y="580" fill="#c8a97e" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="14" letter-spacing="3">CANTILEVER SECTION • ALIBAUG</text>
-</svg>

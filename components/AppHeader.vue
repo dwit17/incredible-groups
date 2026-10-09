@@ -4,7 +4,8 @@
     class="header"
     :class="[
       `header--theme-${theme}`,
-      { 'header--hidden': isHidden }
+      { 'header--hidden': isHidden },
+      { 'header--drawer-open': isMenuOpen }
     ]"
   >
     <div class="header__inner">
@@ -33,10 +34,12 @@
           <span>Contact</span>
         </NuxtLink>
 
-        <!-- Mobile Drawer Toggle (No hamburger on desktop) -->
+        <!-- Mobile & Tablet Drawer Toggle (Hidden on Desktop 1024px+) -->
         <button
           class="header__mobile-toggle"
           :class="{ 'header__mobile-toggle--active': isMenuOpen }"
+          :aria-expanded="isMenuOpen"
+          aria-controls="incredible-drawer"
           aria-label="Toggle navigation menu"
           @click="toggleMenu"
         >
@@ -48,18 +51,32 @@
 
     <!-- Mobile Navigation Drawer -->
     <div
+      id="incredible-drawer"
       ref="drawerRef"
       class="header__drawer"
       :class="{ 'header__drawer--open': isMenuOpen }"
-      aria-hidden="!isMenuOpen"
+      :aria-hidden="!isMenuOpen"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Navigation Menu"
+      @click.self="closeMenu"
     >
       <div class="header__drawer-content">
         <div class="header__drawer-header">
           <span class="eyebrow eyebrow--dot">INCREDIBLE DIRECTORY</span>
-          <span class="metadata">EST. 2004</span>
+          <button
+            class="header__drawer-close-btn"
+            aria-label="Close menu"
+            @click="closeMenu"
+          >
+            <span>Close</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
         </div>
 
-        <nav class="header__drawer-list">
+        <nav class="header__drawer-list" aria-label="Directory Navigation">
           <NuxtLink
             v-for="(item, idx) in navItems"
             :key="idx"
@@ -157,6 +174,12 @@ const playHeaderEntrance = () => {
   );
 };
 
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Escape' && isMenuOpen.value) {
+    closeMenu();
+  }
+};
+
 const onScroll = () => {
   if (!import.meta.client) return;
   const currentScrollY = window.scrollY;
@@ -172,6 +195,7 @@ const onScroll = () => {
 
 onMounted(() => {
   if (import.meta.client) {
+    window.addEventListener('keydown', handleKeydown);
     if (isSiteLoaded.value) {
       playHeaderEntrance();
     } else {
@@ -192,6 +216,10 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
+  if (import.meta.client) {
+    window.removeEventListener('keydown', handleKeydown);
+    document.body.style.overflow = '';
+  }
   window.removeEventListener('scroll', onScroll);
 });
 </script>
@@ -205,17 +233,26 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   width: 100%;
-  padding: clamp(24px, 3.2vh, 32px) clamp(24px, 3.2vw, 44px);
+  padding: clamp(20px, 3vh, 32px) clamp(16px, 3.2vw, 44px);
+  padding-top: max(clamp(20px, 3vh, 32px), env(safe-area-inset-top));
+  padding-left: max(clamp(16px, 3.2vw, 44px), env(safe-area-inset-left));
+  padding-right: max(clamp(16px, 3.2vw, 44px), env(safe-area-inset-right));
   z-index: $z-header;
   pointer-events: none;
   transition: transform 0.4s $ease-out-expo;
+  box-sizing: border-box;
 
   @include mobile {
-    padding: 1.25rem 1.25rem;
+    padding: 1rem 1rem;
+    padding-top: max(1rem, env(safe-area-inset-top));
   }
 
   &--hidden {
     transform: translateY(-100%);
+  }
+
+  &--drawer-open {
+    mix-blend-mode: normal !important;
   }
 
   // Theme Variations
@@ -279,38 +316,38 @@ onUnmounted(() => {
   &__inner {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
     margin: 0;
   }
 
-  // TOP LEFT: 3-Line Stacked Wordmark (Exact Reference Match)
+  // TOP LEFT: 3-Line Stacked Wordmark
   &__brand {
     display: flex;
     flex-direction: column;
     font-family: $font-sans;
-    font-size: 0.8125rem; // 13px
+    font-size: clamp(0.75rem, 2.2vw, 0.8125rem); // 12-13px
     font-weight: 400;
     line-height: 1.15;
     letter-spacing: -0.01em;
     pointer-events: auto;
     cursor: pointer;
+    min-height: 44px;
+    justify-content: center;
+    text-decoration: none;
 
     &-line {
       display: block;
+      white-space: nowrap;
     }
   }
 
-  // TOP RIGHT: Compact Navigation (Exact Reference Match: Index, Work, About, Contact)
+  // TOP RIGHT: Compact Navigation
   &__nav {
     display: flex;
     align-items: center;
     gap: 0.35rem; // Tight inline spacing with commas
     pointer-events: auto;
-
-    @include mobile {
-      gap: 0.75rem;
-    }
   }
 
   &__nav-link {
@@ -323,6 +360,7 @@ onUnmounted(() => {
     padding-bottom: 2px;
     padding-right: 0.15rem;
     transition: opacity 0.25s ease;
+    text-decoration: none;
 
     &::after {
       content: '';
@@ -348,50 +386,68 @@ onUnmounted(() => {
       }
     }
 
-    @include mobile {
+    @include tablet-down {
       display: none;
     }
   }
 
-  // Mobile Menu Trigger (Hidden on Desktop)
+  // Mobile Menu Trigger (Visible on mobile & tablet)
   &__mobile-toggle {
     display: none;
     align-items: center;
+    justify-content: flex-end;
     gap: 6px;
     font-family: $font-sans;
     font-size: 0.8125rem;
     background: transparent;
+    border: none;
     cursor: pointer;
     pointer-events: auto;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 6px;
+    touch-action: manipulation;
 
-    @include mobile {
-      display: flex;
+    @include tablet-down {
+      display: inline-flex;
     }
   }
 
   &__mobile-dot {
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
+    flex-shrink: 0;
   }
 
-  // Fullscreen Mobile Drawer
+  &__mobile-text {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  // Fullscreen Mobile & Tablet Drawer
   &__drawer {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+    max-height: 100dvh;
     background-color: $color-bg-dark;
     color: $color-text-light;
     mix-blend-mode: normal;
     z-index: $z-nav-drawer;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     opacity: 0;
     pointer-events: none;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     transition: opacity 0.35s $ease-editorial;
+    box-sizing: border-box;
 
     &--open {
       opacity: 1;
@@ -402,10 +458,15 @@ onUnmounted(() => {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 85vh;
+      min-height: 100%;
+      width: 100%;
       max-width: 900px;
       margin: 0 auto;
-      padding: 2rem 1.25rem;
+      padding: clamp(1.5rem, 3.5vh, 2.5rem) clamp(1.25rem, 4vw, 2.5rem);
+      padding-top: max(clamp(1.5rem, 3.5vh, 2.5rem), env(safe-area-inset-top));
+      padding-bottom: max(clamp(1.5rem, 3.5vh, 2.5rem), env(safe-area-inset-bottom));
+      box-sizing: border-box;
+      gap: 1.5rem;
     }
 
     &-header {
@@ -413,26 +474,60 @@ onUnmounted(() => {
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid rgba(245, 245, 242, 0.1);
-      padding-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      flex-shrink: 0;
+    }
+
+    &-close-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      color: $color-text-light;
+      font-family: $font-sans;
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      min-height: 36px;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+      &:hover,
+      &:active {
+        background-color: rgba(255, 255, 255, 0.15);
+        border-color: rgba(255, 255, 255, 0.4);
+        color: #ffffff;
+      }
     }
 
     &-list {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
-      margin: 2rem 0;
+      gap: clamp(0.85rem, 2vh, 1.5rem);
+      margin: 1rem 0;
+      flex-grow: 1;
+      justify-content: center;
     }
 
     &-item {
       display: inline-flex;
       align-items: baseline;
-      gap: 1.5rem;
       font-family: $font-serif;
-      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-size: clamp(1.6rem, 5.5vw, 3.2rem);
       color: $color-text-light;
-      transition: transform 0.3s ease, color 0.3s ease;
+      text-decoration: none;
+      min-height: 44px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      transition: transform 0.25s ease, color 0.25s ease;
+      touch-action: manipulation;
 
-      &:hover {
+      &:hover,
+      &:active {
         color: $color-accent;
         transform: translateX(8px);
       }
@@ -447,18 +542,26 @@ onUnmounted(() => {
     &-footer {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.5rem;
+      gap: 1.25rem;
       border-top: 1px solid rgba(245, 245, 242, 0.1);
-      padding-top: 1.5rem;
+      padding-top: 1.25rem;
       font-family: $font-sans;
       font-size: 0.8125rem;
       color: $color-text-muted-dark;
+      flex-shrink: 0;
+
+      @include tablet-up {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     &-wa {
-      display: block;
+      display: inline-block;
       color: $color-accent;
       margin-top: 0.25rem;
+      text-decoration: none;
+      min-height: 32px;
+      line-height: 32px;
     }
   }
 }

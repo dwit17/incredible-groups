@@ -105,16 +105,24 @@ onMounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  max-height: 100dvh;
   background-color: #0c0d0e;
   z-index: $z-preloader;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
+  padding: clamp(1.25rem, 4vw, 3.5rem);
+  padding-top: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-top));
+  padding-bottom: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-bottom));
+  padding-left: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-left));
+  padding-right: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-right));
   color: #f3f3f4;
   will-change: transform;
+  box-sizing: border-box;
 
   &--closing {
     pointer-events: none;
@@ -126,6 +134,7 @@ onMounted(() => {
     justify-content: space-between;
     height: 100%;
     width: 100%;
+    box-sizing: border-box;
   }
 
   &__header {
@@ -155,11 +164,12 @@ onMounted(() => {
     flex-direction: column;
     align-items: flex-start;
     max-width: 600px;
+    width: 100%;
   }
 
   &__counter {
     font-family: $font-display;
-    font-size: clamp(4rem, 14vw, 12rem);
+    font-size: clamp(3.5rem, 14vw, 12rem);
     font-weight: $font-weight-light;
     line-height: 0.9;
     letter-spacing: $letter-spacing-tight;
@@ -170,7 +180,7 @@ onMounted(() => {
 
   &__percent {
     font-family: $font-mono;
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.25rem, 3vw, 2.5rem);
     color: $color-accent;
     margin-left: 0.5rem;
   }
