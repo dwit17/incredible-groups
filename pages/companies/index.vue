@@ -155,15 +155,16 @@
     <!-- ============================================================= -->
     <section class="companies-sectors-section" aria-label="Strategic Capital Allocations">
       <div class="companies-layout-inner">
-        <div class="section-header">
-          <h2 class="section-title">Strategic Capital Deployment Pillars</h2>
+        <div class="sectors-header">
+          <h2 class="sectors-header__title">Strategic Capital Deployment Pillars</h2>
         </div>
 
         <div class="sectors-grid">
           <!-- Pillar 1: PropTech AI -->
           <div class="sector-pillar-card">
-            <span class="sector-pillar-idx">01</span>
-            <h3 class="sector-pillar-title">Artificial Intelligence &amp; Autonomous PropTech</h3>
+            <div class="sector-pillar-top">
+              <h3 class="sector-pillar-title">Artificial Intelligence &amp; Autonomous PropTech</h3>
+            </div>
             <p class="sector-pillar-desc">
               Neural building automation, optical occupancy sensors, and predictive thermal microgrids reducing operational carbon footprint.
             </p>
@@ -177,8 +178,9 @@
 
           <!-- Pillar 2: Structured Credit -->
           <div class="sector-pillar-card">
-            <span class="sector-pillar-idx">02</span>
-            <h3 class="sector-pillar-title">Alternative Asset Debt &amp; Bridge Credit</h3>
+            <div class="sector-pillar-top">
+              <h3 class="sector-pillar-title">Alternative Asset Debt &amp; Bridge Credit</h3>
+            </div>
             <p class="sector-pillar-desc">
               Institutional senior-secured bridge financing and spatial valuation underwriting for Tier-1 metropolitan land parcels.
             </p>
@@ -192,8 +194,9 @@
 
           <!-- Pillar 3: Sustainable ConTech & Robotics -->
           <div class="sector-pillar-card">
-            <span class="sector-pillar-idx">03</span>
-            <h3 class="sector-pillar-title">Robotic Prefabrication &amp; Advanced Materials</h3>
+            <div class="sector-pillar-top">
+              <h3 class="sector-pillar-title">Robotic Prefabrication &amp; Advanced Materials</h3>
+            </div>
             <p class="sector-pillar-desc">
               Offsite volumetric timber-concrete precision manufacturing and self-healing marine bio-binders lasting two centuries.
             </p>
@@ -211,8 +214,9 @@
 
           <!-- Pillar 4: Clean Energy & Water -->
           <div class="sector-pillar-card">
-            <span class="sector-pillar-idx">04</span>
-            <h3 class="sector-pillar-title">Decentralized Microgrids &amp; Water Sovereignty</h3>
+            <div class="sector-pillar-top">
+              <h3 class="sector-pillar-title">Decentralized Microgrids &amp; Water Sovereignty</h3>
+            </div>
             <p class="sector-pillar-desc">
               Turnkey bifacial solar canopies, liquid-cooled battery storage, and zero-discharge graphene desalination plants.
             </p>
@@ -255,6 +259,8 @@
       </div>
     </section>
 
+    <!-- Global Monolithic Footer -->
+    <AppFooter />
   </div>
 </template>
 
@@ -265,6 +271,7 @@ import CompanyBrandLogo from '~/components/CompanyBrandLogo.vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { splitTextIntoLines } from '~/composables/useReveal';
+import AppFooter from '~/components/AppFooter.vue';
 
 if (import.meta.client) {
   gsap.registerPlugin(ScrollTrigger);
@@ -624,15 +631,16 @@ onUnmounted(() => {
   }
 
   &__heading {
-    font-family: $font-sans;
+    font-family: $font-heading;
     font-size: clamp(3.2rem, 7.2vw, 7.8rem);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 0.94;
     letter-spacing: -0.04em;
     color: #111111;
     margin: 0 0 3.5rem 0;
     display: flex;
     flex-direction: column;
+    font-synthesis: none;
 
     @include mobile {
       font-size: clamp(2.2rem, 9.5vw, 3.4rem);
@@ -819,23 +827,45 @@ onUnmounted(() => {
 /* SECTION 04: Sector Pillars & Co-Investment                                */
 /* ========================================================================= */
 .companies-sectors-section {
-  padding-top: 4rem;
-  padding-bottom: clamp(6rem, 10vh, 12rem);
+  padding-top: clamp(4rem, 6vh, 6rem);
+  padding-bottom: clamp(4rem, 6vh, 8rem);
   border-top: 1px solid rgba(17, 17, 17, 0.08);
+}
+
+.sectors-header {
+  margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    font-family: $font-serif;
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #111111;
+    margin: 0;
+  }
 }
 
 .sectors-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 4rem;
+  gap: clamp(1rem, 1.6vw, 1.75rem);
+  margin-bottom: clamp(3rem, 5vh, 4.5rem);
+
+  @include desktop {
+    gap: 1.25rem;
+  }
 
   @include tablet {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
   }
 
   @include mobile {
     grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 }
 
@@ -843,62 +873,82 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: 2rem 1.75rem;
+  padding: clamp(1.5rem, 2vw, 2rem) clamp(1.25rem, 1.6vw, 1.6rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 
-  &__idx {
-    font-family: $font-mono;
-    font-size: 0.75rem;
-    color: #c5a880;
-    margin-bottom: 0.75rem;
+  &:hover {
+    border-color: rgba(17, 17, 17, 0.28);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.04);
   }
+}
 
-  &__title {
-    font-family: $font-serif;
-    font-size: 1.35rem;
-    font-weight: 400;
-    color: #111111;
-    margin: 0 0 0.85rem 0;
-    line-height: 1.25;
-  }
+.sector-pillar-top {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.85rem;
+}
 
-  &__desc {
-    font-family: $font-sans;
-    font-size: 0.88rem;
-    line-height: 1.65;
-    color: #555555;
-    margin: 0 0 1.5rem 0;
-    font-weight: 300;
-  }
+.sector-pillar-title {
+  font-family: $font-serif;
+  font-size: clamp(1.15rem, 1.25vw, 1.3rem);
+  font-weight: 400;
+  color: #111111;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 0;
+  min-height: 2.8rem;
 
-  &__links {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    border-top: 1px solid rgba(17, 17, 17, 0.06);
-    padding-top: 1rem;
+  @include tablet {
+    min-height: auto;
   }
+}
+
+.sector-pillar-desc {
+  font-family: $font-sans;
+  font-size: 0.9375rem;
+  line-height: 1.62;
+  color: #555555;
+  margin: 0 0 1.5rem 0;
+  font-weight: 400;
+  flex-grow: 1;
+}
+
+.sector-pillar-links {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(17, 17, 17, 0.08);
+  padding-top: 0.65rem;
+  margin-top: auto;
 }
 
 .sector-link {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: $font-sans;
-  font-size: 0.82rem;
+  font-family: $font-mono;
+  font-size: 0.78rem;
   font-weight: 500;
   color: #111111;
   text-decoration: none;
-  transition: color 0.2s ease;
+  padding: 0.4rem 0;
+  transition: color 0.2s ease, transform 0.2s ease;
 
   &:hover {
-    color: #c5a880;
+    color: $color-accent;
+
+    .sector-link__arrow {
+      transform: translateX(3px);
+    }
   }
 
   &__arrow {
     font-family: $font-mono;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease;
   }
 }
 
@@ -906,22 +956,23 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: clamp(2rem, 4vw, 4rem);
+  padding: clamp(2rem, 4vw, 3.5rem);
 }
 
 .companies-inquiry-title {
   font-family: $font-serif;
-  font-size: clamp(2rem, 2.8vw, 2.8rem);
+  font-size: clamp(1.8rem, 2.6vw, 2.6rem);
   font-weight: 400;
   color: #111111;
-  margin: 0.5rem 0 1rem 0;
+  margin: 0 0 1rem 0;
+  line-height: 1.18;
 }
 
 .companies-inquiry-desc {
   font-family: $font-sans;
   font-size: 1.05rem;
   line-height: 1.7;
-  color: #444444;
+  color: #555555;
   font-weight: 300;
   max-width: 860px;
   margin: 0 0 2rem 0;

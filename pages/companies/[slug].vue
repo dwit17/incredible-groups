@@ -2,73 +2,97 @@
   <div v-if="company" ref="pageRef" class="company-monograph-page">
     
     <!-- ============================================================= -->
-    <!-- 1. BREADCRUMB & SOVEREIGN TOP IDENTITY BAR                    -->
+    <!-- 1. 100VH CINEMATIC HERO SECTION WITH GSAP PARALLAX             -->
     <!-- ============================================================= -->
-    <section class="company-monograph__top-bar">
-      <div class="company-layout-inner">
-        <div class="company-breadcrumbs">
-          <NuxtLink to="/companies" class="company-breadcrumbs__back">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            <span>All Portfolio Ventures</span>
-          </NuxtLink>
-          <span class="company-breadcrumbs__divider">/</span>
-          <span class="company-breadcrumbs__current">{{ company.name }}</span>
+    <section ref="heroCanvasRef" class="company-hero-canvas">
+      <!-- Background Image with GSAP Parallax -->
+      <div class="company-hero-bg">
+        <img
+          ref="bannerImgRef"
+          :src="company.gallery?.[0]?.url || '/placeholders/hero-architecture.jpg'"
+          :alt="`${company.name} Operational Benchmark`"
+          class="company-hero-img"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+        <div class="company-hero-overlay"></div>
+      </div>
+
+      <!-- Top Floating Breadcrumbs Bar -->
+      <div class="company-hero-top">
+        <div class="company-layout-inner">
+          <div class="company-breadcrumbs-pill">
+            <NuxtLink to="/companies" class="company-breadcrumbs__back">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+              <span>All Portfolio Ventures</span>
+            </NuxtLink>
+            <span class="company-breadcrumbs__divider">/</span>
+            <span class="company-breadcrumbs__current">{{ company.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Hero Content Grid -->
+      <div class="company-hero-bottom">
+        <div class="company-layout-inner">
+          <div class="company-hero-grid">
+            
+            <!-- Left: Brand Logo, Sector, Monumental Title, Subtitle -->
+            <div class="company-hero-left">
+              <div ref="brandHeaderRef" class="company-hero-header-line">
+                <div class="company-logo-frame">
+                  <CompanyBrandLogo :company-id="company.id" :fallback-name="company.name" :is-dark="true" />
+                </div>
+                <div class="company-sector-badge">{{ company.sector }}</div>
+              </div>
+
+              <h1 ref="titleRef" class="company-hero__title">
+                <span class="title-mask">
+                  <span class="title-line">{{ company.name }}</span>
+                </span>
+              </h1>
+
+              <p ref="heroSubtitleRef" class="company-hero__subtitle">
+                {{ company.shortDescription }}
+              </p>
+            </div>
+
+            <!-- Right: Direct Inquiry & Valuation Callout -->
+            <div class="company-hero-right">
+              <div ref="valuationCardRef" class="valuation-card">
+                <span class="valuation-card__label">Enterprise Valuation</span>
+                <span class="valuation-card__val">{{ company.valuation }}</span>
+                <span class="valuation-card__sub">{{ company.headquarters }}</span>
+              </div>
+
+              <div ref="heroActionsRef" class="company-hero-actions">
+                <a
+                  :href="`https://wa.me/919737972097?text=Hello%20Incredible%20Groups%2C%20I%20am%20inquiring%20about%20your%20portfolio%20venture%20${encodeURIComponent(company.name)}.`"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn btn--primary"
+                >
+                  <span>WhatsApp Advisory</span>
+                </a>
+                <NuxtLink to="/contact" class="btn btn--secondary">
+                  <span>Request Venture Dossier</span>
+                </NuxtLink>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ============================================================= -->
-    <!-- 2. HERO HEADER & MONUMENTAL IDENTITY                          -->
+    <!-- 2. 4-COLUMN STRUCTURED CAPITAL STRIP                          -->
     <!-- ============================================================= -->
-    <header class="company-monograph__hero">
+    <section class="company-metrics-section">
       <div class="company-layout-inner">
-        <div class="company-hero-grid">
-          
-          <!-- Left: Brand Logo & Monumental Title -->
-          <div class="company-hero-left">
-            <div class="company-title-wrap">
-              <div class="company-logo-frame">
-                <CompanyBrandLogo :company-id="company.id" :fallback-name="company.name" :is-dark="false" />
-              </div>
-              <h1 ref="titleRef" class="company-title">
-                <span class="title-mask">
-                  <span class="title-line">{{ company.name }}</span>
-                </span>
-              </h1>
-            </div>
-
-            <p ref="leadRef" class="company-lead-desc">
-              {{ company.shortDescription }}
-            </p>
-          </div>
-
-          <!-- Right: Direct Inquiry & Valuation Callout -->
-          <div class="company-hero-right">
-            <div class="valuation-card">
-              <span class="valuation-card__val">{{ company.valuation }}</span>
-              <span class="valuation-card__sub">{{ company.headquarters }}</span>
-            </div>
-
-            <div class="company-hero-actions">
-              <a
-                :href="`https://wa.me/919737972097?text=Hello%20Incredible%20Groups%2C%20I%20am%20inquiring%20about%20your%20portfolio%20venture%20${encodeURIComponent(company.name)}.`"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn--primary"
-              >
-                <span>WhatsApp Advisory</span>
-              </a>
-              <NuxtLink to="/contact" class="btn btn--secondary">
-                <span>Request Venture Dossier</span>
-              </NuxtLink>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- 4-Column Structured Capital Strip -->
         <div class="company-metrics-matrix">
           <div class="matrix-cell">
             <span class="matrix-cell__label">Invested Capital</span>
@@ -88,32 +112,10 @@
           </div>
         </div>
       </div>
-    </header>
-
-    <!-- ============================================================= -->
-    <!-- 3. HERO SHOWCASE IMAGE CANVAS WITH PARALLAX                   -->
-    <!-- ============================================================= -->
-    <section v-if="company.gallery && company.gallery[0]" ref="heroBannerRef" class="company-banner-section">
-      <div class="company-layout-inner">
-        <div class="company-banner-frame">
-          <img
-            ref="bannerImgRef"
-            :src="company.gallery[0].url"
-            :alt="`${company.name} Operational Benchmark`"
-            class="company-banner-img"
-            loading="eager"
-            fetchpriority="high"
-          />
-          <div class="company-banner-overlay"></div>
-          <div class="company-banner-caption">
-            <span class="company-banner-text">{{ company.gallery[0].caption }}</span>
-          </div>
-        </div>
-      </div>
     </section>
 
     <!-- ============================================================= -->
-    <!-- 4. GUIDING PURPOSE & ATELIER INVESTMENT THESIS                -->
+    <!-- 3. GUIDING PURPOSE & ATELIER INVESTMENT THESIS                -->
     <!-- ============================================================= -->
     <section class="company-section company-section--thesis">
       <div class="company-layout-inner">
@@ -230,7 +232,6 @@
             :key="kIdx"
             class="kpi-block"
           >
-            <span class="kpi-block__idx">0{{ kIdx + 1 }}</span>
             <span class="kpi-block__value">{{ kpi.value }}</span>
             <h3 class="kpi-block__label">{{ kpi.label }}</h3>
             <span v-if="kpi.subtext" class="kpi-block__sub">{{ kpi.subtext }}</span>
@@ -319,6 +320,8 @@
       </div>
     </section>
 
+    <!-- Global Monolithic Footer -->
+    <AppFooter />
   </div>
 
   <!-- Not Found State -->
@@ -337,6 +340,7 @@ import CompanyBrandLogo from '~/components/CompanyBrandLogo.vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { splitTextIntoLines } from '~/composables/useReveal';
+import AppFooter from '~/components/AppFooter.vue';
 
 if (import.meta.client) {
   gsap.registerPlugin(ScrollTrigger);
@@ -365,13 +369,16 @@ const nextCompany = computed(() => {
 
 // Template Refs
 const pageRef = ref<HTMLElement | null>(null);
+const heroCanvasRef = ref<HTMLElement | null>(null);
+const bannerImgRef = ref<HTMLElement | null>(null);
+const brandHeaderRef = ref<HTMLElement | null>(null);
 const titleRef = ref<HTMLElement | null>(null);
-const leadRef = ref<HTMLElement | null>(null);
+const heroSubtitleRef = ref<HTMLElement | null>(null);
+const valuationCardRef = ref<HTMLElement | null>(null);
+const heroActionsRef = ref<HTMLElement | null>(null);
 const quoteRef = ref<HTMLElement | null>(null);
 const overviewRef = ref<HTMLElement | null>(null);
 const rationaleRef = ref<HTMLElement | null>(null);
-const heroBannerRef = ref<HTMLElement | null>(null);
-const bannerImgRef = ref<HTMLElement | null>(null);
 
 let ctx: gsap.Context | null = null;
 
@@ -410,44 +417,92 @@ onMounted(async () => {
   if (!import.meta.client || !pageRef.value) return;
 
   ctx = gsap.context(() => {
-    // 1. Title Split Line Entrance
+    // 1. Hero Entrance Timeline
+    const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    // Background Image Scale In
+    if (bannerImgRef.value) {
+      heroTl.fromTo(
+        bannerImgRef.value,
+        { scale: 1.08, opacity: 0.8 },
+        { scale: 1.0, opacity: 1, duration: 1.8, ease: 'power2.out' },
+        0
+      );
+    }
+
+    // Title Split Line Entrance
     if (titleRef.value) {
       const titleLines = titleRef.value.querySelectorAll('.title-line');
-      gsap.fromTo(
+      heroTl.fromTo(
         titleLines,
         { yPercent: 120, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.08, ease: 'power3.out', delay: 0.1 }
+        { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.08 },
+        0.15
       );
     }
 
-    if (leadRef.value) {
-      const lines = splitTextIntoLines(leadRef.value);
-      gsap.fromTo(
-        lines,
-        { yPercent: 115, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 0.9, stagger: 0.04, ease: 'power3.out', delay: 0.25 }
+    // Brand Logo, Sector Badge & Subtitle
+    const leftElements = [brandHeaderRef.value, heroSubtitleRef.value].filter(Boolean);
+    if (leftElements.length > 0) {
+      heroTl.fromTo(
+        leftElements,
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, stagger: 0.08 },
+        0.3
       );
     }
 
-    // 2. Banner Parallax
-    if (heroBannerRef.value && bannerImgRef.value) {
+    // Valuation Card & Actions
+    const rightElements = [valuationCardRef.value, heroActionsRef.value].filter(Boolean);
+    if (rightElements.length > 0) {
+      heroTl.fromTo(
+        rightElements,
+        { y: 24, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.9, stagger: 0.1 },
+        0.4
+      );
+    }
+
+    // 2. Hero Background Image Scroll Parallax Scrub
+    if (heroCanvasRef.value && bannerImgRef.value) {
       ScrollTrigger.create({
-        trigger: heroBannerRef.value,
-        start: 'top bottom',
+        trigger: heroCanvasRef.value,
+        start: 'top top',
         end: 'bottom top',
-        scrub: 0.8,
+        scrub: 1.2,
         onUpdate: (self) => {
           if (bannerImgRef.value) {
             gsap.set(bannerImgRef.value, {
-              scale: 1.06 - self.progress * 0.04,
-              yPercent: (self.progress - 0.5) * -10
+              yPercent: self.progress * 25,
+              scale: 1 + self.progress * 0.08
             });
           }
         }
       });
     }
 
-    // 3. Thesis Split Lines
+    // 3. Staggered Capital Metrics Matrix Strip Reveal
+    const matrixCells = pageRef.value?.querySelectorAll('.matrix-cell');
+    if (matrixCells && matrixCells.length > 0) {
+      gsap.fromTo(
+        matrixCells,
+        { opacity: 0, y: 24 },
+        {
+          scrollTrigger: {
+            trigger: matrixCells[0],
+            start: 'top 92%',
+            toggleActions: 'play none none none'
+          },
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.08,
+          ease: 'power3.out'
+        }
+      );
+    }
+
+    // 4. Thesis Split Lines
     if (quoteRef.value) {
       const quoteLines = splitTextIntoLines(quoteRef.value);
       gsap.fromTo(
@@ -548,10 +603,10 @@ onUnmounted(() => {
 .company-monograph-page {
   position: relative;
   width: 100%;
-  background-color: var(--color-bg, #f5f5f2);
-  color: var(--color-text, #111111);
-  padding-top: clamp(80px, 12vh, 120px);
-  padding-bottom: clamp(60px, 10vh, 140px);
+  background-color: #f5f5f2;
+  color: #111111;
+  padding-top: 0;
+  padding-bottom: 0;
   box-sizing: border-box;
 }
 
@@ -570,103 +625,144 @@ onUnmounted(() => {
 }
 
 /* ========================================================================= */
-/* 1. TOP BREADCRUMB STRIP                                                   */
+/* 1. 100VH CINEMATIC HERO SECTION                                           */
 /* ========================================================================= */
-.company-monograph__top-bar {
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
-  margin-bottom: clamp(2rem, 4vh, 3.5rem);
+.company-hero-canvas {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background-color: #0c0d0e;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding-top: clamp(84px, 12vh, 120px);
+  padding-bottom: clamp(32px, 5vh, 56px);
+
+  @include mobile {
+    min-height: 100dvh;
+    height: auto;
+    padding-top: 5.5rem;
+    padding-bottom: 2.5rem;
+  }
 }
 
-.company-breadcrumbs {
-  display: flex;
+.company-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.company-hero-img {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  will-change: transform;
+}
+
+.company-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 13, 14, 0.6) 0%,
+    rgba(12, 13, 14, 0.15) 30%,
+    rgba(12, 13, 14, 0.35) 60%,
+    rgba(12, 13, 14, 0.9) 100%
+  );
+  pointer-events: none;
+}
+
+/* Top Floating Breadcrumb Pill */
+.company-hero-top {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.company-breadcrumbs-pill {
+  display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   font-family: $font-mono;
   font-size: 0.8rem;
-  color: #666666;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(20, 22, 26, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 0.45rem 1rem;
+  border-radius: 9999px;
 
-  &__back {
+  .company-breadcrumbs__back {
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    color: #111111;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 500;
     transition: opacity 0.2s ease;
 
     &:hover {
-      opacity: 0.7;
+      opacity: 0.8;
     }
   }
 
-  &__divider {
+  .company-breadcrumbs__divider {
     opacity: 0.4;
   }
 
-  &__current {
-    color: #888888;
+  .company-breadcrumbs__current {
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 320px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
-/* ========================================================================= */
-/* 2. HERO HEADER                                                            */
-/* ========================================================================= */
-.company-monograph__hero {
-  margin-bottom: clamp(3rem, 6vh, 5rem);
+/* Bottom Hero Content Grid */
+.company-hero-bottom {
+  position: relative;
+  z-index: 10;
+  width: 100%;
 }
 
 .company-hero-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: clamp(2rem, 5vw, 6rem);
-  align-items: flex-start;
-  margin-bottom: 3.5rem;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: flex-end;
 
   @include tablet {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
+    align-items: flex-start;
   }
 }
 
-.company-badge-row {
+.company-hero-left {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.company-hero-header-line {
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1.25rem;
   margin-bottom: 1.25rem;
-}
-
-.company-pill {
-  font-family: $font-sans;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: #ffffff;
-  border: 1px solid rgba(17, 17, 17, 0.1);
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
-  color: #222222;
-
-  &--mono {
-    font-family: $font-mono;
-    background: #111111;
-    color: #ffffff;
-    border-color: #111111;
-  }
-
-  &--dim {
-    color: #666666;
-    background: transparent;
-  }
-}
-
-.company-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
   flex-wrap: wrap;
 }
 
@@ -677,14 +773,26 @@ onUnmounted(() => {
   flex-shrink: 0;
 }
 
-.company-title {
+.company-sector-badge {
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #c5a880;
+  background: rgba(197, 168, 128, 0.12);
+  border: 1px solid rgba(197, 168, 128, 0.3);
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+}
+
+.company-hero__title {
   font-family: $font-serif;
-  font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+  font-size: clamp(2.6rem, 5.2vw, 5.2rem);
   font-weight: 400;
-  line-height: 0.95;
+  line-height: 0.98;
   letter-spacing: -0.025em;
-  color: #111111;
-  margin: 0;
+  color: #ffffff;
+  margin: 0 0 1rem 0;
 }
 
 .title-mask {
@@ -698,45 +806,47 @@ onUnmounted(() => {
   will-change: transform, opacity;
 }
 
-.company-lead-desc {
+.company-hero__subtitle {
   font-family: $font-sans;
-  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
-  line-height: 1.6;
-  color: #444444;
+  font-size: clamp(1rem, 1.25vw, 1.25rem);
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
   font-weight: 300;
   margin: 0;
-  max-width: 780px;
+  max-width: 700px;
 }
 
 .company-hero-right {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .valuation-card {
-  background: #ffffff;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 6px;
-  padding: 2rem;
+  background: rgba(18, 20, 24, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 1.75rem 2rem;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 
   &__label {
     font-family: $font-mono;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #888888;
+    color: rgba(255, 255, 255, 0.55);
   }
 
   &__val {
     font-family: $font-sans;
-    font-size: clamp(2.2rem, 3.2vw, 3rem);
+    font-size: clamp(2rem, 3vw, 2.8rem);
     font-weight: 600;
-    color: #111111;
+    color: #ffffff;
     letter-spacing: -0.02em;
     line-height: 1.1;
   }
@@ -744,7 +854,7 @@ onUnmounted(() => {
   &__sub {
     font-family: $font-sans;
     font-size: 0.85rem;
-    color: #666666;
+    color: rgba(255, 255, 255, 0.75);
     margin-top: 0.25rem;
   }
 }
@@ -753,9 +863,40 @@ onUnmounted(() => {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+
+  .btn--primary {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #ffffff;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .btn--secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+  }
 }
 
-/* 4-Column Structured Capital Strip */
+/* ========================================================================= */
+/* 2. 4-COLUMN STRUCTURED CAPITAL STRIP                                      */
+/* ========================================================================= */
+.company-metrics-section {
+  padding-top: clamp(2.5rem, 4vh, 3.5rem);
+  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
+  background-color: #f5f5f2;
+}
+
 .company-metrics-matrix {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -800,70 +941,6 @@ onUnmounted(() => {
     font-size: 0.75rem;
     color: #777777;
   }
-}
-
-/* ========================================================================= */
-/* 3. HERO SHOWCASE IMAGE CANVAS                                             */
-/* ========================================================================= */
-.company-banner-section {
-  margin-bottom: clamp(4rem, 8vh, 7rem);
-}
-
-.company-banner-frame {
-  position: relative;
-  width: 100%;
-  height: clamp(340px, 50vh, 560px);
-  overflow: hidden;
-  border-radius: 6px;
-  background-color: #111111;
-}
-
-.company-banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  will-change: transform;
-}
-
-.company-banner-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.75) 100%);
-}
-
-.company-banner-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: 1.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  color: #ffffff;
-  box-sizing: border-box;
-
-  @include mobile {
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: 1rem 1.25rem;
-  }
-}
-
-.company-banner-tag {
-  font-family: $font-mono;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #c5a880;
-}
-
-.company-banner-text {
-  font-family: $font-sans;
-  font-size: 0.88rem;
-  opacity: 0.9;
 }
 
 /* ========================================================================= */

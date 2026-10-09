@@ -16,12 +16,12 @@
           <!-- Left: Sticky Section Navigator -->
           <aside class="legal-doc-nav">
             <ul class="legal-doc-nav__list">
-              <li><a href="#section-1" class="legal-doc-nav__link">01. Principle of Absolute Discretion</a></li>
-              <li><a href="#section-2" class="legal-doc-nav__link">02. Data Collected via Briefs</a></li>
-              <li><a href="#section-3" class="legal-doc-nav__link">03. Purpose of Processing</a></li>
-              <li><a href="#section-4" class="legal-doc-nav__link">04. Encryption &amp; Security</a></li>
-              <li><a href="#section-5" class="legal-doc-nav__link">05. Cookies &amp; Telemetry</a></li>
-              <li><a href="#section-6" class="legal-doc-nav__link">06. Data Rights &amp; Officer Contact</a></li>
+              <li><a href="#section-1" class="legal-doc-nav__link">Principle of Absolute Discretion</a></li>
+              <li><a href="#section-2" class="legal-doc-nav__link">Data Collected via Briefs</a></li>
+              <li><a href="#section-3" class="legal-doc-nav__link">Purpose of Processing</a></li>
+              <li><a href="#section-4" class="legal-doc-nav__link">Encryption &amp; Security</a></li>
+              <li><a href="#section-5" class="legal-doc-nav__link">Cookies &amp; Telemetry</a></li>
+              <li><a href="#section-6" class="legal-doc-nav__link">Data Rights &amp; Officer Contact</a></li>
             </ul>
           </aside>
 

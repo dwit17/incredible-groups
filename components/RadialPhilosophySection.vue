@@ -36,15 +36,6 @@
         ref="boxEl"
         class="vision-radial-box"
       >
-        <!-- Numeric spoke labels (01 to 08) tracking spoke tips with smooth secondary lag -->
-        <div ref="labelsEl" class="vision-labels">
-          <span
-            v-for="i in 8"
-            :key="i"
-            class="vision-label-num"
-          >{{ String(i).padStart(2, '0') }}</span>
-        </div>
-
         <!-- Masked Vector Radial Physics SVG (913x913 ViewBox) -->
         <svg
           viewBox="0 0 913 913"
@@ -562,11 +553,12 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     text-align: center;
-    font-family: $font-sans;
+    font-family: $font-heading;
     font-weight: $font-weight-regular;
     font-size: clamp(34px, 4.2vw, 68px);
     line-height: 0.875;
     letter-spacing: -0.03em;
+    font-synthesis: none;
     user-select: none;
     margin: 0;
     padding: 0;

@@ -67,7 +67,6 @@
             class="header__drawer-item"
             @click="closeMenu"
           >
-            <span class="header__drawer-idx">0{{ idx + 1 }}</span>
             <span class="header__drawer-name">{{ item.label }}</span>
           </NuxtLink>
         </nav>

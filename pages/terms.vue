@@ -16,12 +16,12 @@
           <!-- Left: Sticky Section Navigator -->
           <aside class="legal-doc-nav">
             <ul class="legal-doc-nav__list">
-              <li><a href="#section-1" class="legal-doc-nav__link">01. Atelier Practice &amp; Licensing</a></li>
-              <li><a href="#section-2" class="legal-doc-nav__link">02. Intellectual Property Rights</a></li>
-              <li><a href="#section-3" class="legal-doc-nav__link">03. Private Capital Syndication</a></li>
-              <li><a href="#section-4" class="legal-doc-nav__link">04. Confidentiality &amp; NDA</a></li>
-              <li><a href="#section-5" class="legal-doc-nav__link">05. Warranties &amp; Indemnity</a></li>
-              <li><a href="#section-6" class="legal-doc-nav__link">06. Jurisdiction &amp; Dispute Resolution</a></li>
+              <li><a href="#section-1" class="legal-doc-nav__link">Atelier Practice &amp; Licensing</a></li>
+              <li><a href="#section-2" class="legal-doc-nav__link">Intellectual Property Rights</a></li>
+              <li><a href="#section-3" class="legal-doc-nav__link">Private Capital Syndication</a></li>
+              <li><a href="#section-4" class="legal-doc-nav__link">Confidentiality &amp; NDA</a></li>
+              <li><a href="#section-5" class="legal-doc-nav__link">Warranties &amp; Indemnity</a></li>
+              <li><a href="#section-6" class="legal-doc-nav__link">Jurisdiction &amp; Dispute Resolution</a></li>
             </ul>
           </aside>
 

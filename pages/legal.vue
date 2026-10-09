@@ -37,10 +37,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Global Monolithic Footer -->
+    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
+import AppFooter from '~/components/AppFooter.vue';
+
 useSeoMeta({
   title: 'Legal Documents - Incredible Groups',
   description: 'Legal disclosures, architectural licensing, and intellectual property governance of Incredible Groups.'
@@ -56,7 +61,7 @@ useSeoMeta({
   background-color: #ffffff;
   color: #111111;
   padding-top: clamp(140px, 18vh, 220px);
-  padding-bottom: clamp(80px, 12vh, 160px);
+  padding-bottom: 0;
 
   &__container {
     width: 100%;

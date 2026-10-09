@@ -13,7 +13,7 @@
 @font-face {
   font-family: 'Neue Haas Grotesk Roman';
   src: url('/fonts/neue-haas-roman.otf') format('opentype');
-  font-weight: 100 900;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
@@ -21,7 +21,7 @@
 @font-face {
   font-family: 'Neue Haas Grotesk Light';
   src: url('/fonts/neue-haas-light.otf') format('opentype');
-  font-weight: 100 900;
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
@@ -61,6 +61,22 @@ body {
 // -------------------------------------------------------------
 // 1. Headings & Titles (Neue Haas Grotesk Roman for all Headings)
 // -------------------------------------------------------------
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.display-sans, .display-serif, .serif-display,
+.heading-sans, .serif-statement, .subheading-sans {
+  font-synthesis: none;
+  font-synthesis-weight: none;
+  font-synthesis-style: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  span, strong, em {
+    font-family: inherit;
+    font-weight: inherit;
+  }
+}
+
 h1, .h1, .display-sans, .display-serif, .serif-display {
   font-family: $font-heading;
   font-size: clamp(2.5rem, 7.2vw, 7.5rem);

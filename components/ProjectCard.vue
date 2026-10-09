@@ -35,7 +35,6 @@
       <!-- Project Metadata & Typography -->
       <div class="project-card__info">
         <div class="project-card__top">
-          <span class="project-card__num">0{{ index + 1 }}</span>
           <span class="project-card__location">{{ project.location }}</span>
         </div>
 

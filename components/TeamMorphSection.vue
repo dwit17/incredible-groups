@@ -10,12 +10,6 @@
               THE <span class="team-morph__title--accent">DIRECTORS</span>
             </h2>
           </div>
-
-          <div class="team-morph__progress-indicator">
-            <span class="team-morph__active-num">0{{ activeIndex + 1 }}</span>
-            <span class="team-morph__divider">/</span>
-            <span class="team-morph__total-num">0{{ teamMembers.length }}</span>
-          </div>
         </div>
 
         <!-- Morphing Interactive Stage -->

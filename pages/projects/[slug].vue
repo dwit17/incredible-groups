@@ -1,149 +1,123 @@
 <template>
   <div v-if="project" ref="pageRef" class="project-monograph-page">
-    
     <!-- ============================================================= -->
-    <!-- 1. BREADCRUMBS & TOP NAVIGATION STRIP                         -->
+    <!-- 1. 100VH CINEMATIC HERO SECTION WITH GSAP PARALLAX             -->
     <!-- ============================================================= -->
-    <section class="project-monograph__top-bar">
-      <div class="project-layout-inner">
-        <div class="project-breadcrumbs">
-          <NuxtLink to="/projects" class="project-breadcrumbs__back">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            <span>All Architectural Projects</span>
-          </NuxtLink>
-          <span class="project-breadcrumbs__divider">/</span>
-          <span class="project-breadcrumbs__current">{{ project.title }}</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================================= -->
-    <!-- 2. PROJECT HERO TITLE & IDENTITY HEADER                       -->
-    <!-- ============================================================= -->
-    <header class="project-monograph__header">
-      <div class="project-layout-inner">
-        <div class="project-hero-grid">
-          
-          <!-- Left: Title, Badges & Subtitle -->
-          <div class="project-hero-left">
-            <h1 ref="titleRef" class="project-monograph__title">
-              <span class="title-mask">
-                <span class="title-line">{{ project.title }}</span>
-              </span>
-            </h1>
-
-            <p class="project-monograph__subtitle">{{ project.subtitle }}</p>
-          </div>
-
-          <!-- Right: Valuation, Gross Area & Quick Actions -->
-          <div class="project-hero-right">
-            <div class="project-quick-card">
-              <div class="quick-metric">
-                <span class="quick-metric__label">Valuation</span>
-                <span class="quick-metric__val">{{ project.valuation }}</span>
-              </div>
-              <div class="quick-metric">
-                <span class="quick-metric__label">Gross Footprint</span>
-                <span class="quick-metric__val">{{ project.area }}</span>
-              </div>
-              <div class="quick-metric">
-                <span class="quick-metric__label">Lead Architect</span>
-                <span class="quick-metric__val quick-metric__val--small">{{ project.leadArchitect }}</span>
-              </div>
-            </div>
-
-            <div class="project-hero-actions">
-              <a
-                :href="`https://wa.me/919737972097?text=Hello%20Incredible%20Groups%2C%20I%20would%20like%20to%20inquire%20about%20${encodeURIComponent(project.title)}.`"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn--primary"
-              >
-                <span>WhatsApp Private Inquiries</span>
-              </a>
-              <NuxtLink to="/contact" class="btn btn--secondary">
-                <span>Request Acquisition Dossier</span>
-              </NuxtLink>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </header>
-
-    <!-- ============================================================= -->
-    <!-- 3. FULL-BLEED 100VW HERO CANVAS WITH PARALLAX                 -->
-    <!-- Matches Homepage Editorial Full-Bleed 1-to-1                  -->
-    <!-- ============================================================= -->
-    <section ref="fullbleedRef" class="project-monograph__fullbleed">
-      <div class="project-monograph__fullbleed-wrapper">
+    <section ref="heroCanvasRef" class="project-hero-canvas">
+      <!-- Background Image with GSAP Parallax -->
+      <div class="project-hero-bg">
         <img
           ref="heroImgRef"
           :src="project.coverImage"
           :alt="`${project.title} Monolithic Architectural Elevation`"
-          class="project-monograph__fullbleed-img"
+          class="project-hero-img"
           loading="eager"
           fetchpriority="high"
           decoding="async"
         />
+        <div class="project-hero-overlay"></div>
       </div>
-      <div class="project-monograph__fullbleed-caption">
-        <div class="project-layout-inner project-monograph__caption-inner">
-          <span class="project-monograph__caption-name">{{ project.title }}</span>
-          <span class="project-monograph__caption-loc">{{ project.location }} • {{ project.year }}</span>
+
+      <!-- Bottom Hero Content Grid -->
+      <div class="project-hero-bottom">
+        <div class="project-layout-inner">
+          <div class="project-hero-grid">
+            
+            <!-- Left: Monumental Architectural Title -->
+            <div class="project-hero-left">
+              <h1 ref="titleRef" class="project-hero__title">
+                <span class="title-mask">
+                  <span class="title-line">{{ project.title }}</span>
+                </span>
+              </h1>
+            </div>
+
+            <!-- Right: Valuation Quick Card & Action Buttons -->
+            <div class="project-hero-right">
+              <div ref="quickCardRef" class="project-quick-card">
+                <div class="quick-metric">
+                  <span class="quick-metric__label">Valuation</span>
+                  <span class="quick-metric__val">{{ project.valuation }}</span>
+                </div>
+                <div class="quick-metric">
+                  <span class="quick-metric__label">Gross Footprint</span>
+                  <span class="quick-metric__val">{{ project.area }}</span>
+                </div>
+                <div class="quick-metric">
+                  <span class="quick-metric__label">Lead Architect</span>
+                  <span class="quick-metric__val quick-metric__val--small">{{ project.leadArchitect }}</span>
+                </div>
+              </div>
+
+              <div ref="heroActionsRef" class="project-hero-actions">
+                <a
+                  :href="`https://wa.me/919737972097?text=Hello%20Incredible%20Groups%2C%20I%20would%20like%20to%20inquire%20about%20${encodeURIComponent(project.title)}.`"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-hero-btn project-hero-btn--primary"
+                >
+                  <span class="btn-icon">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                    </svg>
+                  </span>
+                  <span class="btn-text">WhatsApp Private Inquiries</span>
+                </a>
+                <NuxtLink to="/contact" class="project-hero-btn project-hero-btn--secondary">
+                  <span class="btn-text">Request Acquisition Dossier</span>
+                  <span class="btn-arrow">&rarr;</span>
+                </NuxtLink>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ============================================================= -->
-    <!-- 4. MONOGRAPHIC OVERVIEW & ARCHITECTURAL SPECS MATRIX          -->
+    <!-- 2. MONOGRAPHIC OVERVIEW & ARCHITECTURAL SPECS MATRIX          -->
     <!-- ============================================================= -->
     <section class="project-monograph__overview-section">
       <div class="project-layout-inner">
-        <div class="project-intro-grid">
-          
-          <!-- Left Column: Key Metadata List -->
-          <div class="project-meta-col">
-            <div class="project-meta-table">
-              <div class="project-meta-row">
-                <span class="project-meta-label">Category</span>
-                <span class="project-meta-val">{{ project.category }}</span>
-              </div>
-              <div class="project-meta-row">
-                <span class="project-meta-label">Location</span>
-                <span class="project-meta-val">{{ project.location }}</span>
-              </div>
-              <div class="project-meta-row">
-                <span class="project-meta-label">Gross Area</span>
-                <span class="project-meta-val">{{ project.area }}</span>
-              </div>
-              <div class="project-meta-row">
-                <span class="project-meta-label">Valuation</span>
-                <span class="project-meta-val">{{ project.valuation }}</span>
-              </div>
-              <div class="project-meta-row">
-                <span class="project-meta-label">Lead Architect</span>
-                <span class="project-meta-val">{{ project.leadArchitect }}</span>
-              </div>
-              <div class="project-meta-row">
-                <span class="project-meta-label">Status</span>
-                <span class="project-meta-val">{{ project.status }} ({{ project.year }})</span>
-              </div>
+        <!-- 1. Editorial Lead Narrative (Vertical Block) -->
+        <div class="project-lead-block">
+          <h2 ref="leadSerifRef" class="project-lead-serif">
+            {{ project.fullDescription }}
+          </h2>
+          <p ref="shortDescRef" class="project-lead-desc">
+            {{ project.shortDescription }}
+          </p>
+        </div>
+
+        <!-- 2. Project Parameters / Metadata Grid (Separated Vertically) -->
+        <div class="project-meta-block">
+          <div class="project-meta-grid">
+            <div class="project-meta-item">
+              <span class="project-meta-label">Category</span>
+              <span class="project-meta-val">{{ project.category }}</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="project-meta-label">Location</span>
+              <span class="project-meta-val">{{ project.location }}</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="project-meta-label">Gross Area</span>
+              <span class="project-meta-val">{{ project.area }}</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="project-meta-label">Valuation</span>
+              <span class="project-meta-val">{{ project.valuation }}</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="project-meta-label">Lead Architect</span>
+              <span class="project-meta-val">{{ project.leadArchitect }}</span>
+            </div>
+            <div class="project-meta-item">
+              <span class="project-meta-label">Status</span>
+              <span class="project-meta-val">{{ project.status }} ({{ project.year }})</span>
             </div>
           </div>
-
-          <!-- Right Column: Editorial Lead Narrative -->
-          <div class="project-lead-col">
-            <h2 ref="leadSerifRef" class="project-lead-serif">
-              {{ project.fullDescription }}
-            </h2>
-            <p ref="shortDescRef" class="project-lead-desc">
-              {{ project.shortDescription }}
-            </p>
-          </div>
-
         </div>
 
         <!-- 6-Column Specifications Grid -->
@@ -157,7 +131,6 @@
               :key="sIdx"
               class="spec-item"
             >
-              <span class="spec-item__idx">0{{ sIdx + 1 }}</span>
               <span class="spec-item__label">{{ spec.label }}</span>
               <span class="spec-item__val">{{ spec.value }}</span>
             </div>
@@ -183,7 +156,6 @@
             class="work-row"
           >
             <div class="work-col-phase">
-              <span class="work-phase-num">0{{ wIdx + 1 }}</span>
               <span class="work-status-badge">{{ work.milestone }}</span>
             </div>
 
@@ -193,14 +165,8 @@
             </div>
 
             <div class="work-col-meta">
-              <div class="work-meta-item">
-                <span class="work-meta-label">Key Deliverable</span>
-                <span class="work-meta-val">{{ work.deliverable }}</span>
-              </div>
-              <div class="work-meta-item">
-                <span class="work-meta-label">Timeline</span>
-                <span class="work-meta-val">{{ work.duration }}</span>
-              </div>
+              <span class="work-meta-val">{{ work.deliverable }}</span>
+              <span class="work-meta-duration">{{ work.duration }}</span>
             </div>
           </div>
         </div>
@@ -320,7 +286,6 @@
                 <img :src="nextProject.coverImage" :alt="nextProject.title" loading="lazy" />
               </div>
               <div class="next-monograph-info">
-                <span class="next-monograph-cat">{{ nextProject.category }}</span>
                 <h4 class="next-monograph-name">{{ nextProject.title }}</h4>
                 <span class="next-monograph-loc">{{ nextProject.location }}</span>
               </div>
@@ -330,6 +295,8 @@
       </div>
     </section>
 
+    <!-- Global Monolithic Footer -->
+    <AppFooter />
   </div>
 
   <!-- Project Not Found -->
@@ -341,12 +308,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { projects } from '~/data/projects';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { splitTextIntoLines } from '~/composables/useReveal';
+import { useSiteLoaded } from '~/composables/useSiteLoaded';
+import AppFooter from '~/components/AppFooter.vue';
 
 if (import.meta.client) {
   gsap.registerPlugin(ScrollTrigger);
@@ -368,15 +337,59 @@ const nextProject = computed(() => {
   return projects[(currentIndex.value + 1) % projects.length];
 });
 
+const { isSiteLoaded } = useSiteLoaded();
+
 // Template Refs
 const pageRef = ref<HTMLElement | null>(null);
+const heroCanvasRef = ref<HTMLElement | null>(null);
+const heroImgRef = ref<HTMLElement | null>(null);
 const titleRef = ref<HTMLElement | null>(null);
+const quickCardRef = ref<HTMLElement | null>(null);
+const heroActionsRef = ref<HTMLElement | null>(null);
 const leadSerifRef = ref<HTMLElement | null>(null);
 const shortDescRef = ref<HTMLElement | null>(null);
-const fullbleedRef = ref<HTMLElement | null>(null);
-const heroImgRef = ref<HTMLElement | null>(null);
 
 let ctx: gsap.Context | null = null;
+let hasPlayedEntrance = false;
+
+const playEntranceAnimation = () => {
+  if (hasPlayedEntrance || !import.meta.client) return;
+  hasPlayedEntrance = true;
+
+  const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+  // Background Image Subtle Scale In & Opacity Fade
+  if (heroImgRef.value) {
+    heroTl.fromTo(
+      heroImgRef.value,
+      { scale: 1.10, opacity: 0.5 },
+      { scale: 1.0, opacity: 1, duration: 1.8, ease: 'power2.out' },
+      0
+    );
+  }
+
+  // Monumental Title Split Lines Reveal
+  if (titleRef.value) {
+    const lines = titleRef.value.querySelectorAll('.title-line');
+    heroTl.fromTo(
+      lines,
+      { yPercent: 120, opacity: 0 },
+      { yPercent: 0, opacity: 1, duration: 1.2, stagger: 0.08, ease: 'power3.out' },
+      0.15
+    );
+  }
+
+  // Quick Card & Actions
+  const rightElements = [quickCardRef.value, heroActionsRef.value].filter(Boolean);
+  if (rightElements.length > 0) {
+    heroTl.fromTo(
+      rightElements,
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.0, stagger: 0.12, ease: 'power3.out' },
+      0.35
+    );
+  }
+};
 
 // Dynamic SEO Meta
 useSeoMeta({
@@ -410,20 +423,44 @@ useSchemaOrg([
 
 onMounted(async () => {
   await nextTick();
-  if (!import.meta.client || !pageRef.value) return;
+  if (!import.meta.client) return;
 
   ctx = gsap.context(() => {
-    // 1. Title Split Lines Reveal
-    if (titleRef.value) {
-      const lines = titleRef.value.querySelectorAll('.title-line');
-      gsap.fromTo(
-        lines,
-        { yPercent: 120, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 1.1, stagger: 0.08, ease: 'power3.out', delay: 0.1 }
-      );
+    // 1. Hero Entrance Animation
+    if (isSiteLoaded.value) {
+      playEntranceAnimation();
+    } else {
+      const unwatch = watch(isSiteLoaded, (loaded) => {
+        if (loaded) {
+          playEntranceAnimation();
+          unwatch();
+        }
+      });
+      // Safety fallback
+      setTimeout(() => {
+        playEntranceAnimation();
+      }, 500);
     }
 
-    // 2. Editorial Serif Paragraph Split-Text Line Reveal
+    // 2. Hero Background Image Scroll Parallax Scrub
+    if (heroCanvasRef.value && heroImgRef.value) {
+      ScrollTrigger.create({
+        trigger: heroCanvasRef.value,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 1.2,
+        onUpdate: (self) => {
+          if (heroImgRef.value) {
+            gsap.set(heroImgRef.value, {
+              yPercent: self.progress * 25,
+              scale: 1 + self.progress * 0.08
+            });
+          }
+        }
+      });
+    }
+
+    // 3. Editorial Serif Paragraph Split-Text Line Reveal
     if (leadSerifRef.value) {
       const lines = splitTextIntoLines(leadSerifRef.value);
       gsap.fromTo(
@@ -462,25 +499,6 @@ onMounted(async () => {
           ease: 'power3.out'
         }
       );
-    }
-
-    // 3. Full-Bleed Hero Image Scroll Unveil & Parallax
-    if (fullbleedRef.value && heroImgRef.value) {
-      ScrollTrigger.create({
-        trigger: fullbleedRef.value,
-        start: 'top 95%',
-        end: 'bottom 10%',
-        scrub: 1.0,
-        onUpdate: (self) => {
-          const progress = self.progress;
-          if (heroImgRef.value) {
-            gsap.set(heroImgRef.value, {
-              scale: 1.08 - progress * 0.06,
-              yPercent: (progress - 0.5) * -12
-            });
-          }
-        }
-      });
     }
 
     // 4. Staggered Section Parallax & Line-by-Line Reveal
@@ -579,10 +597,10 @@ onUnmounted(() => {
 .project-monograph-page {
   position: relative;
   width: 100%;
-  background-color: var(--color-bg, #ffffff);
-  color: var(--color-text, #111111);
-  padding-top: clamp(80px, 12vh, 120px);
-  padding-bottom: clamp(60px, 10vh, 140px);
+  background-color: #ffffff;
+  color: #111111;
+  padding-top: 0;
+  padding-bottom: 0;
   box-sizing: border-box;
 }
 
@@ -601,110 +619,105 @@ onUnmounted(() => {
 }
 
 /* ========================================================================= */
-/* 1. TOP BREADCRUMB STRIP                                                   */
+/* 1. 100VH CINEMATIC HERO SECTION                                           */
 /* ========================================================================= */
-.project-monograph__top-bar {
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(17, 17, 17, 0.08);
-  margin-bottom: clamp(2rem, 4vh, 3.5rem);
-}
-
-.project-breadcrumbs {
+.project-hero-canvas {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+  background-color: #0c0d0e;
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: $font-mono;
-  font-size: 0.8rem;
-  color: #666666;
+  flex-direction: column;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  padding-top: clamp(84px, 12vh, 120px);
+  padding-bottom: clamp(40px, 6vh, 64px);
 
-  &__back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: #111111;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
-
-  &__divider {
-    opacity: 0.4;
-  }
-
-  &__current {
-    color: #888888;
+  @include mobile {
+    min-height: 100dvh;
+    height: auto;
+    padding-top: 5.5rem;
+    padding-bottom: 2.5rem;
   }
 }
 
-/* ========================================================================= */
-/* 2. PROJECT HERO HEADER                                                    */
-/* ========================================================================= */
-.project-monograph__header {
-  margin-bottom: clamp(3rem, 6vh, 5rem);
+.project-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.project-hero-img {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  will-change: transform;
+}
+
+.project-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(12, 13, 14, 0.5) 0%,
+    rgba(12, 13, 14, 0.1) 35%,
+    rgba(12, 13, 14, 0.4) 65%,
+    rgba(12, 13, 14, 0.92) 100%
+  );
+  pointer-events: none;
+}
+
+/* Bottom Hero Content Grid */
+.project-hero-bottom {
+  position: relative;
+  z-index: 10;
+  width: 100%;
 }
 
 .project-hero-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: clamp(2rem, 5vw, 6rem);
-  align-items: flex-start;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: flex-end;
+
+  @include desktop {
+    grid-template-columns: 1.15fr 1fr;
+    gap: 2.5rem;
+  }
 
   @include tablet {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
+    align-items: flex-start;
   }
 }
 
-.project-badge-row {
+.project-hero-left {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  flex-direction: column;
 }
 
-.project-pill {
-  font-family: $font-sans;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  background: #f5f5f2;
-  border: 1px solid rgba(17, 17, 17, 0.1);
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
-  color: #222222;
-
-  &--status {
-    background: #111111;
-    color: #ffffff;
-    border-color: #111111;
-  }
-
-  &--in-construction {
-    background: #c5a880;
-    color: #111111;
-    border-color: #c5a880;
-  }
-
-  &--dim {
-    color: #666666;
-    background: transparent;
-  }
-}
-
-.project-monograph__title {
+.project-hero__title {
   font-family: $font-serif;
   font-size: clamp(3rem, 5.8vw, 5.8rem);
   font-weight: 400;
-  line-height: 0.95;
-  letter-spacing: -0.025em;
-  color: #111111;
-  margin: 0 0 1.25rem 0;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
 }
 
 .title-mask {
@@ -718,128 +731,130 @@ onUnmounted(() => {
   will-change: transform, opacity;
 }
 
-.project-monograph__subtitle {
-  font-family: $font-sans;
-  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
-  line-height: 1.6;
-  color: #555555;
-  font-weight: 300;
-  margin: 0;
-  max-width: 760px;
-}
-
 .project-hero-right {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .project-quick-card {
-  background: #fbfbf9;
-  border: 1px solid rgba(17, 17, 17, 0.08);
-  border-radius: 6px;
-  padding: 1.75rem 2rem;
+  background: rgba(18, 20, 24, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 1.5rem 1.75rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
+  gap: 1rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 
   @include mobile {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.85rem;
+    padding: 1.25rem;
   }
 }
 
 .quick-metric {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 
   &__label {
     font-family: $font-mono;
-    font-size: 0.7rem;
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #888888;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.55);
   }
 
   &__val {
     font-family: $font-sans;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #111111;
+    color: #ffffff;
 
     &--small {
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 500;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.9);
     }
   }
 }
 
 .project-hero-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-  flex-wrap: wrap;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* ========================================================================= */
-/* 3. FULL-BLEED 100VW HERO CANVAS                                           */
-/* ========================================================================= */
-.project-monograph__fullbleed {
-  position: relative;
-  width: 100vw;
-  height: 90vh;
-  min-height: 540px;
-  overflow: hidden;
-  margin: 0 0 clamp(4rem, 8vh, 7rem) 0;
-  background-color: #111111;
+.project-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.9rem 1.15rem;
+  font-family: $font-mono;
+  font-size: 0.76rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
 
-  &-wrapper {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  &-img {
-    position: absolute;
-    top: -10%;
-    left: 0;
-    width: 100%;
-    height: 120%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    will-change: transform;
-  }
-
-  &-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 1.5rem 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.65) 100%);
-    color: #ffffff;
-    z-index: 5;
-  }
-
-  &__caption-inner {
-    display: flex;
-    justify-content: space-between;
+  .btn-icon {
+    display: inline-flex;
     align-items: center;
-    font-family: $font-sans;
-    font-size: 0.85rem;
+    line-height: 1;
+  }
+
+  .btn-arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+    font-size: 0.9rem;
+  }
+
+  &--primary {
+    background: #ffffff;
+    color: #0c0d0e;
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+    &:hover {
+      background: #f0ece1;
+      border-color: #f0ece1;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &--secondary {
+    background: rgba(18, 20, 24, 0.65);
     color: #ffffff;
-  }
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
-  &__caption-name {
-    font-weight: 500;
-  }
+    &:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.45);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 
-  &__caption-loc {
-    opacity: 0.8;
+      .btn-arrow {
+        transform: translateX(3px);
+      }
+    }
   }
 }
 
@@ -847,82 +862,86 @@ onUnmounted(() => {
 /* 4. MONOGRAPHIC OVERVIEW & ARCHITECTURAL SPECS                             */
 /* ========================================================================= */
 .project-monograph__overview-section {
+  padding-top: clamp(4rem, 8vh, 7rem);
   padding-bottom: clamp(4rem, 8vh, 7rem);
   margin-bottom: clamp(4rem, 8vh, 7rem);
   border-bottom: 1px solid rgba(17, 17, 17, 0.08);
 }
 
-.project-intro-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 380px) 1fr;
-  gap: clamp(40px, 6vw, 120px);
-  align-items: start;
-  margin-bottom: clamp(50px, 8vh, 100px);
-
-  @include tablet {
-    grid-template-columns: 1fr;
-    gap: 40px;
-    margin-bottom: 50px;
-  }
-}
-
-.project-meta-col {
-  display: flex;
-  flex-direction: column;
-}
-
-.project-meta-table {
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  padding-top: 1.25rem;
-  margin-top: 1rem;
-}
-
-.project-meta-row {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  gap: 16px;
-  align-items: baseline;
-}
-
-.project-meta-label {
-  font-family: $font-sans;
-  font-size: 12px;
-  color: #777777;
-  text-transform: uppercase;
-}
-
-.project-meta-val {
-  font-family: $font-sans;
-  font-size: 13px;
-  font-weight: 500;
-  color: #111111;
-}
-
-.project-lead-col {
-  max-width: 980px;
+/* 1. Vertical Editorial Lead Block */
+.project-lead-block {
+  width: 100%;
+  max-width: 1240px;
+  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
 }
 
 .project-lead-serif {
   font-family: $font-serif;
-  font-size: clamp(26px, 2.4vw, 44px);
+  font-size: clamp(28px, 3.2vw, 50px);
   font-weight: 400;
   line-height: 1.22;
   letter-spacing: -0.015em;
   color: #111111;
-  margin: 0 0 1.75rem 0;
+  margin: 0 0 2rem 0;
 }
 
 .project-lead-desc {
   font-family: $font-sans;
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.75;
+  font-size: clamp(16px, 1.2vw, 19px);
+  line-height: 1.78;
   color: #555555;
-  max-width: 780px;
+  max-width: 920px;
   font-weight: 300;
   margin: 0;
+}
+
+/* 2. Vertical Metadata Matrix */
+.project-meta-block {
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: clamp(2.25rem, 3.5vh, 3.25rem) 0;
+  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
+}
+
+.project-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: clamp(16px, 2.5vw, 36px);
+  align-items: start;
+
+  @include desktop {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px 24px;
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+  }
+}
+
+.project-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-meta-label {
+  font-family: $font-sans;
+  font-size: 11px;
+  font-weight: 600;
+  color: #888888;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.project-meta-val {
+  font-family: $font-sans;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111111;
+  line-height: 1.45;
 }
 
 /* Specifications Matrix */
@@ -1024,10 +1043,10 @@ onUnmounted(() => {
 
 .work-row {
   display: grid;
-  grid-template-columns: 140px 1fr 340px;
-  gap: clamp(20px, 3vw, 50px);
+  grid-template-columns: 140px 1fr 280px;
+  gap: clamp(20px, 3vw, 40px);
   align-items: center;
-  padding: 2rem 0.5rem;
+  padding: 1.6rem 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   transition: background-color 0.25s ease, padding-left 0.25s ease;
 
@@ -1038,8 +1057,8 @@ onUnmounted(() => {
 
   @include tablet {
     grid-template-columns: 1fr;
-    gap: 1.25rem;
-    padding: 1.5rem 0;
+    gap: 1rem;
+    padding: 1.4rem 0;
   }
 }
 
@@ -1082,7 +1101,7 @@ onUnmounted(() => {
 .work-col-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.35rem;
   border-left: 1px solid rgba(0, 0, 0, 0.06);
   padding-left: 1.5rem;
 
@@ -1094,20 +1113,19 @@ onUnmounted(() => {
   }
 }
 
-.work-meta-label {
-  display: block;
-  font-family: $font-sans;
-  font-size: 10px;
-  text-transform: uppercase;
-  color: #999999;
-  letter-spacing: 0.04em;
-}
-
 .work-meta-val {
   font-family: $font-sans;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: #111111;
+  line-height: 1.4;
+}
+
+.work-meta-duration {
+  font-family: $font-sans;
+  font-size: 12px;
+  color: #777777;
+  font-weight: 400;
 }
 
 /* ========================================================================= */
@@ -1378,7 +1396,7 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 4px;
-  padding: 1rem;
+  padding: 0.85rem 1.15rem;
   text-decoration: none;
   color: inherit;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -1391,8 +1409,8 @@ onUnmounted(() => {
 }
 
 .next-monograph-img {
-  width: 90px;
-  height: 65px;
+  width: 85px;
+  height: 60px;
   overflow: hidden;
   border-radius: 2px;
   flex-shrink: 0;
@@ -1407,22 +1425,17 @@ onUnmounted(() => {
 .next-monograph-info {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-}
-
-.next-monograph-cat {
-  font-family: $font-mono;
-  font-size: 10px;
-  color: $color-accent;
-  text-transform: uppercase;
+  justify-content: center;
+  gap: 0.25rem;
 }
 
 .next-monograph-name {
   font-family: $font-serif;
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 400;
   margin: 0;
   color: #111111;
+  line-height: 1.2;
 }
 
 .next-monograph-loc {

@@ -33,10 +33,15 @@
         </div>
       </div>
     </div>
+
+    <!-- Global Monolithic Footer -->
+    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
+import AppFooter from '~/components/AppFooter.vue';
+
 const showcaseItems = [
   {
     title: 'Arabian Sea Cantilever Terraces',
@@ -150,7 +155,7 @@ onUnmounted(() => {
 @use '~/assets/scss/mixins' as *;
 
 .page-showcase {
-  padding-bottom: clamp(5rem, 10vw, 10rem);
+  padding-bottom: 0;
 }
 
 .showcase-header {

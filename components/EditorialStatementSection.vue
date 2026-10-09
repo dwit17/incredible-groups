@@ -212,14 +212,15 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: $font-sans;
+    font-family: $font-heading;
     font-size: clamp(3.2rem, 7.2vw, 7.8rem);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 0.94;
     letter-spacing: -0.04em;
     color: #111111;
     margin: 0 0 clamp(2rem, 4vh, 3.25rem) 0;
     padding: 0;
+    font-synthesis: none;
 
     @include mobile {
       font-size: clamp(2.2rem, 9.5vw, 3.4rem);

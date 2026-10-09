@@ -123,7 +123,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'aurum-s1',
-        tag: '01 / SPATIAL MONUMENTALITY',
+        tag: 'SPATIAL MONUMENTALITY',
         heading: 'Monolithic Geometry Overlooking the Arabian Sea',
         subheading: 'Sculpted in pigmented basalt concrete with uninterrupted ocean panoramas.',
         description: 'Rising 260 meters above Worli Sea Face, the tower employs a tapered aerodynamic silhouette that deflects high-velocity monsoon winds while maximizing daylight penetration and 360-degree marine horizons.',
@@ -138,7 +138,7 @@ export const projects: Project[] = [
       },
       {
         id: 'aurum-s2',
-        tag: '02 / STRUCTURAL INTEGRITY',
+        tag: 'STRUCTURAL INTEGRITY',
         heading: 'Precision Craft & Material Permanence',
         subheading: 'High-density post-tensioned cores meeting artisanal metallurgical craftsmanship.',
         description: 'Every bronze extrusion is custom-cast in Italy and finished by master artisans. The structural concrete incorporates pozzolanic micro-silica binders that resist saline chloride penetration over multi-century lifespans.',
@@ -152,7 +152,7 @@ export const projects: Project[] = [
       },
       {
         id: 'aurum-s3',
-        tag: '03 / PRIVATE LIVING SANCTUARY',
+        tag: 'PRIVATE LIVING SANCTUARY',
         heading: 'Entire-Floor Sky Mansions & Cantilevered Waterscapes',
         subheading: 'Double-height volume with seamless indoor-to-outdoor limestone transition.',
         description: 'Private high-speed biometric elevators open directly into grand arrival galleries. Floorplates are column-free, granting 14,000 square feet of customizable living canvas with infinity saltwater plunge pools hovering over the sea.',
@@ -166,7 +166,7 @@ export const projects: Project[] = [
       },
       {
         id: 'aurum-s4',
-        tag: '04 / ENVIRONMENTAL SOVEREIGNTY',
+        tag: 'ENVIRONMENTAL SOVEREIGNTY',
         heading: 'Zero-Carbon Energy & Autonomous Microgrid',
         subheading: 'Integrated solar cladding and closed-loop rainwater recycling.',
         description: 'Equipped with rooftop vertical-axis wind turbines and integrated photovoltaic skin that generates 45% of common area power requirements, paired with on-site greywater filtration.',
@@ -250,7 +250,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'sanctuary-s1',
-        tag: '01 / BIOPHILIC HARMONY',
+        tag: 'BIOPHILIC HARMONY',
         heading: 'Architecture Embedded in Living Subtropical Canopy',
         subheading: 'Preserving old-growth banyan and teak groves with zero deforestation.',
         description: 'Each of the twelve villas is configured organically around centuries-old tree trunks, allowing natural light to filter through lush foliage while maintaining absolute visual privacy from neighboring estates.',
@@ -265,7 +265,7 @@ export const projects: Project[] = [
       },
       {
         id: 'sanctuary-s2',
-        tag: '02 / MATERIAL TRUTH',
+        tag: 'MATERIAL TRUTH',
         heading: 'Handcrafted Laterite & Reclaimed Teakwood',
         subheading: 'Traditional Goan-Portuguese masonry meeting Nordic minimalism.',
         description: 'Exposed laterite stone blocks breathe naturally, releasing humidity and keeping interiors pleasantly cool. Deep roof overhangs crafted from reclaimed seasoned teak shade expansive verandahs and reading pavilions.',
@@ -279,7 +279,7 @@ export const projects: Project[] = [
       },
       {
         id: 'sanctuary-s3',
-        tag: '03 / WATER PURITY',
+        tag: 'WATER PURITY',
         heading: 'Living Bio-Filtration Springs & Plunge Pools',
         subheading: 'Chlorine-free aquatic sanctuaries nourished by natural rain catchment.',
         description: 'Natural aquatic reeds and volcanic gravel filter mountain spring water naturally, creating crystal-clear natural swimming pools that gently ripple alongside open-air master suites.',
@@ -355,7 +355,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'apex-s1',
-        tag: '01 / INSTITUTIONAL GRAVITAS',
+        tag: 'INSTITUTIONAL GRAVITAS',
         heading: 'Crystalline Geometric Command Center',
         subheading: 'A monolithic financial landmark designed for intergenerational wealth stewardship.',
         description: 'Positioned at the epicentre of Bandra-Kurla Complex, The Apex Pavilion features column-free trading floors, biometric boardroom chambers, and private dining clubs for sovereign asset managers.',
@@ -369,7 +369,7 @@ export const projects: Project[] = [
       },
       {
         id: 'apex-s2',
-        tag: '02 / INTELLIGENT ENVELOPE',
+        tag: 'INTELLIGENT ENVELOPE',
         heading: 'Kinetic Solar Louvers with Real-Time AI Tracking',
         subheading: 'Dynamic facade elements that open and rotate following the sun path.',
         description: 'The exterior building skin dynamically alters its angle every 12 minutes, eliminating glare and reducing internal HVAC cooling demand by 42% while generating supplementary clean electricity.',
@@ -383,7 +383,7 @@ export const projects: Project[] = [
       },
       {
         id: 'apex-s3',
-        tag: '03 / SOVEREIGN CONNECTIVITY',
+        tag: 'SOVEREIGN CONNECTIVITY',
         heading: 'Rooftop eVTOL Vertiport & Secure Data Hub',
         subheading: 'Direct air transfers connecting BKC to Mumbai International and South Mumbai.',
         description: 'The building crown features a dual-capacity certified helipad and eVTOL charging dock, allowing executives to bypass road congestion with instantaneous direct aerial transit.',
@@ -459,7 +459,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'elysian-s1',
-        tag: '01 / COASTAL DRAMA',
+        tag: 'COASTAL DRAMA',
         heading: 'Sculpted into Basalt Cliffs Overlooking the Bay',
         subheading: 'Cascading stone terraces framing unobstructed horizons of the Arabian Sea.',
         description: 'Engineered directly into coastal rock formations, the compound blends raw quarried stone with frameless glass walls that slide completely away into wall cavities for total alfresco immersion.',
@@ -473,7 +473,7 @@ export const projects: Project[] = [
       },
       {
         id: 'elysian-s2',
-        tag: '02 / ARTISANAL LEISURE',
+        tag: 'ARTISANAL LEISURE',
         heading: 'Cascading Infinity Pools & Private Thermal Onsen',
         subheading: 'Multi-tier waterscapes that visually spill directly into the ocean waves below.',
         description: 'Featuring heated saltwater lap pools, submerged sun loungers, and an authentic subterranean Japanese Onsen bath lined with volcanic black river stones.',
@@ -487,7 +487,7 @@ export const projects: Project[] = [
       },
       {
         id: 'elysian-s3',
-        tag: '03 / MARITIME RETREAT',
+        tag: 'MARITIME RETREAT',
         heading: 'Private Pier & 18-Minute Transit to South Mumbai',
         subheading: 'Direct yacht dock enabling effortless commute to the financial capital.',
         description: 'Equipped with a deep-water pier capable of docking two 120-foot motor yachts, paired with automated hydraulic jet ski lifts and private helipad.',
@@ -563,7 +563,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'millenium-s1',
-        tag: '01 / TOPOGRAPHICAL DIALOGUE',
+        tag: 'TOPOGRAPHICAL DIALOGUE',
         heading: 'Architecture Carved Directly into Ancient Deccan Granite',
         subheading: 'Preserving billion-year-old rock formations as interior sculptural elements.',
         description: 'Rather than blasting the ridge flat, the foundations were micro-anchored around monolithic granite boulders, creating dramatic subterranean wine vaults and sunlit courtyards where stone meets water.',
@@ -578,7 +578,7 @@ export const projects: Project[] = [
       },
       {
         id: 'millenium-s2',
-        tag: '02 / METALLURGICAL MASTERY',
+        tag: 'METALLURGICAL MASTERY',
         heading: 'Artisanal Bronze Facades & Climate Shading',
         subheading: 'Double-skin ventilated screens patinated to age gracefully with the elements.',
         description: 'Every screen is hand-rubbed with natural oils to create an oxidized warm bronze patina that shields internal glass galleries from intense afternoon radiation while casting calligraphic shadows.',
@@ -647,7 +647,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'kns-s1',
-        tag: '01 / INTELLIGENT URBANISM',
+        tag: 'INTELLIGENT URBANISM',
         heading: 'A Self-Regulating Architectural Superstructure',
         subheading: 'Powered by Vanguard PropTech neural networks for zero-energy waste.',
         description: 'The twin towers dynamically adjust their ventilation louvers, chillers, and shading blinds according to localized occupancy densities and solar radiation, reducing operating carbon by 42%.',
@@ -661,7 +661,7 @@ export const projects: Project[] = [
       },
       {
         id: 'kns-s2',
-        tag: '02 / ELEVATED SOCIALITY',
+        tag: 'ELEVATED SOCIALITY',
         heading: 'The 42-Meter Suspended Sky Bridge',
         subheading: 'Co-working lounges, private meeting pods, and botanical running tracks at 80m height.',
         description: 'Connecting the residential wings, the aerodynamic glass sky bridge creates an inspiring communal environment where founders collaborate with uninterrupted views of Bengaluru’s tech corridor.',
@@ -730,7 +730,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'kotelnaya-s1',
-        tag: '01 / INDUSTRIAL HERITAGE',
+        tag: 'INDUSTRIAL HERITAGE',
         heading: 'Preserving Mumbai’s Mill Heritage through Contemporary Craft',
         subheading: 'Harmonizing weathered red brick with precision blackened steel and glass.',
         description: 'The monumental boiler room was sensitively adapted to host monumental art installations, symphony performances, and private family office summits while celebrating authentic architectural history.',
@@ -798,7 +798,7 @@ export const projects: Project[] = [
     sections: [
       {
         id: 'almaty-s1',
-        tag: '01 / MOUNTAIN PERMANENCE',
+        tag: 'MOUNTAIN PERMANENCE',
         heading: 'Heavy Stone Fortification Embracing the Ghats Mist',
         subheading: 'Designed to withstand heavy monsoon deluges while offering warm, fireside intimacy.',
         description: 'The monumental stone walls create total acoustic silence from monsoon downpours, while large hearths crafted from raw copper and river rocks radiate gentle warmth throughout the suites.',
@@ -812,7 +812,7 @@ export const projects: Project[] = [
       },
       {
         id: 'almaty-s2',
-        tag: '02 / COASTAL MOUNTAIN SANCTUARY',
+        tag: 'COASTAL MOUNTAIN SANCTUARY',
         heading: 'Private Pier & Lakeside Wellness Pavilion',
         subheading: 'Heated thermal pools gazing across serene mirror-like waters.',
         description: 'Featuring an open-air cedar wood sauna, Japanese cold plunge basin, and private boat jetty for quiet morning rowboat excursions across the mist-shrouded private lake.',

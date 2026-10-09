@@ -235,10 +235,16 @@ onUnmounted(() => {
 .site-footer {
   position: relative;
   width: 100%;
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
   background-color: #000000;
   color: #ffffff;
-  padding-top: clamp(100px, 16vh, 180px);
-  padding-bottom: clamp(24px, 4vh, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: clamp(48px, 8vh, 96px);
+  padding-bottom: clamp(20px, 3.5vh, 40px);
   overflow: hidden;
   box-sizing: border-box;
 
@@ -246,32 +252,39 @@ onUnmounted(() => {
     width: 100%;
     max-width: 1920px;
     margin: 0 auto;
-    padding-left: clamp(20px, 1.8vw, 32px);
-    padding-right: clamp(20px, 1.8vw, 32px);
+    padding-left: clamp(20px, 2.5vw, 48px);
+    padding-right: clamp(20px, 2.5vw, 48px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+    box-sizing: border-box;
   }
 
   // 1. Top Grid
   &__top-grid {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1.4fr 1.2fr;
-    gap: clamp(24px, 3vw, 60px);
-    margin-bottom: clamp(80px, 14vh, 180px);
+    gap: clamp(20px, 2.8vw, 56px);
+    margin-bottom: clamp(24px, 4vh, 48px);
 
     @include tablet {
       grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      gap: 28px;
+      margin-bottom: 32px;
     }
 
     @include mobile {
       grid-template-columns: 1fr;
-      gap: 32px;
+      gap: 24px;
+      margin-bottom: 24px;
     }
   }
 
   &__logo-col {
     @include tablet {
       grid-column: 1 / -1;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
     }
   }
 
@@ -305,7 +318,7 @@ onUnmounted(() => {
     font-size: 13px;
     font-weight: 400;
     color: #888888;
-    margin: 0 0 1.25rem 0;
+    margin: 0 0 1rem 0;
   }
 
   &__list {
@@ -314,7 +327,7 @@ onUnmounted(() => {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.55rem;
     font-family: $font-sans;
     font-size: 12px;
     line-height: 1.4;
@@ -326,7 +339,7 @@ onUnmounted(() => {
   }
 
   &__list-gap {
-    margin-top: 0.75rem !important;
+    margin-top: 0.6rem !important;
   }
 
   &__link {
@@ -376,14 +389,18 @@ onUnmounted(() => {
   &__monumental-wrap {
     width: 100%;
     overflow: hidden;
-    margin-bottom: clamp(40px, 6vh, 80px);
+    margin-top: auto;
+    margin-bottom: clamp(16px, 2.5vh, 32px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    padding-bottom: 1.5vh;
+    padding-bottom: 0.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__monumental-text {
     font-family: $font-sans;
-    font-size: clamp(60px, 14vw, 270px);
+    font-size: clamp(48px, 13.8vw, 240px);
     font-weight: 700;
     line-height: 0.82;
     letter-spacing: -0.045em;
@@ -403,7 +420,7 @@ onUnmounted(() => {
     font-family: $font-sans;
     font-size: 11px;
     color: #888888;
-    padding-top: 1rem;
+    padding-top: 0.75rem;
 
     @include tablet {
       grid-template-columns: 1fr 1fr;

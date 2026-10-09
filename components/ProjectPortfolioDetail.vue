@@ -5,43 +5,8 @@
     <!-- 1. MONOGRAPHIC OVERVIEW & ARCHITECTURAL SPECS TABLE           -->
     <!-- Matches StudioStatementSection & EditorialStatementSection    -->
     <!-- ============================================================= -->
-    <section class="project-monograph__intro container">
-      <div class="project-monograph__top-grid">
-        <!-- Left Column: Key Metadata Table -->
-        <div class="project-monograph__meta-col">
-          <div class="project-monograph__meta-row">
-            <span class="project-monograph__meta-label">Category</span>
-            <span class="project-monograph__meta-val">{{ project.category }}</span>
-          </div>
-
-          <div class="project-monograph__meta-row">
-            <span class="project-monograph__meta-label">Location</span>
-            <span class="project-monograph__meta-val">{{ project.location }}</span>
-          </div>
-
-          <div class="project-monograph__meta-row">
-            <span class="project-monograph__meta-label">Gross Area</span>
-            <span class="project-monograph__meta-val">{{ project.area }}</span>
-          </div>
-
-          <div class="project-monograph__meta-row">
-            <span class="project-monograph__meta-label">Valuation</span>
-            <span class="project-monograph__meta-val">{{ project.valuation }}</span>
-          </div>
-
-          <div class="project-monograph__meta-row">
-            <span class="project-monograph__meta-label">Architect</span>
-            <span class="project-monograph__meta-val">{{ project.leadArchitect }}</span>
-          </div>
-
-          <div class="project-monograph__meta-row">
-            <span class="project-monograph__meta-label">Status</span>
-            <span class="project-monograph__meta-val">{{ project.status }} ({{ project.year }})</span>
-          </div>
-        </div>
-
-        <!-- Right Column: Large Editorial Serif Narrative -->
-        <div class="project-monograph__lead-col">
+        <!-- 1. Editorial Lead Narrative (Vertical Block) -->
+        <div class="project-monograph__lead-block">
           <p ref="leadSerifRef" class="project-monograph__lead-serif">
             {{ project.fullDescription }}
           </p>
@@ -49,7 +14,36 @@
             {{ project.shortDescription }}
           </p>
         </div>
-      </div>
+
+        <!-- 2. Project Parameters / Metadata Grid (Separated Vertically) -->
+        <div class="project-monograph__meta-block">
+          <div class="project-monograph__meta-grid">
+            <div class="project-monograph__meta-item">
+              <span class="project-monograph__meta-label">Category</span>
+              <span class="project-monograph__meta-val">{{ project.category }}</span>
+            </div>
+            <div class="project-monograph__meta-item">
+              <span class="project-monograph__meta-label">Location</span>
+              <span class="project-monograph__meta-val">{{ project.location }}</span>
+            </div>
+            <div class="project-monograph__meta-item">
+              <span class="project-monograph__meta-label">Gross Area</span>
+              <span class="project-monograph__meta-val">{{ project.area }}</span>
+            </div>
+            <div class="project-monograph__meta-item">
+              <span class="project-monograph__meta-label">Valuation</span>
+              <span class="project-monograph__meta-val">{{ project.valuation }}</span>
+            </div>
+            <div class="project-monograph__meta-item">
+              <span class="project-monograph__meta-label">Architect</span>
+              <span class="project-monograph__meta-val">{{ project.leadArchitect }}</span>
+            </div>
+            <div class="project-monograph__meta-item">
+              <span class="project-monograph__meta-label">Status</span>
+              <span class="project-monograph__meta-val">{{ project.status }} ({{ project.year }})</span>
+            </div>
+          </div>
+        </div>
 
       <!-- Quick Specifications 4-Column Table -->
       <div class="project-monograph__specs-table">
@@ -62,7 +56,6 @@
             :key="sIdx"
             class="project-monograph__spec-item"
           >
-            <span class="project-monograph__spec-idx">0{{ sIdx + 1 }}</span>
             <span class="project-monograph__spec-label">{{ spec.label }}</span>
             <span class="project-monograph__spec-val">{{ spec.value }}</span>
           </div>
@@ -112,7 +105,6 @@
           class="project-monograph__work-row"
         >
           <div class="project-monograph__work-col-phase">
-            <span class="project-monograph__work-phase-num">0{{ wIdx + 1 }}</span>
             <span class="project-monograph__work-status">{{ work.milestone }}</span>
           </div>
 
@@ -463,70 +455,78 @@ onUnmounted(() => {
     padding-bottom: clamp(60px, 10vh, 120px);
   }
 
-  &__top-grid {
-    display: grid;
-    grid-template-columns: minmax(280px, 380px) 1fr;
-    gap: clamp(40px, 6vw, 120px);
-    align-items: start;
-    margin-bottom: clamp(60px, 10vh, 120px);
-
-    @include tablet {
-      grid-template-columns: 1fr;
-      gap: 40px;
-      margin-bottom: 50px;
-    }
-  }
-
-  &__meta-col {
-    display: flex;
-    flex-direction: column;
-    gap: 1.15rem;
-    border-top: 1px solid rgba(0, 0, 0, 0.08);
-    padding-top: 1.25rem;
-  }
-
-  &__meta-row {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 16px;
-    align-items: baseline;
-  }
-
-  &__meta-label {
-    font-family: $font-sans;
-    font-size: 12px;
-    font-weight: 400;
-    color: #777777;
-  }
-
-  &__meta-val {
-    font-family: $font-sans;
-    font-size: 12px;
-    font-weight: 500;
-    color: #111111;
-  }
-
-  &__lead-col {
-    max-width: 980px;
+  &__lead-block {
+    width: 100%;
+    max-width: 1240px;
+    margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
   }
 
   &__lead-serif {
     font-family: $font-serif;
-    font-size: clamp(26px, 2.4vw, 44px);
+    font-size: clamp(28px, 3.2vw, 50px);
     font-weight: 400;
     line-height: 1.22;
     letter-spacing: -0.015em;
     color: #111111;
-    margin: 0 0 1.5rem 0;
+    margin: 0 0 2rem 0;
   }
 
   &__sub-desc {
     font-family: $font-sans;
-    font-size: clamp(14px, 1vw, 16px);
-    line-height: 1.65;
+    font-size: clamp(16px, 1.2vw, 19px);
+    line-height: 1.78;
     color: #555555;
-    max-width: 760px;
+    max-width: 920px;
+    font-weight: 300;
     margin: 0;
+  }
+
+  &__meta-block {
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    padding: clamp(2.25rem, 3.5vh, 3.25rem) 0;
+    margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
+  }
+
+  &__meta-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: clamp(16px, 2.5vw, 36px);
+    align-items: start;
+
+    @include desktop {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px 24px;
+    }
+
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 16px;
+    }
+  }
+
+  &__meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__meta-label {
+    font-family: $font-sans;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888888;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  &__meta-val {
+    font-family: $font-sans;
+    font-size: 14px;
+    font-weight: 500;
+    color: #111111;
+    line-height: 1.45;
   }
 
   // Specifications Table

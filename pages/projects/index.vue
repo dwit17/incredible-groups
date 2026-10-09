@@ -107,7 +107,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[0].coverImage" :alt="projects[0].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[0].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -131,7 +130,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[1].coverImage" :alt="projects[1].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[1].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -158,7 +156,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[2].coverImage" :alt="projects[2].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[2].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -182,7 +179,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[3].coverImage" :alt="projects[3].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[3].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -209,7 +205,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[4].coverImage" :alt="projects[4].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[4].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -233,7 +228,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[5].coverImage" :alt="projects[5].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[5].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -260,7 +254,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[6].coverImage" :alt="projects[6].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[6].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -284,7 +277,6 @@
               <div class="asym-card__media-wrap">
                 <div class="asym-card__media">
                   <img :src="projects[7].coverImage" :alt="projects[7].title" class="asym-card__img" loading="lazy" />
-                  <div class="asym-card__badge">{{ projects[7].category }}</div>
                 </div>
               </div>
               <div class="asym-card__caption">
@@ -312,7 +304,21 @@
       <div class="projects-asymmetric-gallery__inner">
         <div class="directory-table-wrap">
           <div class="directory-header">
-            <h3 class="directory-title">Portfolio Monographs Index</h3>
+            <div class="directory-header__left">
+              <span class="directory-eyebrow">Archives &amp; Blueprints</span>
+              <h3 class="directory-title">Portfolio Monographs Index</h3>
+            </div>
+            <span class="directory-count">{{ projects.length }} Selected Works</span>
+          </div>
+
+          <!-- Column Headers -->
+          <div class="directory-col-headers" aria-hidden="true">
+            <span class="col-head col-head--idx">No.</span>
+            <span class="col-head col-head--title">Project / Monograph</span>
+            <span class="col-head col-head--cat">Typology</span>
+            <span class="col-head col-head--loc">Location</span>
+            <span class="col-head col-head--status">Timeline &amp; Status</span>
+            <span class="col-head col-head--action">Monograph</span>
           </div>
 
           <div class="directory-list">
@@ -322,15 +328,25 @@
               :to="`/projects/${p.slug}`"
               class="directory-row"
             >
-              <span class="directory-idx">0{{ idx + 1 }}</span>
+              <span class="directory-idx">{{ String(idx + 1).padStart(2, '0') }}</span>
+
               <div class="directory-title-col">
-                <h4 class="directory-name">{{ p.title }}</h4>
-                <span class="directory-sub">{{ p.subtitle }}</span>
+                <div class="directory-thumb">
+                  <img :src="p.coverImage" :alt="p.title" loading="lazy" />
+                </div>
+                <div class="directory-name-wrap">
+                  <h4 class="directory-name">{{ p.title }}</h4>
+                  <span class="directory-sub">{{ p.subtitle }}</span>
+                </div>
               </div>
+
               <span class="directory-cat">{{ p.category }}</span>
               <span class="directory-loc">{{ p.location }}</span>
               <span class="directory-status">{{ p.status }} ({{ p.year }})</span>
-              <span class="directory-arrow">Explore →</span>
+              <div class="directory-action">
+                <span class="directory-action__text">Explore</span>
+                <span class="directory-arrow">&rarr;</span>
+              </div>
             </NuxtLink>
           </div>
         </div>
@@ -361,6 +377,8 @@
       </div>
     </section>
 
+    <!-- Global Monolithic Footer -->
+    <AppFooter />
   </div>
 </template>
 
@@ -370,6 +388,7 @@ import { projects } from '~/data/projects';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { splitTextIntoLines } from '~/composables/useReveal';
+import AppFooter from '~/components/AppFooter.vue';
 
 if (import.meta.client) {
   gsap.registerPlugin(ScrollTrigger);
@@ -1004,56 +1023,127 @@ onUnmounted(() => {
 /* 4. DIRECTORY TABLE                                                        */
 /* ========================================================================= */
 .projects-directory-section {
-  padding-top: 4rem;
-  padding-bottom: clamp(6rem, 10vh, 12rem);
+  padding-top: clamp(4rem, 6vh, 6rem);
+  padding-bottom: clamp(4rem, 6vh, 8rem);
   border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .directory-table-wrap {
-  margin-bottom: 5rem;
+  margin-bottom: clamp(3.5rem, 6vh, 5.5rem);
 }
 
 .directory-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &__left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}
+
+.directory-eyebrow {
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #888888;
 }
 
 .directory-title {
   font-family: $font-serif;
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(2rem, 3.2vw, 3.2rem);
   font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   color: #111111;
-  margin: 0.35rem 0 0 0;
+  margin: 0;
+}
+
+.directory-count {
+  font-family: $font-mono;
+  font-size: 0.8rem;
+  color: #777777;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.directory-col-headers {
+  display: grid;
+  grid-template-columns: 44px 2.2fr 1.3fr 1.3fr 1.2fr 100px;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  font-family: $font-mono;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888888;
+
+  @include desktop {
+    grid-template-columns: 40px 1.8fr 1.2fr 1.2fr 1.1fr 90px;
+    gap: 1.25rem;
+  }
+
+  @include tablet {
+    grid-template-columns: 36px 1.8fr 1.2fr 80px;
+    .col-head--loc,
+    .col-head--status {
+      display: none;
+    }
+  }
+
+  @include mobile {
+    display: none;
+  }
 }
 
 .directory-list {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .directory-row {
   display: grid;
-  grid-template-columns: 50px 1.5fr 1fr 1fr 1fr 90px;
+  grid-template-columns: 44px 2.2fr 1.3fr 1.3fr 1.2fr 100px;
   gap: 1.5rem;
   align-items: center;
-  padding: 1.5rem 0.5rem;
+  padding: 1.2rem 1rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   text-decoration: none;
   color: #111111;
-  transition: background-color 0.2s ease, padding-left 0.2s ease;
+  border-radius: 4px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background-color: #fafaf8;
-    padding-left: 1rem;
+    background-color: #f6f6f2;
+    padding-left: 1.35rem;
 
-    .directory-arrow {
-      color: #111111;
-      transform: translateX(4px);
+    .directory-thumb img {
+      transform: scale(1.08);
+    }
+
+    .directory-action {
+      color: $color-accent;
+      .directory-arrow {
+        transform: translateX(4px);
+      }
     }
   }
 
+  @include desktop {
+    grid-template-columns: 40px 1.8fr 1.2fr 1.2fr 1.1fr 90px;
+    gap: 1.25rem;
+  }
+
   @include tablet {
-    grid-template-columns: 40px 1fr 1fr;
+    grid-template-columns: 36px 1.8fr 1.2fr 80px;
     gap: 1rem;
 
     .directory-loc,
@@ -1063,11 +1153,14 @@ onUnmounted(() => {
   }
 
   @include mobile {
-    grid-template-columns: 35px 1fr;
+    grid-template-columns: 32px 1fr 40px;
     gap: 0.75rem;
+    padding: 1.1rem 0.5rem;
 
     .directory-cat,
-    .directory-arrow {
+    .directory-loc,
+    .directory-status,
+    .directory-action__text {
       display: none;
     }
   }
@@ -1075,54 +1168,100 @@ onUnmounted(() => {
 
 .directory-idx {
   font-family: $font-mono;
-  font-size: 11px;
-  color: $color-accent;
+  font-size: 0.8rem;
+  color: #888888;
+  letter-spacing: 0.04em;
 }
 
 .directory-title-col {
   display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.directory-thumb {
+  width: 58px;
+  height: 42px;
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #e5e5e0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  @include mobile {
+    width: 46px;
+    height: 34px;
+  }
+}
+
+.directory-name-wrap {
+  display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.2rem;
+  min-width: 0;
 }
 
 .directory-name {
   font-family: $font-sans;
-  font-size: 15px;
+  font-size: 1.05rem;
   font-weight: 500;
   margin: 0;
   color: #111111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .directory-sub {
   font-family: $font-sans;
-  font-size: 12px;
+  font-size: 0.8rem;
   color: #777777;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .directory-cat {
   font-family: $font-sans;
-  font-size: 13px;
-  color: #555555;
+  font-size: 0.88rem;
+  color: #444444;
 }
 
 .directory-loc {
   font-family: $font-sans;
-  font-size: 13px;
+  font-size: 0.88rem;
   color: #666666;
 }
 
 .directory-status {
   font-family: $font-mono;
-  font-size: 12px;
+  font-size: 0.78rem;
   color: #888888;
 }
 
-.directory-arrow {
+.directory-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.45rem;
   font-family: $font-mono;
-  font-size: 12px;
-  color: #888888;
-  text-align: right;
-  transition: all 0.2s ease;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #444444;
+  transition: color 0.2s ease;
+
+  .directory-arrow {
+    font-family: $font-mono;
+    font-size: 0.88rem;
+    transition: transform 0.2s ease;
+  }
 }
 
 .projects-consult-box {
