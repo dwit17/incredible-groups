@@ -1,0 +1,135 @@
+// =============================================================
+// MASTER ARCHITECTURAL STYLESHEET
+// =============================================================
+@use './variables' as *;
+@use './mixins' as *;
+@use './reset' as *;
+@use './typography' as *;
+@use './grid' as *;
+
+// -------------------------------------------------------------
+// Section Theming Helpers
+// -------------------------------------------------------------
+.theme-light {
+  background-color: $color-bg-primary;
+  color: $color-text-primary;
+
+  .text-secondary {
+    color: $color-text-secondary;
+  }
+
+  .hairline-border {
+    border-color: $color-border-light;
+  }
+}
+
+.theme-dark {
+  background-color: $color-bg-dark;
+  color: $color-text-light;
+
+  .text-secondary {
+    color: $color-text-muted-dark;
+  }
+
+  .hairline-border {
+    border-color: $color-border-dark;
+  }
+}
+
+// -------------------------------------------------------------
+// Global Section Padding Scale
+// -------------------------------------------------------------
+.section-pad {
+  padding-top: clamp(4.5rem, 9vw, 9.5rem);
+  padding-bottom: clamp(4.5rem, 9vw, 9.5rem);
+
+  @include mobile {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+.section-pad-top {
+  padding-top: clamp(4.5rem, 9vw, 9.5rem);
+}
+
+.section-pad-bottom {
+  padding-bottom: clamp(4.5rem, 9vw, 9.5rem);
+}
+
+// Hairline Horizontal Divider
+.hairline {
+  width: 100%;
+  height: 1px;
+  background-color: $color-border-light;
+  border: none;
+  margin: 0;
+
+  &--dark {
+    background-color: $color-border-dark;
+  }
+}
+
+// Minimal Button (Restrained Editorial)
+.btn-minimal {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-sm;
+  font-family: $font-content;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  padding: 0.85rem 1.75rem;
+  border: 1px solid currentColor;
+  transition: background-color $duration-fast ease, color $duration-fast ease;
+
+  &:hover {
+    background-color: $color-text-primary;
+    color: $color-bg-primary;
+  }
+}
+
+// Section Placeholder helper for page structure phase
+.section-placeholder {
+  width: 100%;
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1px solid $color-border-light-subtle;
+  padding: clamp(3rem, 6vw, 6rem) 0;
+
+  &--dark {
+    background-color: $color-bg-dark;
+    color: $color-text-light;
+    border-bottom: 1px solid $color-border-dark-subtle;
+  }
+
+  &__tag {
+    font-family: $font-content;
+    font-size: 0.6875rem;
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: $color-text-secondary;
+    margin-bottom: 0.75rem;
+  }
+
+  &__title {
+    font-family: $font-heading;
+    font-size: clamp(1.5rem, 3.2vw, 3rem);
+    font-weight: normal;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  &__note {
+    font-family: $font-content;
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: $color-text-secondary;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+}

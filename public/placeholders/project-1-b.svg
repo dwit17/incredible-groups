@@ -1,0 +1,6 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#15171b"/>
+  <circle cx="400" cy="300" r="180" fill="none" stroke="#c8a97e" stroke-width="1.5"/>
+  <rect x="250" y="200" width="300" height="200" fill="#20252b" stroke="#c8a97e" stroke-width="1"/>
+  <text x="40" y="550" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="20">INTERIOR ATELIER LIVING</text>
+</svg>

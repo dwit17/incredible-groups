@@ -1,0 +1,20 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 625">
+  <defs>
+    <linearGradient id="p4-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1916"/>
+      <stop offset="60%" stop-color="#2a231d"/>
+      <stop offset="100%" stop-color="#12100e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="625" fill="url(#p4-bg)"/>
+  
+  <!-- Coastal Cliff Edge & Basalt Architecture -->
+  <polygon points="0,480 350,380 650,420 1000,320 1000,625 0,625" fill="#1c1611" stroke="#c8a97e" stroke-width="1.5"/>
+  <rect x="300" y="220" width="400" height="180" fill="#3a3028" stroke="#dfc298" stroke-width="2"/>
+  
+  <!-- Ocean Waves -->
+  <path d="M0,520 Q250,500 500,530 T1000,510" fill="none" stroke="#4fa1d8" stroke-opacity="0.4" stroke-width="2"/>
+  
+  <text x="50" y="580" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="24" letter-spacing="4">ELYSIAN CLIFFTOP MANOR</text>
+  <text x="50" y="605" fill="#c8a97e" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="12" letter-spacing="2">AWAS COAST, ALIBAUG • 6.5 ACRE OCEANFRONT</text>
+</svg>

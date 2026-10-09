@@ -1,0 +1,28 @@
+{
+  "name": "RealEstate",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxtjs/seo": "^5.3.16",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "nuxt": "^4.5.2",
+    "nuxt-gtag": "^5.0.0",
+    "three": "^0.186.1",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@types/three": "^0.186.0",
+    "sass": "^1.105.1",
+    "typescript": "^7.0.2",
+    "vue-tsc": "^3.3.12"
+  }
+}

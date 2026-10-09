@@ -1,0 +1,162 @@
+// =============================================================
+// GLOBAL 12-COLUMN ARCHITECTURAL GRID SYSTEM
+// =============================================================
+@use './variables' as *;
+@use './mixins' as *;
+
+// Main Architectural Container with Generous Outer Margins
+.container {
+  width: 100%;
+  max-width: $container-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $container-margin-desktop;
+  padding-right: $container-margin-desktop;
+
+  @include tablet {
+    padding-left: $container-margin-tablet;
+    padding-right: $container-margin-tablet;
+  }
+
+  @include mobile {
+    padding-left: $container-margin-mobile;
+    padding-right: $container-margin-mobile;
+  }
+
+  &--fluid {
+    max-width: 100%;
+  }
+
+  &--narrow {
+    max-width: 1180px;
+  }
+}
+
+// 12-Column Grid
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: $grid-gutter-desktop;
+  row-gap: $grid-gutter-desktop;
+
+  @include tablet {
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: $grid-gutter-tablet;
+    row-gap: $grid-gutter-tablet;
+  }
+
+  @include mobile {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: $grid-gutter-mobile;
+    row-gap: $grid-gutter-mobile;
+  }
+}
+
+// Column Span Classes for Desktop (1-12)
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    grid-column: span #{$i};
+  }
+
+  .col-start-#{$i} {
+    grid-column-start: #{$i};
+  }
+}
+
+// Column Span Classes for Tablet (1-6)
+@include tablet {
+  @for $i from 1 through 6 {
+    .col-tablet-#{$i} {
+      grid-column: span #{$i};
+    }
+    .col-tablet-start-#{$i} {
+      grid-column-start: #{$i};
+    }
+  }
+  .col-tablet-full {
+    grid-column: 1 / -1;
+  }
+}
+
+// Column Span Classes for Mobile (1-4)
+@include mobile {
+  @for $i from 1 through 4 {
+    .col-mobile-#{$i} {
+      grid-column: span #{$i};
+    }
+  }
+  .col-mobile-full {
+    grid-column: 1 / -1;
+  }
+}
+
+// Grid Alignment Utilities
+.grid-align-start {
+  align-items: start;
+}
+
+.grid-align-center {
+  align-items: center;
+}
+
+.grid-align-end {
+  align-items: end;
+}
+
+// Architectural Flex Utilities
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.items-end {
+  align-items: flex-end;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+
+.gap-xs {
+  gap: $space-xs;
+}
+
+.gap-sm {
+  gap: $space-sm;
+}
+
+.gap-md {
+  gap: $space-md;
+}
+
+.gap-lg {
+  gap: $space-lg;
+}
+
+.gap-xl {
+  gap: $space-xl;
+}
+
+.gap-2xl {
+  gap: $space-2xl;
+}

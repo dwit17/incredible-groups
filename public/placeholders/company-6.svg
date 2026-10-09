@@ -1,0 +1,5 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <rect width="800" height="500" fill="#121417"/>
+  <rect x="200" y="100" width="400" height="280" fill="#1e2229" stroke="#c8a97e" stroke-width="1.5"/>
+  <text x="40" y="460" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="20">VENTURE ASSET ARCHIVE</text>
+</svg>

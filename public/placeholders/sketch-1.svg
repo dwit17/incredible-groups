@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <rect width="800" height="1000" fill="#121417"/>
+  <polygon points="260,120 540,120 500,820 220,820" fill="none" stroke="#c8a97e" stroke-width="2" stroke-dasharray="4 2"/>
+  <line x1="200" y1="200" x2="600" y2="200" stroke="#f3f3f4" stroke-width="1.5"/>
+  <line x1="180" y1="400" x2="620" y2="400" stroke="#f3f3f4" stroke-width="1.5"/>
+  <line x1="160" y1="600" x2="640" y2="600" stroke="#f3f3f4" stroke-width="1.5"/>
+  <text x="50" y="940" fill="#c8a97e" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="16" letter-spacing="3">ARCHITECTURAL SCHEMATIC • AURUM</text>
+</svg>

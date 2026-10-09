@@ -1,0 +1,14 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="t1-grad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#3a342c"/>
+      <stop offset="60%" stop-color="#1c1a17"/>
+      <stop offset="100%" stop-color="#0c0d0e"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#t1-grad)"/>
+  <circle cx="300" cy="240" r="110" fill="#c8a97e" fill-opacity="0.2" stroke="#c8a97e" stroke-width="2"/>
+  <path d="M140,550 C140,400 210,380 300,380 C390,380 460,400 460,550" fill="#201d19" stroke="#dfc298" stroke-width="2"/>
+  <circle cx="300" cy="240" r="50" fill="#dfc298"/>
+  <text x="300" y="585" fill="#c8a97e" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="14" text-anchor="middle" letter-spacing="3">VIKRAMADITYA SINGHANIA</text>
+</svg>

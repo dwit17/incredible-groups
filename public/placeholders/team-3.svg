@@ -1,0 +1,14 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="t3-grad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#322c3a"/>
+      <stop offset="60%" stop-color="#1a171d"/>
+      <stop offset="100%" stop-color="#0c0d0e"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#t3-grad)"/>
+  <path d="M220,160 Q380,120 380,260 Q360,360 220,340 Z" fill="#9b59b6" fill-opacity="0.15" stroke="#c8a97e" stroke-width="2"/>
+  <circle cx="300" cy="240" r="50" fill="#dfc298"/>
+  <path d="M140,550 C140,400 210,380 300,380 C390,380 460,400 460,550" fill="#1c1722" stroke="#c8a97e" stroke-width="2"/>
+  <text x="300" y="585" fill="#c8a97e" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="14" text-anchor="middle" letter-spacing="3">ROHIT K. VARMA</text>
+</svg>

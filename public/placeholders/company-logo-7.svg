@@ -1,0 +1,5 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <circle cx="20" cy="30" r="8" stroke="#c8a97e" stroke-width="2"/>
+  <circle cx="35" cy="20" r="5" stroke="#c8a97e" stroke-width="1.5"/>
+  <text x="50" y="38" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="15">ORION</text>
+</svg>

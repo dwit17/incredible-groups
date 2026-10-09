@@ -1,0 +1,24 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="p3-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#191c24"/>
+      <stop offset="50%" stop-color="#222834"/>
+      <stop offset="100%" stop-color="#12141a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#p3-grad)"/>
+  
+  <!-- Crystalline Commercial Facade -->
+  <polygon points="400,100 700,450 600,900 200,900 100,450" fill="#2d3545" stroke="#c8a97e" stroke-width="2"/>
+  
+  <!-- Interior Atrium Lattice -->
+  <g stroke="#dfc298" stroke-width="1.2" stroke-opacity="0.5">
+    <line x1="400" y1="100" x2="400" y2="900"/>
+    <line x1="100" y1="450" x2="700" y2="450"/>
+    <line x1="200" y1="300" x2="600" y2="300"/>
+    <line x1="200" y1="650" x2="600" y2="650"/>
+  </g>
+
+  <text x="50" y="940" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="28" letter-spacing="4">THE APEX PAVILION</text>
+  <text x="50" y="970" fill="#c8a97e" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="14" letter-spacing="3">BKC, MUMBAI • 820,000 SQ.FT</text>
+</svg>

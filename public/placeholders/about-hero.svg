@@ -1,0 +1,24 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 800">
+  <defs>
+    <linearGradient id="ah-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#121417"/>
+      <stop offset="50%" stop-color="#1a1d22"/>
+      <stop offset="100%" stop-color="#0c0d0e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="800" fill="url(#ah-bg)"/>
+  
+  <rect x="200" y="150" width="1200" height="500" fill="#20252c" stroke="#c8a97e" stroke-width="2"/>
+  
+  <!-- Architectural Atelier Grid -->
+  <g stroke="#dfc298" stroke-width="1" stroke-opacity="0.3">
+    <line x1="200" y1="275" x2="1400" y2="275"/>
+    <line x1="200" y1="400" x2="1400" y2="400"/>
+    <line x1="200" y1="525" x2="1400" y2="525"/>
+    <line x1="500" y1="150" x2="500" y2="650"/>
+    <line x1="800" y1="150" x2="800" y2="650"/>
+    <line x1="1100" y1="150" x2="1100" y2="650"/>
+  </g>
+
+  <text x="80" y="740" fill="#f3f3f4" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="32" letter-spacing="6">INCREDIBLE GROUPS ATELIER &amp; RESEARCH ARCHIVE</text>
+</svg>

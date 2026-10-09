@@ -1,0 +1,14 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="t4-grad" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#2c3a32"/>
+      <stop offset="60%" stop-color="#171d19"/>
+      <stop offset="100%" stop-color="#0c0d0e"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#t4-grad)"/>
+  <polygon points="300,140 380,185 380,275 300,320 220,275 220,185" fill="#2ecc71" fill-opacity="0.15" stroke="#2ecc71" stroke-width="2"/>
+  <circle cx="300" cy="240" r="50" fill="#dfc298"/>
+  <path d="M140,550 C140,400 210,380 300,380 C390,380 460,400 460,550" fill="#17221b" stroke="#2ecc71" stroke-width="2"/>
+  <text x="300" y="585" fill="#2ecc71" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="14" text-anchor="middle" letter-spacing="3">DR. EVELYN CHEN-BOSE</text>
+</svg>
