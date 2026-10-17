@@ -39,6 +39,8 @@ export default defineNuxtConfig({
         '/companies/hyperion-water',
         '/companies/aegis-tokenization',
         '/showcase',
+        '/gallery',
+        '/media-invites',
         '/contact',
         '/terms',
         '/terms-and-conditions',

@@ -4,7 +4,6 @@
     class="header"
     :class="[
       `header--theme-${theme}`,
-      { 'header--hidden': isHidden },
       { 'header--drawer-open': isMenuOpen }
     ]"
   >
@@ -27,8 +26,14 @@
         <NuxtLink to="/projects" class="header__nav-link" active-class="header__nav-link--active">
           <span>Projects,</span>
         </NuxtLink>
+        <NuxtLink to="/gallery" class="header__nav-link" active-class="header__nav-link--active">
+          <span>Gallery,</span>
+        </NuxtLink>
         <NuxtLink to="/companies" class="header__nav-link" active-class="header__nav-link--active">
           <span>Invested Companies,</span>
+        </NuxtLink>
+        <NuxtLink to="/media-invites" class="header__nav-link" active-class="header__nav-link--active">
+          <span>Media Invites,</span>
         </NuxtLink>
         <NuxtLink to="/contact" class="header__nav-link" active-class="header__nav-link--active">
           <span>Contact</span>
@@ -106,9 +111,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSiteLoaded } from '~/composables/useSiteLoaded';
+
+if (import.meta.client) {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 interface Props {
   theme?: 'auto' | 'light' | 'dark';
@@ -119,28 +130,74 @@ withDefaults(defineProps<Props>(), {
 });
 
 const { isSiteLoaded } = useSiteLoaded();
+const route = useRoute();
 
-const isHidden = ref(false);
 const isMenuOpen = ref(false);
 const headerRef = ref<HTMLElement | null>(null);
 const drawerRef = ref<HTMLElement | null>(null);
 
 let lastScrollY = 0;
+let isHeaderHidden = false;
 let hasPlayedHeaderEntrance = false;
+let scrollTriggerInstance: ScrollTrigger | null = null;
+let headerTween: gsap.core.Tween | null = null;
 
 const navItems = [
   { label: 'Index', to: '/' },
   { label: 'About', to: '/about' },
   { label: 'Projects', to: '/projects' },
+  { label: 'Gallery', to: '/gallery' },
   { label: 'Invested Companies', to: '/companies' },
+  { label: 'Media Invites', to: '/media-invites' },
   { label: 'Contact', to: '/contact' },
   { label: 'Terms & Conditions', to: '/terms' },
   { label: 'Privacy Policy', to: '/privacy' }
 ];
 
+const hideHeader = (immediate = false) => {
+  if (isMenuOpen.value || !headerRef.value) return;
+  if (isHeaderHidden && !immediate) return;
+  isHeaderHidden = true;
+
+  if (headerTween) headerTween.kill();
+
+  if (immediate) {
+    gsap.set(headerRef.value, { yPercent: -100, opacity: 0 });
+  } else {
+    headerTween = gsap.to(headerRef.value, {
+      yPercent: -100,
+      opacity: 0,
+      duration: 0.45,
+      ease: 'power2.out',
+      overwrite: 'auto'
+    });
+  }
+};
+
+const showHeader = (immediate = false) => {
+  if (!headerRef.value) return;
+  if (!isHeaderHidden && !immediate) return;
+  isHeaderHidden = false;
+
+  if (headerTween) headerTween.kill();
+
+  if (immediate) {
+    gsap.set(headerRef.value, { yPercent: 0, opacity: 1 });
+  } else {
+    headerTween = gsap.to(headerRef.value, {
+      yPercent: 0,
+      opacity: 1,
+      duration: 0.45,
+      ease: 'power3.out',
+      overwrite: 'auto'
+    });
+  }
+};
+
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
   if (isMenuOpen.value) {
+    showHeader(true);
     document.body.style.overflow = 'hidden';
     if (import.meta.client) {
       const links = drawerRef.value?.querySelectorAll('.header__drawer-item');
@@ -169,8 +226,8 @@ const playHeaderEntrance = () => {
   hasPlayedHeaderEntrance = true;
   gsap.fromTo(
     headerRef.value,
-    { opacity: 0, y: -10 },
-    { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', delay: 0.2 }
+    { opacity: 0, yPercent: -40 },
+    { opacity: 1, yPercent: 0, duration: 1.2, ease: 'power3.out', delay: 0.2 }
   );
 };
 
@@ -181,21 +238,48 @@ const handleKeydown = (e: KeyboardEvent) => {
 };
 
 const onScroll = () => {
-  if (!import.meta.client) return;
-  const currentScrollY = window.scrollY;
+  if (!import.meta.client || isMenuOpen.value) return;
+  const currentScrollY = window.scrollY || document.documentElement.scrollTop;
 
-  if (currentScrollY > 300 && currentScrollY > lastScrollY && !isMenuOpen.value) {
-    isHidden.value = true;
-  } else {
-    isHidden.value = false;
+  // Near top of page: always reveal
+  if (currentScrollY <= 60) {
+    showHeader();
+    lastScrollY = currentScrollY;
+    return;
+  }
+
+  const delta = currentScrollY - lastScrollY;
+  // Ignore micro-fluctuations
+  if (Math.abs(delta) < 6) return;
+
+  if (delta > 0 && currentScrollY > 80) {
+    // Scrolling down -> hide header
+    hideHeader();
+  } else if (delta < 0) {
+    // Scrolling up -> bring header back
+    showHeader();
   }
 
   lastScrollY = currentScrollY;
 };
 
+// Route change handler - show header immediately upon navigation
+watch(
+  () => route.fullPath,
+  () => {
+    closeMenu();
+    if (import.meta.client) {
+      lastScrollY = 0;
+      showHeader(true);
+    }
+  }
+);
+
 onMounted(() => {
   if (import.meta.client) {
     window.addEventListener('keydown', handleKeydown);
+    lastScrollY = window.scrollY || 0;
+
     if (isSiteLoaded.value) {
       playHeaderEntrance();
     } else {
@@ -211,16 +295,53 @@ onMounted(() => {
         }
       }, 1500);
     }
+
+    // ScrollTrigger integration for unified Lenis ticker synchronization
+    scrollTriggerInstance = ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        if (isMenuOpen.value) return;
+        const currentScroll = self.scroll();
+        const dir = self.direction; // 1 = down, -1 = up
+
+        if (currentScroll <= 60) {
+          showHeader();
+          lastScrollY = currentScroll;
+          return;
+        }
+
+        const delta = Math.abs(currentScroll - lastScrollY);
+        if (delta < 5) return;
+
+        if (dir === 1 && currentScroll > 80) {
+          hideHeader();
+        } else if (dir === -1) {
+          showHeader();
+        }
+
+        lastScrollY = currentScroll;
+      }
+    });
+
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
 });
 
 onUnmounted(() => {
   if (import.meta.client) {
     window.removeEventListener('keydown', handleKeydown);
+    window.removeEventListener('scroll', onScroll);
     document.body.style.overflow = '';
   }
-  window.removeEventListener('scroll', onScroll);
+  if (scrollTriggerInstance) {
+    scrollTriggerInstance.kill();
+    scrollTriggerInstance = null;
+  }
+  if (headerTween) {
+    headerTween.kill();
+    headerTween = null;
+  }
 });
 </script>
 
@@ -239,16 +360,12 @@ onUnmounted(() => {
   padding-right: max(clamp(16px, 3.2vw, 44px), env(safe-area-inset-right));
   z-index: $z-header;
   pointer-events: none;
-  transition: transform 0.4s $ease-out-expo;
   box-sizing: border-box;
+  will-change: transform, opacity;
 
   @include mobile {
     padding: 1rem 1rem;
     padding-top: max(1rem, env(safe-area-inset-top));
-  }
-
-  &--hidden {
-    transform: translateY(-100%);
   }
 
   &--drawer-open {

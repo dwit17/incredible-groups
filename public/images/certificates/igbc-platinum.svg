@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1414 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gold-foil" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b6915c" />
+      <stop offset="35%" stop-color="#e2cba8" />
+      <stop offset="70%" stop-color="#9d7845" />
+      <stop offset="100%" stop-color="#caa574" />
+    </linearGradient>
+    <linearGradient id="gold-sheen" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#9d7845" />
+      <stop offset="50%" stop-color="#f5e6cc" />
+      <stop offset="100%" stop-color="#9d7845" />
+    </linearGradient>
+    <filter id="subtle-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1414" height="1000" fill="#fcfcf9" />
+
+  <!-- Outer Architectural Framing -->
+  <rect x="40" y="40" width="1334" height="920" fill="none" stroke="#111111" stroke-width="2" />
+  <rect x="52" y="52" width="1310" height="896" fill="none" stroke="url(#gold-foil)" stroke-width="1.5" />
+  <rect x="62" y="62" width="1290" height="876" fill="none" stroke="#e0ded7" stroke-width="0.75" />
+
+  <!-- Corner Geometric Rosettes -->
+  <g stroke="url(#gold-foil)" stroke-width="1" fill="none">
+    <path d="M 40 70 L 70 40 M 40 85 L 85 40 M 40 100 L 100 40" />
+    <path d="M 1374 70 L 1344 40 M 1374 85 L 1329 40 M 1374 100 L 1314 40" />
+    <path d="M 40 930 L 70 960 M 40 915 L 85 960 M 40 900 L 100 960" />
+    <path d="M 1374 930 L 1344 960 M 1374 915 L 1329 960 M 1374 900 L 1314 960" />
+  </g>
+
+  <!-- Central Watermark Crest (Very Subtle) -->
+  <g opacity="0.04" transform="translate(707, 500) scale(1.6)">
+    <circle r="150" fill="none" stroke="#111111" stroke-width="4" stroke-dasharray="8 6" />
+    <circle r="120" fill="none" stroke="#111111" stroke-width="2" />
+    <polygon points="0,-90 78,45 -78,45" fill="none" stroke="#111111" stroke-width="3" />
+    <polygon points="0,90 78,-45 -78,-45" fill="none" stroke="#111111" stroke-width="3" />
+  </g>
+
+  <!-- Header Section -->
+  <g transform="translate(707, 140)" text-anchor="middle">
+    <!-- Emblem -->
+    <circle cx="0" cy="0" r="28" fill="#111111" />
+    <path d="M -12 -8 L 0 -18 L 12 -8 L 12 12 L -12 12 Z" fill="none" stroke="#caa574" stroke-width="2" />
+    <circle cx="0" cy="0" r="4" fill="#caa574" />
+    
+    <text y="60" font-family="'Neue Haas Grotesk Roman', 'Helvetica Neue', Arial, sans-serif" font-size="13" letter-spacing="4" fill="#70757d">
+      INDIAN GREEN BUILDING COUNCIL • CONFEDERATION OF INDIAN INDUSTRY
+    </text>
+    <text y="105" font-family="'Neue Haas Grotesk Roman', 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="600" letter-spacing="3" fill="#111111">
+      CERTIFICATE OF PLATINUM ACCREDITATION
+    </text>
+    <line x1="-180" y1="130" x2="180" y2="130" stroke="url(#gold-foil)" stroke-width="1.5" />
+  </g>
+
+  <!-- Recipient & Scope -->
+  <g transform="translate(707, 360)" text-anchor="middle">
+    <text y="0" font-family="'Neue Haas Grotesk Light', 'Helvetica Neue', Arial, sans-serif" font-size="16" letter-spacing="2" fill="#70757d">
+      THIS IS TO OFFICIALLY CONFER THAT
+    </text>
+    <text y="48" font-family="'Neue Haas Grotesk Roman', 'Helvetica Neue', Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="1" fill="#111111">
+      INCREDIBLE ARCHITECTURAL GROUP
+    </text>
+    <text y="90" font-family="'Neue Haas Grotesk Light', 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#444444" letter-spacing="0.5">
+      HAS ATTAINED HIGHEST ENVIRONMENTAL RECOGNITION UNDER THE IGBC GREEN HOMES PLATINUM RATING
+    </text>
+    <text y="125" font-family="'Neue Haas Grotesk Light', 'Helvetica Neue', Arial, sans-serif" font-size="14" fill="#70757d" letter-spacing="0.2">
+      FOR EXEMPLARY THERMAL PERFORMANCE, 100% RAINWATER STEWARDSHIP &amp; MONOLITHIC PASSIVE VENTILATION
+    </text>
+  </g>
+
+  <!-- Official Metadata Grid -->
+  <g transform="translate(220, 560)">
+    <!-- Column 1 -->
+    <text x="0" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">REGISTRATION NUMBER</text>
+    <text x="0" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" fill="#111111" letter-spacing="1">IGBC-GH-PL-2024-0892</text>
+
+    <!-- Column 2 -->
+    <text x="360" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">VERIFIED RATING</text>
+    <text x="360" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" font-weight="600" fill="#caa574" letter-spacing="1">PLATINUM (94/100 PTS)</text>
+
+    <!-- Column 3 -->
+    <text x="700" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">DATE OF ISSUANCE</text>
+    <text x="700" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" fill="#111111" letter-spacing="1">NOVEMBER 14, 2024</text>
+  </g>
+
+  <!-- Lower Section: Signatures & Gold Seal -->
+  <!-- Left Signature -->
+  <g transform="translate(280, 750)">
+    <path d="M 0 35 C 30 10, 60 50, 95 20 C 130 -10, 160 40, 200 25" fill="none" stroke="#111111" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="0" y1="50" x2="220" y2="50" stroke="#cccccc" stroke-width="1" />
+    <text x="110" y="70" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="13" fill="#111111">Chairman, IGBC Council</text>
+    <text x="110" y="88" text-anchor="middle" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="11" fill="#777777">Green Rating Directorate</text>
+  </g>
+
+  <!-- Center Gold Foil Embossed Seal -->
+  <g transform="translate(707, 765)" filter="url(#subtle-shadow)">
+    <!-- Starburst Points Ribbon -->
+    <circle r="60" fill="url(#gold-sheen)" />
+    <circle r="52" fill="#fcfcf9" />
+    <circle r="48" fill="none" stroke="url(#gold-foil)" stroke-width="2" stroke-dasharray="4 2" />
+    <!-- Seal Text -->
+    <text y="-14" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#8c6c39">IGBC</text>
+    <text y="4" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#111111">PLATINUM</text>
+    <text y="20" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="8" letter-spacing="1.5" fill="#8c6c39">CERTIFIED 2024</text>
+    <circle cx="0" cy="30" r="3" fill="#caa574" />
+  </g>
+
+  <!-- Right Signature -->
+  <g transform="translate(934, 750)">
+    <path d="M 0 25 C 40 45, 80 -5, 120 30 C 150 15, 180 35, 210 20" fill="none" stroke="#111111" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="0" y1="50" x2="220" y2="50" stroke="#cccccc" stroke-width="1" />
+    <text x="110" y="70" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="13" fill="#111111">Lead Technical Assessor</text>
+    <text x="110" y="88" text-anchor="middle" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="11" fill="#777777">CII Godrej GBC Verification</text>
+  </g>
+
+  <!-- Bottom Bar Code & Security Hash -->
+  <g transform="translate(707, 930)" text-anchor="middle">
+    <text font-family="'Courier New', Courier, monospace" font-size="10" letter-spacing="2" fill="#999999">
+      VERIFICATION PROTOCOL: SHA256//8F4E9A21B4C7 • INCREDIBLE ARCHITECTURAL GROUP
+    </text>
+  </g>
+</svg>

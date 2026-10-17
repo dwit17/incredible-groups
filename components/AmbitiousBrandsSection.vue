@@ -2,7 +2,7 @@
   <section
     ref="sectionRef"
     class="ambitious-brands-section"
-    aria-label="The World's Most Ambitious Brands"
+    aria-label="Ecosystem Of Incredible Group Of Companies"
   >
     <!-- Pinned Visual Viewport Stage (100% x 100vh) -->
     <div ref="stageRef" class="ambitious-brands__stage">
@@ -13,12 +13,8 @@
       <!-- ========================================================= -->
       <div ref="titleWrapRef" class="ambitious-brands__title-wrap">
         <h2 class="ambitious-brands__title">
-          <span class="title-line">The</span>
-          <span class="title-line">World’s Most</span>
-          <span class="title-line">Ambitious</span>
-          <span class="title-line">Brands</span>
-          <span class="title-line">Choose to</span>
-          <span class="title-line">Work With Us</span>
+          <span class="title-line">Ecosystem Of Incredible</span>
+          <span class="title-line">Group Of Companies</span>
         </h2>
       </div>
 
@@ -542,6 +538,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 @use '~/assets/scss/variables' as *;
+@use '~/assets/scss/mixins' as *;
 
 .ambitious-brands-section {
   position: relative;
@@ -579,18 +576,18 @@ onUnmounted(() => {
   text-align: center;
   pointer-events: none;
   user-select: none;
-  width: 95%;
-  max-width: 1380px;
+  width: 90%;
+  max-width: 880px;
   will-change: transform, opacity;
 }
 
 .ambitious-brands__title {
   font-family: $font-serif;
-  font-size: clamp(52px, 8.4vw, 138px);
+  font-size: clamp(26px, 3.8vw, 56px);
   font-weight: 400;
   font-style: normal;
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
   color: #FFFFFF;
   margin: 0;
   padding: 0;
@@ -600,10 +597,20 @@ onUnmounted(() => {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 
+  @include mobile {
+    font-size: clamp(20px, 5.2vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
   .title-line {
     display: block;
     white-space: nowrap;
     will-change: transform, opacity;
+
+    @include mobile {
+      white-space: normal;
+    }
   }
 }
 

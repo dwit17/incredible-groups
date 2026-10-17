@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1414 1000" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gold-foil" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b6915c" />
+      <stop offset="35%" stop-color="#e2cba8" />
+      <stop offset="70%" stop-color="#9d7845" />
+      <stop offset="100%" stop-color="#caa574" />
+    </linearGradient>
+    <filter id="subtle-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.08" />
+    </filter>
+  </defs>
+
+  <rect width="1414" height="1000" fill="#faf9f5" />
+  <rect x="40" y="40" width="1334" height="920" fill="none" stroke="#111111" stroke-width="2" />
+  <rect x="52" y="52" width="1310" height="896" fill="none" stroke="url(#gold-foil)" stroke-width="1.5" />
+  <rect x="62" y="62" width="1290" height="876" fill="none" stroke="#d5d5ce" stroke-width="0.75" />
+
+  <g stroke="url(#gold-foil)" stroke-width="1" fill="none">
+    <path d="M 40 70 L 70 40 M 40 85 L 85 40 M 40 100 L 100 40" />
+    <path d="M 1374 70 L 1344 40 M 1374 85 L 1329 40 M 1374 100 L 1314 40" />
+    <path d="M 40 930 L 70 960 M 40 915 L 85 960 M 40 900 L 100 960" />
+    <path d="M 1374 930 L 1344 960 M 1374 915 L 1329 960 M 1374 900 L 1314 960" />
+  </g>
+
+  <!-- Header Section -->
+  <g transform="translate(707, 140)" text-anchor="middle">
+    <circle cx="0" cy="0" r="28" fill="#111111" />
+    <polygon points="0,-16 14,8 -14,8" fill="#caa574" />
+    <circle cx="0" cy="2" r="3" fill="#111111" />
+    
+    <text y="60" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="13" letter-spacing="4" fill="#70757d">
+      COUNCIL OF ARCHITECTURE • STATUTORY BODY GOVT. OF INDIA
+    </text>
+    <text y="105" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="34" font-weight="600" letter-spacing="3" fill="#111111">
+      FELLOWSHIP &amp; DESIGN CITATION OF EXCELLENCE
+    </text>
+    <line x1="-180" y1="130" x2="180" y2="130" stroke="url(#gold-foil)" stroke-width="1.5" />
+  </g>
+
+  <!-- Content Section -->
+  <g transform="translate(707, 360)" text-anchor="middle">
+    <text y="0" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="16" letter-spacing="2" fill="#70757d">
+      CONFERRED WITH HIGHEST HONORS UPON
+    </text>
+    <text y="48" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="38" font-weight="700" letter-spacing="1" fill="#111111">
+      INCREDIBLE GROUPS ATELIER
+    </text>
+    <text y="90" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="16" fill="#444444" letter-spacing="0.5">
+      IN RECOGNITION OF GROUNDBREAKING MONOLITHIC RESIDENTIAL &amp; BIOPHILIC ARCHITECTURE
+    </text>
+    <text y="125" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="14" fill="#70757d" letter-spacing="0.2">
+      HONORING ENDURING CONTRIBUTIONS TO MODERN INDIAN SPATIAL DESIGN &amp; SUSTAINABLE LUXURY
+    </text>
+  </g>
+
+  <!-- Official Metadata Grid -->
+  <g transform="translate(220, 560)">
+    <text x="0" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">REGISTRATION CHARTER</text>
+    <text x="0" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" fill="#111111" letter-spacing="1">COA-FEL-2024-0019</text>
+
+    <text x="360" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">HONORARY STATUS</text>
+    <text x="360" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" font-weight="600" fill="#caa574" letter-spacing="1">FELLOW ATELIER (LIFE)</text>
+
+    <text x="700" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">CONVOCATION YEAR</text>
+    <text x="700" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" fill="#111111" letter-spacing="1">2024 CONFERMENT</text>
+  </g>
+
+  <!-- Signatures & Seal -->
+  <g transform="translate(280, 750)">
+    <path d="M 0 30 C 30 15, 60 45, 95 10 C 135 45, 175 10, 210 25" fill="none" stroke="#111111" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="0" y1="50" x2="220" y2="50" stroke="#cccccc" stroke-width="1" />
+    <text x="110" y="70" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="13" fill="#111111">President of the Council</text>
+    <text x="110" y="88" text-anchor="middle" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="11" fill="#777777">Council of Architecture</text>
+  </g>
+
+  <g transform="translate(707, 765)" filter="url(#subtle-shadow)">
+    <circle r="60" fill="url(#gold-foil)" />
+    <circle r="52" fill="#faf9f5" />
+    <circle r="48" fill="none" stroke="url(#gold-foil)" stroke-width="2" stroke-dasharray="4 2" />
+    <text y="-14" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="10" font-weight="700" letter-spacing="2" fill="#8c6c39">COA</text>
+    <text y="4" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="12" font-weight="700" letter-spacing="1" fill="#111111">FELLOWSHIP</text>
+    <text y="20" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="8" letter-spacing="1.5" fill="#8c6c39">EST. 1972</text>
+    <circle cx="0" cy="30" r="3" fill="#caa574" />
+  </g>
+
+  <g transform="translate(934, 750)">
+    <path d="M 0 25 C 40 40, 75 10, 115 35 C 150 15, 180 30, 215 15" fill="none" stroke="#111111" stroke-width="1.8" stroke-linecap="round" />
+    <line x1="0" y1="50" x2="220" y2="50" stroke="#cccccc" stroke-width="1" />
+    <text x="110" y="70" text-anchor="middle" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="13" fill="#111111">Registrar General</text>
+    <text x="110" y="88" text-anchor="middle" font-family="'Neue Haas Grotesk Light', sans-serif" font-size="11" fill="#777777">Honors &amp; Awards Jury</text>
+  </g>
+
+  <g transform="translate(707, 930)" text-anchor="middle">
+    <text font-family="'Courier New', Courier, monospace" font-size="10" letter-spacing="2" fill="#999999">
+      ROYAL CHARTER AUTHENTICATION: SHA256//B9084C7192A0 • INCREDIBLE ARCHITECTURAL GROUP
+    </text>
+  </g>
+</svg>

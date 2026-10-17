@@ -21,7 +21,9 @@
             <li><NuxtLink to="/" class="site-footer__link">Index</NuxtLink></li>
             <li><NuxtLink to="/about" class="site-footer__link">About</NuxtLink></li>
             <li><NuxtLink to="/projects" class="site-footer__link">Projects</NuxtLink></li>
+            <li><NuxtLink to="/gallery" class="site-footer__link">Gallery</NuxtLink></li>
             <li><NuxtLink to="/companies" class="site-footer__link">Invested Companies</NuxtLink></li>
+            <li><NuxtLink to="/media-invites" class="site-footer__link">Media Invites</NuxtLink></li>
             <li><NuxtLink to="/contact" class="site-footer__link">Contact</NuxtLink></li>
             <li><NuxtLink to="/terms" class="site-footer__link">Terms &amp; Conditions</NuxtLink></li>
             <li><NuxtLink to="/privacy" class="site-footer__link">Privacy Policy</NuxtLink></li>
@@ -77,10 +79,26 @@
         </div>
       </div>
 
-      <!-- 2. Monumental Brand Typography Unveil -->
+      <!-- 2. Monumental Brand Logo Unveil -->
       <div ref="monumentalWrapRef" class="site-footer__monumental-wrap">
-        <div ref="monumentalTextRef" class="site-footer__monumental-text">
-          INCREDIBLE
+        <div ref="monumentalLogoRef" class="site-footer__monumental-logo" aria-label="Incredible Groups">
+          <div class="site-footer__brand-lockup">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 34 34"
+              fill="none"
+              class="site-footer__mark-svg"
+              aria-hidden="true"
+            >
+              <!-- Monolithic Architectural Triangle & Core Dot (Pure White) -->
+              <polygon points="17,2 32,32 2,32" stroke="#ffffff" stroke-width="2.5" fill="none" stroke-linejoin="round" />
+              <circle cx="17" cy="17" r="3.5" fill="#ffffff" />
+            </svg>
+            <div class="site-footer__brand-copy">
+              <span class="site-footer__brand-primary">INCREDIBLE</span>
+              <span class="site-footer__brand-secondary">GROUPS</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -125,7 +143,7 @@ if (import.meta.client) {
 
 const footerRef = ref<HTMLElement | null>(null);
 const monumentalWrapRef = ref<HTMLElement | null>(null);
-const monumentalTextRef = ref<HTMLElement | null>(null);
+const monumentalLogoRef = ref<HTMLElement | null>(null);
 
 const currentYear = new Date().getFullYear();
 
@@ -179,11 +197,11 @@ onMounted(async () => {
       );
     }
 
-    // 2. Monumental Brand Name Upward Slide on Scroll
-    if (monumentalTextRef.value && monumentalWrapRef.value) {
+    // 2. Monumental Brand Logo Upward Slide on Scroll
+    if (monumentalLogoRef.value && monumentalWrapRef.value) {
       gsap.fromTo(
-        monumentalTextRef.value,
-        { yPercent: 105, opacity: 0.2 },
+        monumentalLogoRef.value,
+        { yPercent: 105, opacity: 0.15 },
         {
           scrollTrigger: {
             trigger: monumentalWrapRef.value,
@@ -396,32 +414,81 @@ onUnmounted(() => {
     color: #666666;
   }
 
-  // 2. Monumental Brand Typography Unveil
+  // 2. Monumental Brand Logo Unveil
   &__monumental-wrap {
     width: 100%;
     overflow: hidden;
     margin-top: auto;
     margin-bottom: clamp(16px, 2.5vh, 32px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    padding-bottom: 0.5vh;
+    border: none;
+    border-bottom: none;
+    padding-bottom: clamp(14px, 2.2vh, 36px);
+    padding-top: clamp(8px, 1.5vh, 20px);
     display: flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
   }
 
-  &__monumental-text {
-    font-family: $font-sans;
-    font-size: clamp(34px, 12.8vw, 240px);
-    font-weight: 700;
-    line-height: 0.82;
-    letter-spacing: -0.045em;
-    color: #ffffff;
-    text-align: center;
+  &__monumental-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+    margin: 0 auto;
     will-change: transform, opacity;
     user-select: none;
     box-sizing: border-box;
+    text-align: center;
+  }
+
+  &__brand-lockup {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(14px, 2.2vw, 36px);
+    color: #ffffff;
+    user-select: none;
+  }
+
+  &__mark-svg {
+    width: clamp(38px, 5.2vw, 76px);
+    height: auto;
+    flex-shrink: 0;
+    display: block;
+    filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.45));
+  }
+
+  &__brand-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    text-align: left;
+    color: #ffffff;
+  }
+
+  &__brand-primary {
+    font-family: $font-sans;
+    font-size: clamp(1.6rem, 3.8vw, 4.4rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: 0.14em;
+    color: #ffffff;
+    text-transform: uppercase;
+    display: block;
+  }
+
+  &__brand-secondary {
+    font-family: $font-sans;
+    font-size: clamp(0.75rem, 1.6vw, 1.85rem);
+    font-weight: 300;
+    line-height: 1.15;
+    letter-spacing: 0.36em;
+    color: #ffffff;
+    text-transform: uppercase;
+    display: block;
+    margin-top: clamp(2px, 0.4vw, 6px);
   }
 
   // 3. Bottom Bar
