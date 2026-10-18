@@ -122,7 +122,7 @@
 
             <div class="about-manifesto__col-right">
               <p ref="manifestoTextRef" class="about-manifesto__body">
-                We reject synthetic finishes, rushed assembly lines, and fleeting trends. Every private coastal sanctuary, urban sky mansion, and sovereign venture in our atelier begins with raw mineral authenticity—quarried basalt, hand-poured architectural concrete, oxidized bronze, and seasoned teak.
+                We reject synthetic finishes, rushed assembly lines, and fleeting trends. Every private coastal sanctuary, urban sky mansion, and sovereign venture in our portfolio begins with raw mineral authenticity - quarried basalt, hand-poured architectural concrete, oxidized bronze, and seasoned teak.
               </p>
               <p class="about-manifesto__body about-manifesto__body--secondary">
                 Operating across Mumbai, North Goa, and GIFT City, we merge rigorous structural engineering with visionary private equity syndication to build landmarks that endure for generations.

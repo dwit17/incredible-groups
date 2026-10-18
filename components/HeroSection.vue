@@ -1,12 +1,12 @@
 <template>
-  <section ref="heroSectionRef" class="hero" aria-label="Monolithic Architectural Canvas">
+  <section ref="heroSectionRef" class="hero" aria-label="Incredible Group of Companies">
     <!-- Full-Bleed 100vh Image Canvas -->
     <div ref="canvasRef" class="hero__canvas">
       <div ref="imageWrapperRef" class="hero__image-wrapper">
         <img
           ref="imageRef"
           src="/images/hero-architecture.jpg"
-          alt="Incredible Groups - Monolithic Architectural Estate, Palais Royale"
+          alt="Incredible Group of Companies - Monolithic Estate & Luxury Development Portfolio"
           class="hero__image"
           loading="eager"
           fetchpriority="high"
@@ -17,14 +17,14 @@
       <!-- Natural Contrast Overlay -->
       <div class="hero__overlay"></div>
 
-      <!-- Large Bottom-Left Title (Exact Reference Match: Line 1 Sans Bold, Line 2 Serif Regular) -->
+      <!-- Large Bottom-Left Title -->
       <div ref="titleBlockRef" class="hero__title-block">
         <h1 class="hero__title">
           <span class="hero__line-wrap">
-            <span class="hero__title-line hero__title-line--sans">Incredible</span>
+            <span class="hero__title-line hero__title-line--sans">Incredible Group</span>
           </span>
           <span class="hero__line-wrap">
-            <span class="hero__title-line hero__title-line--serif">Architectural Group</span>
+            <span class="hero__title-line hero__title-line--serif">of Companies</span>
           </span>
         </h1>
       </div>
@@ -246,16 +246,17 @@ onUnmounted(() => {
     overflow: hidden;
     line-height: 0.94;
     padding-bottom: 0.1em; // prevents descender clipping
+    white-space: nowrap;
   }
 
   &__title-line {
     display: block;
     will-change: transform, opacity;
 
-    // Line 1: Clean Bold Sans-Serif (Title Case: Incredible)
+    // Line 1: Clean Bold Sans-Serif (Title Case: Incredible Group)
     &--sans {
       font-family: $font-sans;
-      font-size: clamp(3rem, 6.4vw, 6.6rem);
+      font-size: clamp(2.5rem, 6.2vw, 6.6rem);
       font-weight: 600;
       line-height: 0.92;
       letter-spacing: -0.035em;
@@ -263,14 +264,14 @@ onUnmounted(() => {
       text-transform: none;
 
       @include mobile {
-        font-size: clamp(2.4rem, 10vw, 3.8rem);
+        font-size: clamp(1.85rem, 8.4vw, 3.2rem);
       }
     }
 
-    // Line 2: Editorial Serif (Title Case: Architectural Group)
+    // Line 2: Editorial Serif (Title Case: of Companies)
     &--serif {
       font-family: $font-serif;
-      font-size: clamp(3rem, 6.4vw, 6.6rem);
+      font-size: clamp(2.5rem, 6.2vw, 6.6rem);
       font-weight: 400;
       line-height: 0.92;
       letter-spacing: -0.01em;
@@ -278,7 +279,7 @@ onUnmounted(() => {
       text-transform: none;
 
       @include mobile {
-        font-size: clamp(2.4rem, 10vw, 3.8rem);
+        font-size: clamp(1.85rem, 8.4vw, 3.2rem);
       }
     }
   }

@@ -62,7 +62,7 @@
     <text x="360" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" font-weight="600" fill="#caa574" letter-spacing="1">NET-ZERO CERTIFIED</text>
 
     <text x="700" y="0" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="11" letter-spacing="2" fill="#999999">VALIDITY HORIZON</text>
-    <text x="700" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" fill="#111111" letter-spacing="1">2024 — 2030</text>
+    <text x="700" y="24" font-family="'Neue Haas Grotesk Roman', sans-serif" font-size="16" fill="#111111" letter-spacing="1">2024 - 2030</text>
   </g>
 
   <!-- Signatures & Seal -->

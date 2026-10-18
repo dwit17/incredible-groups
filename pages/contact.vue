@@ -52,12 +52,12 @@
             href="https://wa.me/919737972097?text=Hello%20Incredible%20Groups%20Advisory%2C%20I%20would%20like%20to%20schedule%20a%20private%20consultation."
             target="_blank"
             rel="noopener noreferrer"
-            class="contact-quick-card contact-quick-card--highlight"
+            class="contact-quick-card"
             aria-label="Direct WhatsApp Advisory Desk"
           >
             <div class="contact-quick-card__icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.667-.699c.974.531 1.777.788 2.793.788h.005c3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.586-5.774-5.773-5.774zm3.376 8.21c-.145.409-.846.75-1.164.793-.312.042-.719.062-2.316-.599-1.928-.796-3.167-2.766-3.262-2.894-.096-.129-.785-1.045-.785-1.993 0-.948.497-1.414.673-1.606.177-.193.386-.241.514-.241.129 0 .257.002.37.008.119.006.278-.045.435.334.161.386.551 1.343.599 1.439.048.096.08.209.016.337-.064.129-.096.209-.193.322-.096.113-.203.252-.29.338-.096.096-.197.201-.085.393.112.193.501.826 1.077 1.34 1.152 1.028 1.458 1.073 1.667 1.177.209.104.331.088.453-.052.122-.14.524-.611.664-.82.14-.209.28-.175.47-.104.19.071 1.213.572 1.422.677.209.105.348.157.399.245.051.088.051.51-.094.919zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.178L2 22l4.981-1.306C8.423 21.536 10.15 22 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.477-.15-.678.15-.2.301-.778.978-.954 1.179-.175.2-.351.226-.652.075-.301-.15-1.27-.468-2.42-1.493-.894-.797-1.498-1.782-1.674-2.083-.175-.301-.019-.464.132-.614.135-.134.301-.351.451-.526.15-.175.2-.301.301-.501.1-.2.05-.376-.025-.526-.075-.15-.678-1.634-.928-2.237-.244-.588-.492-.508-.678-.518-.175-.009-.376-.011-.577-.011-.201 0-.527.075-.803.376-.276.301-1.054 1.03-1.054 2.511s1.079 2.912 1.23 3.113c.15.201 2.122 3.24 5.141 4.544.718.31 1.279.495 1.716.634.722.23 1.379.197 1.9.12.58-.087 1.78-.727 2.032-1.43.252-.703.252-1.304.176-1.43-.076-.125-.276-.201-.577-.351zM12.042 21.75c-1.748 0-3.46-.468-4.966-1.354l-.356-.211-3.693.969.986-3.6-.232-.37c-.974-1.55-1.488-3.344-1.488-5.184 0-5.38 4.377-9.757 9.757-9.757 2.607 0 5.057 1.016 6.9 2.86 1.844 1.843 2.86 4.294 2.86 6.9 0 5.381-4.377 9.757-9.768 9.757zm8.334-18.092C18.17 1.452 15.228.375 12.042.375 5.63.375.417 5.588.417 12c0 2.05.535 4.054 1.554 5.823L0 24l6.335-1.662c1.706.93 3.633 1.42 5.707 1.42h.005c6.411 0 11.625-5.213 11.625-11.625 0-3.106-1.21-6.027-3.296-8.225z"/>
               </svg>
             </div>
             <div class="contact-quick-card__text">
@@ -158,9 +158,6 @@
           
           <div class="contact-form-layout__sidebar">
             <h2 class="contact-form-layout__title">Schedule Consultation</h2>
-            <p class="contact-form-layout__lead">
-              Submit your inquiry or brief. Our capital allocation partners and principal architects personally review each brief within four business hours.
-            </p>
           </div>
 
           <div class="contact-form-wrap">
@@ -225,24 +222,7 @@
                   />
                 </div>
 
-                <!-- Estimated Scale / Budget -->
-                <div class="form-group form-group--full">
-                  <label class="form-label">Estimated Investment / Project Horizon</label>
-                  <div class="contact-scale-options" role="radiogroup" aria-label="Estimated Scale">
-                    <button
-                      v-for="scale in scaleOptions"
-                      :key="scale"
-                      type="button"
-                      role="radio"
-                      :aria-checked="formData.scale === scale"
-                      class="contact-scale-btn"
-                      :class="{ 'contact-scale-btn--active': formData.scale === scale }"
-                      @click="formData.scale = scale"
-                    >
-                      {{ scale }}
-                    </button>
-                  </div>
-                </div>
+
 
                 <!-- Confidential Message -->
                 <div class="form-group form-group--full">
@@ -351,7 +331,6 @@ const handleSubmit = async () => {
       `*Phone:* ${formData.phone}\n` +
       `*Email:* ${formData.email}\n` +
       `*Scope:* ${formData.interest}\n` +
-      `*Target Horizon:* ${formData.scale}\n` +
       `*Brief:* ${formData.message || 'Private consultation requested.'}`;
 
     const waUrl = `https://wa.me/919737972097?text=${encodeURIComponent(prefilledText)}`;
@@ -712,38 +691,7 @@ onUnmounted(() => {
     }
   }
 
-  &--highlight {
-    background-color: #0c0d0e;
-    color: #ffffff;
-    border-color: #0c0d0e;
 
-    .contact-quick-card__icon {
-      background-color: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-    }
-
-    .contact-quick-card__label {
-      color: #888888;
-    }
-
-    .contact-quick-card__value {
-      color: #ffffff;
-    }
-
-    .contact-quick-card__arrow {
-      color: $color-accent;
-    }
-
-    &:hover {
-      background-color: #000000;
-      border-color: $color-accent;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
-
-      .contact-quick-card__arrow {
-        color: #ffffff;
-      }
-    }
-  }
 
   &__icon {
     width: 48px;

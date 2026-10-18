@@ -38,7 +38,7 @@
       <div class="precision-development__editorial-inner">
         <div ref="narrativeBoxRef" class="precision-development__narrative-box">
           <p class="precision-development__narrative-p">
-            At this stage, the idea takes on architectural clarity. We work out the layout, volume, and facades, create structural logic, and prepare the project for implementation. Through drawings, models, and approvals, the project gains precision—transforming from a concept into a coherent architectural system.
+            At this stage, the idea takes on structural and developmental clarity. We work out the layout, volume, and specifications, create structural logic, and prepare the project for implementation. Through drawings, models, and approvals, the project gains precision - transforming from a concept into a coherent development system.
           </p>
         </div>
       </div>

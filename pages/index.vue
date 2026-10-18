@@ -16,7 +16,7 @@
     <StudioStatementSection />
 
     <!-- ============================================================= -->
-    <!-- SECTION 04: From Sketch to Strategy (Built)                    -->
+    <!-- SECTION 04: Concept to Strategy                            -->
     <!-- ============================================================= -->
     <SketchToStrategySection />
 
@@ -37,7 +37,7 @@
     <RadialPhilosophySection />
 
     <!-- ============================================================= -->
-    <!-- SECTION 08: People & Process / Foundation / Metrics (Unified)  -->
+    <!-- SECTION 08: Studio Foundation & Metrics (Unified)           -->
     <!-- ============================================================= -->
     <PeopleProcessSection />
 
@@ -66,10 +66,10 @@ import AmbitiousBrandsSection from '~/components/AmbitiousBrandsSection.vue';
 import AppFooter from '~/components/AppFooter.vue';
 
 useSeoMeta({
-  title: 'Incredible Groups - Architectural & Investment Atelier',
-  ogTitle: 'Incredible Groups - Architectural & Investment Atelier',
-  description: 'Incredible Groups develops ultra-luxury architectural landmarks and allocates sovereign capital across category-defining venture portfolios in India.',
-  ogDescription: 'Pioneering ultra-luxury real estate landmarks, private coastal sanctuaries, and strategic alternative investment portfolios across India.'
+  title: 'Incredible Group of Companies - Real Estate & Diversified Holdings',
+  ogTitle: 'Incredible Group of Companies - Real Estate & Diversified Holdings',
+  description: 'Incredible Group of Companies develops ultra-luxury real estate landmarks and allocates strategic capital across category-defining venture portfolios in India.',
+  ogDescription: 'Pioneering ultra-luxury real estate landmarks, premier private estates, and strategic corporate ventures across India.'
 });
 </script>
 

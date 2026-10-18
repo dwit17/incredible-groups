@@ -8,11 +8,10 @@
     ]"
   >
     <div class="header__inner">
-      <!-- TOP LEFT: Small 3-Line Stacked Wordmark (Exact Reference Match) -->
-      <NuxtLink to="/" class="header__brand" aria-label="Incredible Groups Home" @click="closeMenu">
-        <span class="header__brand-line">Incredible</span>
-        <span class="header__brand-line">Architectural</span>
-        <span class="header__brand-line">Group</span>
+      <!-- TOP LEFT: Stacked Wordmark -->
+      <NuxtLink to="/" class="header__brand" aria-label="Incredible Group of Companies Home" @click="closeMenu">
+        <span class="header__brand-line">Incredible Group</span>
+        <span class="header__brand-line">of Companies</span>
       </NuxtLink>
 
       <!-- TOP RIGHT: Compact Nav Links (Index, Projects, Invested Companies, Contact) -->

@@ -1,10 +1,10 @@
 <template>
-  <section ref="sectionRef" class="sketch-strategy" aria-label="From Sketch to Strategy">
+  <section ref="sectionRef" class="sketch-strategy" aria-label="From Concept to Strategy">
     <!-- Title: Clean Light Grotesk / Sans-Serif, Solid Black, Dedicated Space Above Image -->
     <div ref="titleBoxRef" class="sketch-strategy__title-box">
       <h2 class="sketch-strategy__title">
         <span class="sketch-strategy__title-mask">
-          <span class="sketch-strategy__title-line">From Sketch</span>
+          <span class="sketch-strategy__title-line">From Concept</span>
         </span>
         <span class="sketch-strategy__title-mask">
           <span class="sketch-strategy__title-line">to Strategy</span>
@@ -54,15 +54,10 @@
 
         <!-- 2. Dual-Column Narrative Section -->
         <div ref="narrativeRowRef" class="sketch-strategy__narrative-row">
-          <div class="sketch-strategy__narrative-left">
-            <span class="sketch-strategy__narrative-tag">
-              <span>From Sketch</span>
-              <span>to Strategy</span>
-            </span>
-          </div>
+          <div class="sketch-strategy__narrative-left" aria-hidden="true"></div>
           <div class="sketch-strategy__narrative-right">
             <p class="sketch-strategy__narrative-p">
-              We begin with the essentials — sketches, diagrams, raw outlines. This is where we test the logic of space, the rhythm of circulation, and the relationship between human behavior and built form. Every line on paper is a question and an answer, a tool for clarity. Through dialogue between architects and developers, between vision and feasibility, we evolve each idea into a grounded, strategic direction — thoughtful, adaptable, and ready to be built.
+              We begin with the essentials - sketches, diagrams, raw outlines. This is where we test the logic of space, the rhythm of circulation, and the relationship between human behavior and built form. Every line on paper is a question and an answer, a tool for clarity. Through dialogue between planners and developers, between vision and feasibility, we evolve each idea into a grounded, strategic direction - thoughtful, adaptable, and ready to be built.
             </p>
           </div>
         </div>

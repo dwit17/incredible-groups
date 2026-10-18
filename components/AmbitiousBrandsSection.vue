@@ -447,19 +447,19 @@ const renderBadges = (cachedFacesList?: Array<{ el: HTMLElement; front: HTMLElem
   // Sized proportionally for mobile, tablet, and laptop/desktop screens
   // -------------------------------------------------------------
   const rx = isMobile 
-    ? Math.max(width * 0.36, 120) 
+    ? Math.max(width * 0.34, 120) 
     : isTablet 
-      ? Math.min(width * 0.38, 440) 
-      : Math.min(width * 0.42, 620);
+      ? Math.min(width * 0.36, 380) 
+      : Math.min(width * 0.38, 520);
 
   const ry = isMobile 
-    ? height * 0.35 
+    ? Math.min(height * 0.28, 200) 
     : isTablet 
-      ? height * 0.40 
-      : Math.min(height * 0.44, 460);
+      ? Math.min(height * 0.30, 250) 
+      : Math.min(height * 0.31, 270);
 
-  // Slight vertical offset center to balance typography perfectly
-  const offsetY = height * 0.02;
+  // Exact vertical center to balance typography and maintain safe top/bottom clearance
+  const offsetY = 0;
 
   const angleStep = (Math.PI * 2) / numBadges;
 
@@ -490,14 +490,14 @@ const renderBadges = (cachedFacesList?: Array<{ el: HTMLElement; front: HTMLElem
     if (isFront) {
       // Foreground: IN FRONT of text (z-index: 25 vs text z-index: 10)
       zIndex = 25;
-      scale = 0.96 + 0.22 * depth; // 0.96 -> 1.18x prominent size
-      opacity = 0.90 + 0.10 * depth; // 0.90 -> 1.0
+      scale = 0.90 + 0.16 * depth; // 0.90 -> 1.06x balanced size
+      opacity = 0.92 + 0.08 * depth; // 0.92 -> 1.0
       faceTransitionProgress = Math.min(1, depth * 3.0); // Fast blend to 1 as it enters front
     } else {
       // Background: BEHIND text (z-index: 2 vs text z-index: 10)
       zIndex = 2;
-      scale = 0.76 + 0.20 * (1 + depth); // 0.76 -> 0.96
-      opacity = 0.30 + 0.35 * (1 + depth); // 0.30 -> 0.65
+      scale = 0.72 + 0.18 * (1 + depth); // 0.72 -> 0.90x
+      opacity = 0.28 + 0.35 * (1 + depth); // 0.28 -> 0.63
       faceTransitionProgress = 0;
     }
 
@@ -583,7 +583,7 @@ onUnmounted(() => {
 
 .ambitious-brands__title {
   font-family: $font-serif;
-  font-size: clamp(26px, 3.8vw, 56px);
+  font-size: clamp(22px, 3.2vw, 46px);
   font-weight: 400;
   font-style: normal;
   line-height: 1.15;
@@ -634,10 +634,10 @@ onUnmounted(() => {
   position: absolute;
   left: 0;
   top: 0;
-  width: clamp(88px, 11vw, 158px);
-  height: clamp(88px, 11vw, 158px);
-  margin-left: calc(-1 * clamp(88px, 11vw, 158px) / 2);
-  margin-top: calc(-1 * clamp(88px, 11vw, 158px) / 2);
+  width: clamp(72px, 6.8vw, 120px);
+  height: clamp(72px, 6.8vw, 120px);
+  margin-left: calc(-1 * clamp(72px, 6.8vw, 120px) / 2);
+  margin-top: calc(-1 * clamp(72px, 6.8vw, 120px) / 2);
   border-radius: 50%;
   will-change: transform, opacity;
   pointer-events: auto;
@@ -652,7 +652,7 @@ onUnmounted(() => {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: clamp(0.7rem, 1.1vw, 1.4rem);
+    padding: clamp(0.5rem, 0.85vw, 1.15rem);
     box-sizing: border-box;
     will-change: opacity;
     transition: background-color 0.25s ease;

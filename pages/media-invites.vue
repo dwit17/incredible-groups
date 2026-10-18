@@ -138,97 +138,58 @@
           :aria-label="selectedCert.title"
           @click.self="closeModal"
         >
-          <div class="cert-modal">
-            <!-- Modal Header -->
-            <div class="cert-modal__header">
-              <div class="cert-modal__tag">
-                <span class="cert-pill__dot"></span>
-                <span>{{ selectedCert.status }}</span>
-                <span class="cert-modal__divider">•</span>
-                <span class="cert-modal__reg font-mono">{{ selectedCert.credentialId }}</span>
-              </div>
+          <div class="cert-modal-wrapper">
+            <!-- Floating Outer Close Button on Dark Backdrop -->
+            <button
+              type="button"
+              class="cert-modal__outer-close"
+              aria-label="Close certificate dialog"
+              @click="closeModal"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
 
-              <button
-                type="button"
-                class="cert-modal__close-btn"
-                aria-label="Close modal"
-                @click="closeModal"
-              >
-                <span>Close</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M18 6L6 18M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="cert-modal__body">
-              <!-- Visual Framing -->
-              <div class="cert-modal__stage">
-                <div class="cert-modal__frame">
-                  <img
-                    :src="selectedCert.image"
-                    :alt="selectedCert.title"
-                    class="cert-modal__preview"
-                  />
-                </div>
-              </div>
-
-              <!-- Credential Dossier -->
-              <div class="cert-modal__dossier">
-                <div>
-                  <span class="cert-modal__category-tag">{{ selectedCert.category }}</span>
-                  <h3 class="cert-modal__title">{{ selectedCert.title }}</h3>
-                </div>
-
-                <div class="cert-modal__specs">
-                  <div class="cert-modal__spec-item">
-                    <span class="cert-modal__spec-label">Issuing Body</span>
-                    <span class="cert-modal__spec-value">{{ selectedCert.authority }}</span>
-                  </div>
-                  <div class="cert-modal__spec-item">
-                    <span class="cert-modal__spec-label">Charter Code</span>
-                    <span class="cert-modal__spec-value cert-modal__spec-value--gold font-mono">{{ selectedCert.credentialId }}</span>
-                  </div>
-                  <div class="cert-modal__spec-item">
-                    <span class="cert-modal__spec-label">Year of Conferment</span>
-                    <span class="cert-modal__spec-value">{{ selectedCert.year }}</span>
-                  </div>
-                  <div class="cert-modal__spec-item">
-                    <span class="cert-modal__spec-label">Valid Duration</span>
-                    <span class="cert-modal__spec-value">{{ selectedCert.validUntil }}</span>
+            <div class="cert-modal">
+              <!-- Modal Body -->
+              <div class="cert-modal__body">
+                <!-- Visual Framing -->
+                <div class="cert-modal__stage">
+                  <div class="cert-modal__frame">
+                    <img
+                      :src="selectedCert.image"
+                      :alt="selectedCert.title"
+                      class="cert-modal__preview"
+                    />
                   </div>
                 </div>
 
-                <div class="cert-modal__action-row">
-                  <button
-                    type="button"
-                    class="cert-modal__btn cert-modal__btn--primary"
-                    @click="copyCredentialId(selectedCert.credentialId)"
-                  >
-                    <svg v-if="!copied" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                    <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#caa574" stroke-width="2.5">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span>{{ copied ? 'Charter Code Copied' : 'Copy Charter Code' }}</span>
-                  </button>
+                <!-- Credential Dossier -->
+                <div class="cert-modal__dossier">
+                  <div>
+                    <h3 class="cert-modal__title">{{ selectedCert.title }}</h3>
+                  </div>
 
-                  <a
-                    :href="selectedCert.image"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="cert-modal__btn cert-modal__btn--secondary"
-                  >
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                    <span>Inspect Raw File</span>
-                  </a>
+                  <div class="cert-modal__specs">
+                    <div class="cert-modal__spec-item">
+                      <span class="cert-modal__spec-label">Issuing Body</span>
+                      <span class="cert-modal__spec-value">{{ selectedCert.authority }}</span>
+                    </div>
+                    <div class="cert-modal__spec-item">
+                      <span class="cert-modal__spec-label">Charter Code</span>
+                      <span class="cert-modal__spec-value cert-modal__spec-value--gold font-mono">{{ selectedCert.credentialId }}</span>
+                    </div>
+                    <div class="cert-modal__spec-item">
+                      <span class="cert-modal__spec-label">Year of Conferment</span>
+                      <span class="cert-modal__spec-value">{{ selectedCert.year }}</span>
+                    </div>
+                    <div class="cert-modal__spec-item">
+                      <span class="cert-modal__spec-label">Valid Duration</span>
+                      <span class="cert-modal__spec-value">{{ selectedCert.validUntil }}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1010,12 +971,13 @@ onUnmounted(() => {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background-color: rgba(12, 13, 14, 0.82);
+  background-color: rgba(12, 13, 14, 0.85);
   backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(2rem, 4vw, 3.5rem);
 
   @include mobile {
     padding: 0;
@@ -1023,71 +985,72 @@ onUnmounted(() => {
   }
 }
 
-.cert-modal {
-  background-color: $color-bg-primary;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.cert-modal-wrapper {
+  position: relative;
   width: 100%;
   max-width: 1120px;
-  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+
+  @include mobile {
+    max-width: 100%;
+  }
+}
+
+.cert-modal__outer-close {
+  position: absolute;
+  top: -52px;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  z-index: 1002;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: scale(1.08);
+    color: #ffffff;
+  }
+
+  @media (min-width: 1240px) {
+    top: -18px;
+    right: -60px;
+  }
+
+  @include mobile {
+    top: -50px;
+    right: 1.25rem;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.cert-modal {
+  background-color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  max-height: 90vh;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 32px 72px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 32px 72px rgba(0, 0, 0, 0.5);
 
   @include mobile {
-    max-height: 94vh;
-    border-radius: 14px 14px 0 0;
-    border-bottom: none;
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1rem clamp(1.25rem, 2vw, 2rem);
-    background-color: #ffffff;
-    border-bottom: 1px solid $color-border-light-subtle;
-    gap: 1rem;
-  }
-
-  &__tag {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: $font-content;
-    font-size: 0.75rem;
-    color: $color-text-primary;
-    font-weight: 500;
-  }
-
-  &__divider {
-    color: $color-text-dim;
-  }
-
-  &__reg {
-    color: $color-text-secondary;
-  }
-
-  &__close-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: $font-content;
-    font-size: 0.8125rem;
-    color: $color-text-secondary;
-    background: transparent;
-    border: 1px solid $color-border-light;
-    border-radius: 9999px;
-    padding: 0.35rem 0.85rem;
-    cursor: pointer;
-    transition: all $duration-fast ease;
-
-    &:hover {
-      color: #111111;
-      border-color: #111111;
-      background-color: rgba(17, 17, 17, 0.05);
-    }
+    max-height: 90vh;
+    border-radius: 16px 16px 0 0;
   }
 
   &__body {
@@ -1103,7 +1066,7 @@ onUnmounted(() => {
 
   &__stage {
     background-color: #ecece8;
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(1.75rem, 3.5vw, 3rem);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1112,7 +1075,7 @@ onUnmounted(() => {
     @include tablet-down {
       border-right: none;
       border-bottom: 1px solid $color-border-light-subtle;
-      padding: 1.25rem;
+      padding: 1.5rem;
     }
   }
 
@@ -1134,31 +1097,21 @@ onUnmounted(() => {
   }
 
   &__dossier {
-    padding: clamp(1.5rem, 3vw, 2.5rem);
+    padding: clamp(2rem, 3.5vw, 3.5rem);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     background-color: #ffffff;
+    gap: 1.5rem;
 
     @include mobile {
-      padding: 1.25rem;
+      padding: 1.5rem;
     }
-  }
-
-  &__category-tag {
-    font-family: $font-content;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: $color-accent;
-    display: block;
-    margin-bottom: 0.4rem;
   }
 
   &__title {
     font-family: $font-heading;
-    font-size: clamp(1.35rem, 2vw, 1.85rem);
+    font-size: clamp(1.4rem, 2.2vw, 2.1rem);
     font-weight: 500;
     line-height: 1.2;
     letter-spacing: -0.025em;
@@ -1169,17 +1122,16 @@ onUnmounted(() => {
   &__specs {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.1rem;
-    margin: 1.75rem 0;
-    padding: 1.25rem 0;
+    gap: 1.2rem;
+    margin: 1.5rem 0 0 0;
+    padding: 1.5rem 0 0 0;
     border-top: 1px solid $color-border-light-subtle;
-    border-bottom: 1px solid $color-border-light-subtle;
   }
 
   &__spec-item {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 0.25rem;
   }
 
   &__spec-label {
@@ -1200,54 +1152,6 @@ onUnmounted(() => {
       color: $color-accent;
     }
   }
-
-  &__action-row {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: auto;
-
-    @include mobile {
-      flex-direction: column;
-    }
-  }
-
-  &__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-family: $font-content;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    padding: 0.75rem 1.25rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all $duration-fast ease;
-    text-decoration: none;
-
-    &--primary {
-      background-color: $color-text-primary;
-      color: #ffffff;
-      border: 1px solid $color-text-primary;
-      flex: 1;
-
-      &:hover {
-        background-color: #000000;
-        border-color: #000000;
-      }
-    }
-
-    &--secondary {
-      background-color: transparent;
-      color: $color-text-primary;
-      border: 1px solid $color-border-light;
-
-      &:hover {
-        border-color: $color-text-primary;
-        background-color: rgba(17, 17, 17, 0.04);
-      }
-    }
-  }
 }
 
 // Modal Animation Transitions
@@ -1255,7 +1159,8 @@ onUnmounted(() => {
 .modal-fade-leave-active {
   transition: opacity 0.3s ease;
 
-  .cert-modal {
+  .cert-modal,
+  .cert-modal__outer-close {
     transition: transform 0.35s $ease-editorial, opacity 0.3s ease;
   }
 }
@@ -1265,12 +1170,17 @@ onUnmounted(() => {
   opacity: 0;
 
   .cert-modal {
-    transform: translateY(24px) scale(0.98);
+    transform: translateY(20px) scale(0.98);
     opacity: 0;
 
     @include mobile {
       transform: translateY(100%);
     }
+  }
+
+  .cert-modal__outer-close {
+    opacity: 0;
+    transform: scale(0.8);
   }
 }
 </style>

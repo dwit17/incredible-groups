@@ -40,7 +40,7 @@
       <div class="projects-statement__inner">
         <h2 ref="statementHeadingRef" class="projects-statement__heading">
           <span class="statement-mask"><span class="statement-line">Architectural Rigor</span></span>
-          <span class="statement-mask"><span class="statement-line">&amp; Spatial Truth</span></span>
+          <span class="statement-mask"><span class="statement-line"><span class="amp-char">&amp;</span> Spatial Truth</span></span>
         </h2>
 
         <div class="projects-statement__columns">
@@ -80,17 +80,13 @@
       <div class="projects-asymmetric-gallery__inner">
         
         <div class="projects-asymmetric-gallery__header">
-          <div class="gallery-header-left">
-            <h2 class="projects-asymmetric-gallery__title">
-              <span class="title-mask"><span class="title-line">Monographic</span></span>
-              <span class="title-mask">
-                <span class="title-line">Developments <span class="projects-asymmetric-gallery__count">({{ projects.length }})</span></span>
+          <h2 class="projects-asymmetric-gallery__title">
+            <span class="title-mask">
+              <span class="title-line">
+                Monographic Developments <span class="projects-asymmetric-gallery__count">({{ projects.length }})</span>
               </span>
-            </h2>
-          </div>
-          <p class="gallery-header-desc">
-            Explore dedicated monographs with structural blueprints, specifications, multi-perspective exposure, and acquisition terms.
-          </p>
+            </span>
+          </h2>
         </div>
 
         <!-- Asymmetric Staggered Grid (All 8 Projects) -->
@@ -707,16 +703,26 @@ onUnmounted(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-family: $font-sans;
+    font-family: $font-heading;
     font-size: clamp(3.2rem, 7.2vw, 7.8rem);
-    font-weight: 700;
+    font-weight: 400;
     line-height: 0.94;
     letter-spacing: -0.04em;
     color: #111111;
     margin: 0 0 clamp(2rem, 4vh, 3.25rem) 0;
+    font-synthesis: none;
+    -webkit-font-smoothing: antialiased;
 
     @include mobile {
       font-size: clamp(2.2rem, 9.5vw, 3.4rem);
+    }
+
+    .amp-char {
+      font-family: 'Neue Haas Grotesk Light', $font-sans;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      display: inline-block;
+      vertical-align: baseline;
     }
   }
 
@@ -817,32 +823,34 @@ onUnmounted(() => {
 
   &__header {
     display: flex;
-    justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: clamp(4rem, 8vh, 8rem);
-    gap: 2rem;
-
-    @include tablet-down {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+    margin-bottom: clamp(3.5rem, 7vh, 7rem);
   }
 
   &__title {
     font-family: $font-sans;
-    font-size: clamp(48px, 6.2vw, 92px);
+    font-size: clamp(32px, 5.2vw, 84px);
     font-weight: 400;
-    line-height: 0.92;
+    line-height: 1.05;
     letter-spacing: -0.035em;
     color: #111111;
-    margin: 0.35rem 0 0 0;
+    margin: 0;
+
+    @include mobile {
+      font-size: clamp(22px, 6.2vw, 36px);
+    }
   }
 
   &__count {
-    font-family: $font-sans;
-    font-size: 0.45em;
+    font-family: inherit;
+    font-size: 0.52em;
+    font-weight: 500;
+    line-height: 1;
     color: #111111;
-    vertical-align: super;
+    vertical-align: 0.3em;
+    display: inline-block;
+    letter-spacing: -0.01em;
+    margin-left: 0.2em;
   }
 
   &__grid {
@@ -875,15 +883,6 @@ onUnmounted(() => {
   }
 }
 
-.gallery-header-desc {
-  font-family: $font-sans;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #666666;
-  max-width: 440px;
-  margin: 0;
-}
-
 .title-mask {
   display: block;
   overflow: hidden;
@@ -892,7 +891,12 @@ onUnmounted(() => {
 
 .title-line {
   display: block;
+  white-space: nowrap;
   will-change: transform, opacity;
+
+  @include mobile {
+    white-space: normal;
+  }
 }
 
 /* Asymmetric Individual Cards */

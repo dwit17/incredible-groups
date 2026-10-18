@@ -10,7 +10,7 @@
               <span class="editorial-statement__heading-line">Systematic</span>
             </span>
             <span class="editorial-statement__line-mask">
-              <span class="editorial-statement__heading-line">Clarity &amp; Creativity</span>
+              <span class="editorial-statement__heading-line">Clarity <span class="amp-char">&amp;</span> Creativity</span>
             </span>
           </h2>
 
@@ -227,6 +227,14 @@ onUnmounted(() => {
       line-height: 0.96;
       letter-spacing: -0.035em;
       margin-bottom: 1.5rem;
+    }
+
+    .amp-char {
+      font-family: 'Neue Haas Grotesk Light', $font-sans;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      display: inline-block;
+      vertical-align: baseline;
     }
 
     &__line-mask {

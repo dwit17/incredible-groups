@@ -14,13 +14,13 @@
 
           <div class="studio-editorial-flow__meta-line">
             <span class="studio-editorial-flow__meta-label">Founder</span>
-            <span class="studio-editorial-flow__meta-val">Incredible Architectural Group</span>
+            <span class="studio-editorial-flow__meta-val">Atul Vaghela</span>
           </div>
 
           <div class="studio-editorial-flow__meta-line studio-editorial-flow__meta-line--stacked">
             <span class="studio-editorial-flow__meta-label">Services</span>
             <p class="studio-editorial-flow__meta-text">
-              From monolithic architectural vision to final execution — including facades, layouts, sketches, documentation, and immersive visualizations.
+              From strategic land acquisition to turnkey development - including luxury residential estates, commercial hubs, master-planned townships, and asset management.
             </p>
           </div>
         </div>
@@ -28,17 +28,15 @@
         <!-- Right Column: Large Editorial Serif Lead Statement -->
         <div class="studio-editorial-flow__lead-col">
           <p class="studio-editorial-flow__lead-serif">
-            An architecture bureau rooted in precision and emotion. We design with a deep understanding of context, function, and timeless form — shaping environments that feel effortless, intuitive, and distinctly refined. From urban masterplans to boutique sanctuaries, each project is tailored with vision and care.
+            A premier real estate firm rooted in precision and enduring value. We develop with a deep understanding of location, function, and timeless form - shaping environments that feel effortless, intuitive, and distinctly refined. From large-scale master developments to boutique luxury residences, each property is crafted with vision and care.
           </p>
         </div>
       </div>
 
-      <!-- Credentials 5-Column Grid (Achievement, Awards, Publications) -->
+      <!-- Credentials 5-Column Grid (Awards, Publications) -->
       <div ref="credsRowRef" class="studio-editorial-flow__credentials-row">
-        <!-- Col 1: Achievement label -->
-        <div class="studio-editorial-flow__cred-label-col">
-          <span class="studio-editorial-flow__cred-label">Achievement</span>
-        </div>
+        <!-- Col 1: Empty spacer (Achievement text removed) -->
+        <div class="studio-editorial-flow__cred-label-col" aria-hidden="true"></div>
 
         <!-- Col 2: Awards label -->
         <div class="studio-editorial-flow__cred-label-col">

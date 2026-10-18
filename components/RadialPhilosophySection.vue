@@ -297,10 +297,10 @@ onMounted(() => {
         scrollTrigger: {
           trigger: sectionEl.value,
           start: 'top top',
-          end: '+=190%', // Reduced pin scroll distance so passing to the next section feels natural and effortless
+          end: '+=75%', // Short snappy pin distance so passing through is effortless with zero drag
           pin: stageEl.value,
           pinSpacing: true,
-          scrub: 0.8,
+          scrub: 0.1, // Super instant, zero scrub lag / delay
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onToggle: (self) => {
@@ -309,7 +309,7 @@ onMounted(() => {
           onUpdate: (self) => {
             if (Number.isFinite(self.progress)) {
               pinnedProgress = self.progress;
-              isDark.value = self.progress >= 0.40;
+              isDark.value = self.progress >= 0.06;
             }
           }
         }
@@ -318,39 +318,39 @@ onMounted(() => {
       masterScrollTrigger = masterTl.scrollTrigger;
       isScrollActive = (masterScrollTrigger && masterScrollTrigger.isActive) || approachTrigger.isActive;
 
-      // Phase 1 (0.00 -> 0.15): Steady White Hold (Refined & Bold Essential)
-      masterTl.to({}, { duration: 0.15 });
+      // Phase 1 (0.00 -> 0.05): Immediate initial hold
+      masterTl.to({}, { duration: 0.05 });
 
-      // Phase 2 (0.15 -> 0.85): Smooth, slow, cinematic morph & typographic transition
+      // Phase 2 (0.05 -> 0.09): Instant white-to-black switch in a blink of a scroll notch
       masterTl.to(stageEl.value, {
         backgroundColor: '#000000',
         color: '#FFFFFF',
-        duration: 0.65,
-        ease: 'power1.inOut'
-      }, 0.15);
+        duration: 0.04,
+        ease: 'power3.out'
+      }, 0.05);
 
       if (lines1) {
         masterTl.to(lines1, {
           yPercent: -105,
           opacity: 0,
-          duration: 0.45,
-          stagger: 0.05,
-          ease: 'power2.inOut'
-        }, 0.18);
+          duration: 0.06,
+          stagger: 0.015,
+          ease: 'power3.in'
+        }, 0.04);
       }
 
       if (lines2) {
         masterTl.to(lines2, {
           yPercent: 0,
           opacity: 1,
-          duration: 0.50,
-          stagger: 0.06,
-          ease: 'power2.out'
-        }, 0.35);
+          duration: 0.08,
+          stagger: 0.02,
+          ease: 'power3.out'
+        }, 0.06);
       }
 
-      // Phase 3 (0.85 -> 1.00): Steady Dark Hold (Simplicity & Clarity of Approach)
-      masterTl.to({}, { duration: 0.15 });
+      // Phase 3 (0.15 -> 1.00): Steady dark hold with rotating spokes until release
+      masterTl.to({}, { duration: 0.85 });
 
       // Precision 120fps Ticker Loop with Spring-Damper Physics
       tickerCallback = () => {

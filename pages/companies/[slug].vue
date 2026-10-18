@@ -19,45 +19,18 @@
         <div class="company-hero-overlay"></div>
       </div>
 
-      <!-- Top Floating Breadcrumbs Bar -->
-      <div class="company-hero-top">
-        <div class="company-layout-inner">
-          <div class="company-breadcrumbs-pill">
-            <NuxtLink to="/companies" class="company-breadcrumbs__back">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M19 12H5M12 19l-7-7 7-7" />
-              </svg>
-              <span>All Portfolio Ventures</span>
-            </NuxtLink>
-            <span class="company-breadcrumbs__divider">/</span>
-            <span class="company-breadcrumbs__current">{{ company.name }}</span>
-          </div>
-        </div>
-      </div>
-
       <!-- Bottom Hero Content Grid -->
       <div class="company-hero-bottom">
         <div class="company-layout-inner">
           <div class="company-hero-grid">
             
-            <!-- Left: Brand Logo, Sector, Monumental Title, Subtitle -->
+            <!-- Left: Monumental Pure Title -->
             <div class="company-hero-left">
-              <div ref="brandHeaderRef" class="company-hero-header-line">
-                <div class="company-logo-frame">
-                  <CompanyBrandLogo :company-id="company.id" :fallback-name="company.name" :is-dark="true" />
-                </div>
-                <div class="company-sector-badge">{{ company.sector }}</div>
-              </div>
-
               <h1 ref="titleRef" class="company-hero__title">
                 <span class="title-mask">
                   <span class="title-line">{{ company.name }}</span>
                 </span>
               </h1>
-
-              <p ref="heroSubtitleRef" class="company-hero__subtitle">
-                {{ company.shortDescription }}
-              </p>
             </div>
 
             <!-- Right: Direct Inquiry & Valuation Callout -->
@@ -276,7 +249,7 @@
           <div class="synergy-left">
             <h3 class="synergy-title">Deployment Across Landmark Projects</h3>
             <p class="synergy-desc">
-              {{ company.name }} operates as an integrated technological and operational pillar across Incredible Groups’ landmark developments—from our high-density coastal residential towers in Mumbai to private forest sanctuaries in Goa.
+              {{ company.name }} operates as an integrated technological and operational pillar across Incredible Groups’ landmark developments - from our high-density coastal residential towers in Mumbai to private forest sanctuaries in Goa.
             </p>
             <div class="synergy-actions">
               <NuxtLink to="/projects" class="btn btn--primary">
@@ -306,12 +279,14 @@
           
           <!-- Prev Venture -->
           <NuxtLink v-if="prevCompany" :to="`/companies/${prevCompany.slug}`" class="venture-nav-card venture-nav-card--prev">
+            <span class="venture-nav-label">← Previous Venture</span>
             <h4 class="venture-nav-title">{{ prevCompany.name }}</h4>
             <span class="venture-nav-meta">{{ prevCompany.sector }} • {{ prevCompany.valuation }}</span>
           </NuxtLink>
 
           <!-- Next Venture -->
           <NuxtLink v-if="nextCompany" :to="`/companies/${nextCompany.slug}`" class="venture-nav-card venture-nav-card--next">
+            <span class="venture-nav-label">Next Venture →</span>
             <h4 class="venture-nav-title">{{ nextCompany.name }}</h4>
             <span class="venture-nav-meta">{{ nextCompany.sector }} • {{ nextCompany.valuation }}</span>
           </NuxtLink>
@@ -371,9 +346,7 @@ const nextCompany = computed(() => {
 const pageRef = ref<HTMLElement | null>(null);
 const heroCanvasRef = ref<HTMLElement | null>(null);
 const bannerImgRef = ref<HTMLElement | null>(null);
-const brandHeaderRef = ref<HTMLElement | null>(null);
 const titleRef = ref<HTMLElement | null>(null);
-const heroSubtitleRef = ref<HTMLElement | null>(null);
 const valuationCardRef = ref<HTMLElement | null>(null);
 const heroActionsRef = ref<HTMLElement | null>(null);
 const quoteRef = ref<HTMLElement | null>(null);
@@ -441,16 +414,7 @@ onMounted(async () => {
       );
     }
 
-    // Brand Logo, Sector Badge & Subtitle
-    const leftElements = [brandHeaderRef.value, heroSubtitleRef.value].filter(Boolean);
-    if (leftElements.length > 0) {
-      heroTl.fromTo(
-        leftElements,
-        { y: 24, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.9, stagger: 0.08 },
-        0.3
-      );
-    }
+
 
     // Valuation Card & Actions
     const rightElements = [valuationCardRef.value, heroActionsRef.value].filter(Boolean);
@@ -638,16 +602,15 @@ onUnmounted(() => {
   background-color: #0c0d0e;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   box-sizing: border-box;
-  padding-top: clamp(84px, 12vh, 120px);
-  padding-bottom: clamp(32px, 5vh, 56px);
+  padding-bottom: clamp(48px, 8vh, 88px);
 
   @include mobile {
     min-height: 100dvh;
     height: auto;
-    padding-top: 5.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 6.5rem;
+    padding-bottom: 3.5rem;
   }
 }
 
@@ -677,60 +640,12 @@ onUnmounted(() => {
   inset: 0;
   background: linear-gradient(
     180deg,
-    rgba(12, 13, 14, 0.6) 0%,
-    rgba(12, 13, 14, 0.15) 30%,
-    rgba(12, 13, 14, 0.35) 60%,
-    rgba(12, 13, 14, 0.9) 100%
+    rgba(12, 13, 14, 0.5) 0%,
+    rgba(12, 13, 14, 0.2) 30%,
+    rgba(12, 13, 14, 0.4) 60%,
+    rgba(12, 13, 14, 0.92) 100%
   );
   pointer-events: none;
-}
-
-/* Top Floating Breadcrumb Pill */
-.company-hero-top {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-}
-
-.company-breadcrumbs-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: $font-mono;
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(20, 22, 26, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  padding: 0.45rem 1rem;
-  border-radius: 9999px;
-
-  .company-breadcrumbs__back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    color: #ffffff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.8;
-    }
-  }
-
-  .company-breadcrumbs__divider {
-    opacity: 0.4;
-  }
-
-  .company-breadcrumbs__current {
-    color: rgba(255, 255, 255, 0.9);
-    max-width: 320px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 }
 
 /* Bottom Hero Content Grid */
@@ -758,41 +673,14 @@ onUnmounted(() => {
   flex-direction: column;
 }
 
-.company-hero-header-line {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.company-logo-frame {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.company-sector-badge {
-  font-family: $font-mono;
-  font-size: clamp(0.68rem, 1.2vw, 0.75rem);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #c5a880;
-  background: rgba(197, 168, 128, 0.12);
-  border: 1px solid rgba(197, 168, 128, 0.3);
-  padding: 0.35rem 0.75rem;
-  border-radius: 4px;
-}
-
 .company-hero__title {
   font-family: $font-serif;
-  font-size: clamp(2.2rem, 5.5vw, 5.2rem);
+  font-size: clamp(2.6rem, 6.2vw, 5.8rem);
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.025em;
   color: #ffffff;
-  margin: 0 0 1rem 0;
+  margin: 0;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -806,16 +694,6 @@ onUnmounted(() => {
 .title-line {
   display: block;
   will-change: transform, opacity;
-}
-
-.company-hero__subtitle {
-  font-family: $font-sans;
-  font-size: clamp(0.95rem, 1.25vw, 1.25rem);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.82);
-  font-weight: 300;
-  margin: 0;
-  max-width: 700px;
 }
 
 .company-hero-right {
@@ -864,8 +742,56 @@ onUnmounted(() => {
 
 .company-hero-actions {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.85rem;
+  align-items: center;
   flex-wrap: wrap;
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 1.65rem;
+    font-family: $font-sans;
+    font-size: 0.86rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    border-radius: 4px;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    line-height: 1.2;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-sizing: border-box;
+  }
+
+  .btn--primary {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+
+    &:hover {
+      background: #f0f0ed;
+      border-color: #f0f0ed;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  .btn--secondary {
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.22);
+      border-color: rgba(255, 255, 255, 0.55);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+  }
 
   @include mobile {
     flex-direction: column;
@@ -874,30 +800,6 @@ onUnmounted(() => {
     .btn {
       width: 100%;
       min-height: 48px;
-      justify-content: center;
-    }
-  }
-
-  .btn--primary {
-    background: #ffffff;
-    color: #111111;
-    border: 1px solid #ffffff;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.9);
-    }
-  }
-
-  .btn--secondary {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: rgba(255, 255, 255, 0.45);
     }
   }
 }
@@ -965,9 +867,16 @@ onUnmounted(() => {
   margin-bottom: clamp(4rem, 8vh, 7rem);
   border-bottom: 1px solid rgba(17, 17, 17, 0.08);
 
+  &--synergy {
+    padding-bottom: clamp(3rem, 5.5vh, 4.5rem);
+    margin-bottom: clamp(2rem, 3.5vh, 3rem);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  }
+
   &--nav {
     border-bottom: none;
-    padding-bottom: 0;
+    padding-top: clamp(1.5rem, 3vh, 2.5rem);
+    padding-bottom: clamp(6rem, 11vh, 9rem);
     margin-bottom: 0;
   }
 }
@@ -1477,12 +1386,12 @@ onUnmounted(() => {
   background: #ffffff;
   border: 1px solid rgba(17, 17, 17, 0.08);
   border-radius: 6px;
-  padding: 2rem;
+  padding: clamp(1.85rem, 3.2vw, 2.65rem);
   text-decoration: none;
   color: #111111;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.45rem;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
@@ -1498,23 +1407,28 @@ onUnmounted(() => {
 
 .venture-nav-label {
   font-family: $font-mono;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #c5a880;
+  color: #888888;
+  font-weight: 500;
+  margin-bottom: 0.2rem;
 }
 
 .venture-nav-title {
   font-family: $font-serif;
-  font-size: 1.5rem;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
   font-weight: 400;
+  line-height: 1.25;
   margin: 0;
+  color: #111111;
 }
 
 .venture-nav-meta {
   font-family: $font-sans;
-  font-size: 0.82rem;
-  color: #777777;
+  font-size: 0.85rem;
+  color: #666666;
+  line-height: 1.4;
 }
 
 /* Not Found State */

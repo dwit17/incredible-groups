@@ -1,4 +1,4 @@
-# Incredible Groups — Premium Real Estate & Alternative Investments
+# Incredible Groups - Premium Real Estate & Alternative Investments
 
 An ultra-premium, editorial web platform for **Incredible Groups** (India), built with Nuxt 3, SCSS, GSAP, Lenis, and Three.js. Replicates the exact motion, timing, smooth-scrolling feel, and DOM-synced WebGL shaders of world-class architectural bureau websites while adhering strictly to clean-room development rules.
 

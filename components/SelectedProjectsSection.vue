@@ -1,15 +1,12 @@
 <template>
   <section ref="sectionRef" class="selected-projects" aria-label="Selected Projects">
     <div class="selected-projects__inner">
-      <!-- Title Header: Clean 2-Line Sans-Serif with Counter (Exact Reference Match) -->
+      <!-- Title Header: Clean 1-Line Sans-Serif with Counter -->
       <div ref="headerRef" class="selected-projects__header">
         <h2 class="selected-projects__title">
           <span class="selected-projects__title-mask">
-            <span class="selected-projects__title-line">Selected</span>
-          </span>
-          <span class="selected-projects__title-mask">
             <span class="selected-projects__title-line">
-              Projects <span class="selected-projects__count">(8+)</span>
+              Selected Projects <span class="selected-projects__count">(8+)</span>
             </span>
           </span>
         </h2>
@@ -384,19 +381,24 @@ onUnmounted(() => {
 
   &__title {
     font-family: $font-sans;
-    font-size: clamp(48px, 6.2vw, 92px);
+    font-size: clamp(2rem, 5.2vw, 5.2rem);
     font-weight: 400;
-    line-height: 0.92;
+    line-height: 1.05;
     letter-spacing: -0.035em;
     color: #111111;
     margin: 0;
     padding: 0;
+
+    @include mobile {
+      font-size: clamp(1.35rem, 6.2vw, 2.2rem);
+    }
   }
 
   &__title-mask {
     display: block;
     overflow: hidden;
-    padding-bottom: 0.12em;
+    padding-top: 0.1em;
+    padding-bottom: 0.15em;
     line-height: inherit;
   }
 
@@ -407,13 +409,15 @@ onUnmounted(() => {
   }
 
   &__count {
-    font-family: $font-sans;
-    font-size: 0.45em;
-    font-weight: 400;
+    font-family: inherit;
+    font-size: 0.52em;
+    font-weight: 500;
     letter-spacing: -0.01em;
-    color: #111111;
-    vertical-align: super;
-    margin-left: 0.15em;
+    color: inherit;
+    vertical-align: 0.35em;
+    margin-left: 0.18em;
+    display: inline-block;
+    line-height: 1;
   }
 
   // Gallery Container & Rows

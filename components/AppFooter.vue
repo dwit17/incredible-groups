@@ -7,9 +7,8 @@
         <div class="site-footer__logo-col">
           <NuxtLink to="/" class="site-footer__brand-wordmark">
             <h2 class="site-footer__brand-title">
-              <span>Incredible</span>
-              <span>Architectural</span>
-              <span class="site-footer__brand-serif">Group</span>
+              <span>Incredible Group</span>
+              <span class="site-footer__brand-serif">of Companies</span>
             </h2>
           </NuxtLink>
         </div>
@@ -115,7 +114,7 @@
         </div>
 
         <div class="site-footer__bottom-col">
-          <span>Architectural Atelier</span>
+          <span>Group of Companies</span>
         </div>
 
         <div class="site-footer__bottom-col site-footer__bottom-col--right">

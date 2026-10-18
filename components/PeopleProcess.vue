@@ -7,10 +7,10 @@
   >
     <div class="ctr">
       <!-- ========================================================= -->
-      <!-- 1. EDITORIAL / PROCESS (People & Process)                 -->
+      <!-- ========================================================= -->
+      <!-- 1. EDITORIAL / STATEMENT                                  -->
       <!-- ========================================================= -->
       <div ref="elProcessRef" class="enr">
-        <h2 class="fn-b1 amv f-sf">People &amp; Process</h2>
         <h3 class="fn-h3 kca">
           A studio shaped by clarity, trust, and a collective pursuit of thoughtful design.
         </h3>
@@ -544,7 +544,7 @@ onUnmounted(() => {
 }
 
 // -------------------------------------------------------------------------
-// 1. EDITORIAL / PROCESS (People & Process)
+// 1. EDITORIAL / STATEMENT
 // -------------------------------------------------------------------------
 .enr {
   max-width: calc(1130 * var(--rem));
@@ -552,35 +552,9 @@ onUnmounted(() => {
   width: 100%;
   z-index: 10;
 
-  .amv {
-    left: 0;
-    width: 6.5vw;
-    max-width: none;
-    position: absolute;
-    top: calc(6 * var(--rem));
-    margin: 0;
-    font-size: 16px;
-    line-height: 1.15;
-  }
-
-  @media (max-width: 767.98px) {
-    .amv {
-      margin-bottom: calc(8 * var(--rem));
-      max-width: none;
-      position: static;
-      width: auto;
-    }
-  }
-
   .kca {
-    text-indent: 7vw; // First line indented about 7vw
+    text-indent: 0;
     margin: 0;
-  }
-
-  @media (max-width: 767.98px) {
-    .kca {
-      text-indent: 0;
-    }
   }
 }
 

@@ -86,7 +86,7 @@ export const companies: Company[] = [
     logo: '/placeholders/company-logo-1.svg',
     brandBadge: 'VPT',
     gallery: [
-      { url: '/images/precision-detail.jpg', caption: 'Neural sensor array integrated into architectural facade', category: 'Hardware' },
+      { url: '/images/project-vision.jpg', caption: 'Neural sensor array integrated into architectural facade', category: 'Hardware' },
       { url: '/images/project-bolshevik.jpg', caption: 'Command center managing 42M sq.ft of smart commercial space', category: 'Operations' },
       { url: '/images/studio-01.jpg', caption: 'R&D engineers calibrating optical micro-sensor prototypes', category: 'Atelier Labs' }
     ]
@@ -199,7 +199,7 @@ export const companies: Company[] = [
     
     problemStatement: 'Conventional on-site building construction in remote luxury destinations suffers 40%+ cost overruns, chronic weather delays, and severe structural quality variances.',
     marketFriction: 'Wet construction techniques generate enormous material waste, noise pollution, and heavy carbon emissions that damage delicate natural ecosystems.',
-    howTheyAreSolving: 'Zenith pre-engineers complete modular volumetric pods—complete with plumbing, wiring, and bespoke stone finishes—and assembles them on-site in under 45 days.',
+    howTheyAreSolving: 'Zenith pre-engineers complete modular volumetric pods - complete with plumbing, wiring, and bespoke stone finishes - and assembles them on-site in under 45 days.',
     proprietaryTech: [
       'RoboPod™ 6-Axis Robotic Timber-Concrete Joining Cells',
       'AeroSeal™ Sub-Millimeter Acoustic Interlocking Joints',
@@ -215,7 +215,7 @@ export const companies: Company[] = [
     logo: '/placeholders/company-logo-4.svg',
     brandBadge: 'ZMS',
     gallery: [
-      { url: '/images/precision-preliminary.jpg', caption: 'Robotic gantry manufacturing modular timber-concrete pod', category: 'Factory' },
+      { url: '/images/project-almaty.jpg', caption: 'Robotic gantry manufacturing modular timber-concrete pod', category: 'Factory' },
       { url: '/images/project-vision.jpg', caption: 'Completed luxury clifftop villa assembled in 38 days', category: 'Completed' },
       { url: '/images/studio-04.jpg', caption: 'Structural engineers verifying BIM connection tolerances', category: 'Engineering' }
     ]
@@ -344,7 +344,7 @@ export const companies: Company[] = [
     logo: '/placeholders/company-logo-7.svg',
     brandBadge: 'OMR',
     gallery: [
-      { url: '/images/precision-detail.jpg', caption: 'Electron microscope analysis of self-healing bio-concrete', category: 'Material' },
+      { url: '/images/statement-architecture.jpg', caption: 'Electron microscope analysis of self-healing bio-concrete', category: 'Material' },
       { url: '/images/project-info-architecture.jpg', caption: 'UHPC cantilevered architectural pavilion casting', category: 'Structure' },
       { url: '/images/studio-07.jpg', caption: 'Materials laboratory conducting hydraulic compressive tests', category: 'Testing' }
     ]
