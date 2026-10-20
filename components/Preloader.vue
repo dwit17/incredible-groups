@@ -4,51 +4,64 @@
     ref="preloaderRef"
     class="preloader"
     :class="{ 'preloader--closing': isClosing }"
+    role="status"
+    aria-live="polite"
     aria-label="Loading site"
   >
     <div class="preloader__inner">
-      <div class="preloader__header">
-        <span class="preloader__logo">INCREDIBLE GROUPS</span>
-        <span class="preloader__sub">INDIA • MONOLITHIC REAL ESTATE &amp; VENTURES</span>
-      </div>
-
-      <div class="preloader__center">
+      <div class="preloader__content">
+        <!-- Minimal Monochromatic Number -->
         <div class="preloader__counter">
           <span class="preloader__number">{{ counter }}</span>
           <span class="preloader__percent">%</span>
         </div>
-        <div class="preloader__bar">
-          <div class="preloader__progress" :style="{ width: `${counter}%` }"></div>
-        </div>
-      </div>
 
-      <div class="preloader__footer">
-        <span class="preloader__status">{{ statusMessage }}</span>
-        <span class="preloader__year">EST. 2004</span>
+        <!-- Hairline 1px Progress Bar -->
+        <div class="preloader__bar" aria-hidden="true">
+          <div
+            class="preloader__progress"
+            :style="{ width: `${counter}%` }"
+          ></div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { gsap } from 'gsap';
 import { useSiteLoaded } from '~/composables/useSiteLoaded';
 
-const emit = defineEmits(['complete']);
+const emit = defineEmits<{
+  (e: 'complete'): void;
+}>();
+
 const { setSiteLoaded } = useSiteLoaded();
 
 const isVisible = ref(true);
 const isClosing = ref(false);
 const counter = ref(0);
-const statusMessage = ref('INITIALIZING ATELIER');
 const preloaderRef = ref<HTMLElement | null>(null);
+
+let tween: gsap.core.Tween | null = null;
+let watchdogTimer: ReturnType<typeof setTimeout> | null = null;
+let settleTimer: ReturnType<typeof setTimeout> | null = null;
+
+const unlockScroll = () => {
+  if (typeof document !== 'undefined') {
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+};
 
 const dismissPreloader = () => {
   if (!isVisible.value || isClosing.value) return;
   isClosing.value = true;
+  counter.value = 100;
+  unlockScroll();
 
-  // Signal that unveiling has started so hero text animation plays right as preloader lifts
+  // Signal that unveiling has started so hero text animation plays in sync with curtain lift
   setSiteLoaded();
 
   if (preloaderRef.value) {
@@ -70,30 +83,38 @@ const dismissPreloader = () => {
 onMounted(() => {
   if (!import.meta.client) return;
 
+  // Prevent background scroll while preloader is active
+  document.documentElement.style.overflow = 'hidden';
+  document.body.style.overflow = 'hidden';
+
   const counterObj = { value: 0 };
 
   // GSAP animation from 0 to 100%
-  gsap.to(counterObj, {
+  tween = gsap.to(counterObj, {
     value: 100,
-    duration: 1.0,
+    duration: 1.05,
     ease: 'power2.inOut',
     onUpdate: () => {
       counter.value = Math.floor(counterObj.value);
-      if (counter.value > 30 && counter.value < 70) {
-        statusMessage.value = 'CALIBRATING SPATIAL REVEALS';
-      } else if (counter.value >= 70) {
-        statusMessage.value = 'ENTER THE MONOLITH';
-      }
     },
     onComplete: () => {
-      dismissPreloader();
+      settleTimer = setTimeout(() => {
+        dismissPreloader();
+      }, 80);
     }
   });
 
-  // Failsafe watchdog timer (guarantees removal within 1.4s under any condition)
-  setTimeout(() => {
+  // Failsafe watchdog timer (guarantees dismiss within 1.5s under any condition)
+  watchdogTimer = setTimeout(() => {
     dismissPreloader();
-  }, 1400);
+  }, 1500);
+});
+
+onUnmounted(() => {
+  unlockScroll();
+  if (tween) tween.kill();
+  if (watchdogTimer) clearTimeout(watchdogTimer);
+  if (settleTimer) clearTimeout(settleTimer);
 });
 </script>
 
@@ -110,109 +131,96 @@ onMounted(() => {
   height: 100svh;
   height: 100dvh;
   max-height: 100dvh;
-  background-color: #0c0d0e;
+  background-color: $color-bg-dark; // #0c0d0e (matching HeroSection and dark theme)
   z-index: $z-preloader;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: clamp(1.25rem, 4vw, 3.5rem);
-  padding-top: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-top));
-  padding-bottom: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-bottom));
-  padding-left: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-left));
-  padding-right: max(clamp(1.25rem, 4vw, 3.5rem), env(safe-area-inset-right));
-  color: #f3f3f4;
+  color: $color-text-light; // #f5f5f2
   will-change: transform;
   box-sizing: border-box;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: all;
+  -webkit-font-smoothing: antialiased;
 
   &--closing {
     pointer-events: none;
   }
 
   &__inner {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    width: 100%;
+    justify-content: flex-end;
     box-sizing: border-box;
-  }
+    // Exactly matches HeroSection's title-block margin and padding
+    padding: clamp(24px, 3.6vh, 44px) clamp(24px, 3.2vw, 44px);
+    padding-bottom: max(clamp(24px, 3.6vh, 44px), env(safe-area-inset-bottom));
+    padding-left: max(clamp(24px, 3.2vw, 44px), env(safe-area-inset-left));
+    padding-right: max(clamp(24px, 3.2vw, 44px), env(safe-area-inset-right));
 
-  &__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: $font-mono;
-    font-size: 0.75rem;
-    letter-spacing: $letter-spacing-widest;
-    text-transform: uppercase;
-    color: #8e9297;
-
-    @include mobile {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
+    @media (max-width: 767px) {
+      padding: max(1.25rem, env(safe-area-inset-bottom)) max(1.125rem, env(safe-area-inset-left));
     }
   }
 
-  &__logo {
-    color: #f3f3f4;
-    font-weight: $font-weight-medium;
-  }
-
-  &__center {
+  &__content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    max-width: 600px;
     width: 100%;
+    max-width: clamp(260px, 38vw, 520px);
+    box-sizing: border-box;
   }
 
   &__counter {
-    font-family: $font-display;
-    font-size: clamp(3.5rem, 14vw, 12rem);
-    font-weight: $font-weight-light;
-    line-height: 0.9;
-    letter-spacing: $letter-spacing-tight;
-    color: #f3f3f4;
-    display: flex;
+    display: inline-flex;
     align-items: baseline;
+    font-family: $font-heading; // 'Neue Haas Grotesk Roman'
+    // Harmonized architectural scale matching website title lines
+    font-size: clamp(2.5rem, 5.5vw, 5.25rem);
+    font-weight: $font-weight-regular;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    color: $color-text-light; // #f5f5f2 (warm architectural off-white)
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__number {
+    display: inline-block;
   }
 
   &__percent {
-    font-family: $font-mono;
-    font-size: clamp(1.25rem, 3vw, 2.5rem);
-    color: $color-accent;
-    margin-left: 0.5rem;
+    font-family: $font-content; // 'Neue Haas Grotesk Light'
+    font-size: clamp(0.95rem, 1.8vw, 1.5rem);
+    font-weight: $font-weight-light;
+    color: rgba(245, 245, 242, 0.45); // Restrained off-white tone matching metadata
+    margin-left: 0.35rem;
+    line-height: 1;
+    letter-spacing: 0;
   }
 
+  // Hairline 1px progress track matching site's architectural borders
   &__bar {
     width: 100%;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.12);
-    margin-top: 1.5rem;
+    height: 1px;
+    background: rgba(245, 245, 242, 0.12); // $color-border-dark
+    margin-top: clamp(0.75rem, 1.4vh, 1.25rem);
     position: relative;
     overflow: hidden;
   }
 
   &__progress {
     height: 100%;
-    background-color: $color-accent;
-    transition: width 0.05s linear;
+    background-color: $color-text-light; // #f5f5f2 (pure architectural off-white)
+    will-change: width;
+    transition: width 0.04s linear;
   }
+}
 
-  &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: $font-mono;
-    font-size: 0.75rem;
-    letter-spacing: $letter-spacing-widest;
-    color: #8e9297;
-    text-transform: uppercase;
-  }
-
-  &__status {
-    color: $color-accent;
+// Prefers-reduced-motion fallback
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    transition: opacity 0.3s ease;
   }
 }
 </style>
