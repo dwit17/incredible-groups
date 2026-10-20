@@ -851,6 +851,12 @@ onUnmounted(() => {
     word-break: break-word;
     transition: color 0.2s ease;
 
+    @media (max-width: 1024px) {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
+
     &::after {
       content: '';
       position: absolute;

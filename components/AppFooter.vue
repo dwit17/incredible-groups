@@ -310,6 +310,12 @@ onUnmounted(() => {
     display: inline-block;
     text-decoration: none;
     color: #ffffff;
+
+    @media (max-width: 1024px) {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   &__brand-title {
@@ -337,6 +343,11 @@ onUnmounted(() => {
     font-weight: 400;
     color: #888888;
     margin: 0 0 1rem 0;
+
+    @media (max-width: 1024px) {
+      font-size: 14px;
+      margin-bottom: 0.75rem;
+    }
   }
 
   &__list {
@@ -350,6 +361,11 @@ onUnmounted(() => {
     font-size: 13px;
     line-height: 1.45;
     color: #dddddd;
+
+    @media (max-width: 1024px) {
+      font-size: 14px;
+      gap: 0.35rem;
+    }
 
     li {
       margin: 0;
@@ -374,6 +390,12 @@ onUnmounted(() => {
     word-break: break-word;
     transition: color 0.2s ease, transform 0.2s ease;
     touch-action: manipulation;
+
+    @media (max-width: 1024px) {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 6px 0;
+    }
 
     &::after {
       content: '';
@@ -407,6 +429,10 @@ onUnmounted(() => {
   &__text-muted {
     color: #888888;
     font-size: 12px;
+
+    @media (max-width: 1024px) {
+      font-size: 13px;
+    }
   }
 
   &__text-dim {
@@ -504,11 +530,13 @@ onUnmounted(() => {
     @include tablet {
       grid-template-columns: 1fr 1fr;
       gap: 16px;
+      font-size: 13px;
     }
 
     @include mobile {
       grid-template-columns: 1fr;
       gap: 12px;
+      font-size: 12px;
     }
   }
 
@@ -543,6 +571,13 @@ onUnmounted(() => {
     padding: 0 2px;
     transition: color 0.2s ease;
     touch-action: manipulation;
+
+    @media (max-width: 1024px) {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 6px 4px;
+      font-size: 13px;
+    }
 
     &:hover,
     &:active {

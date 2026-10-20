@@ -875,6 +875,15 @@ onUnmounted(() => {
       margin-top: clamp(2rem, 5vh, 6rem);
     }
 
+    @media (max-width: 1024px) {
+      gap: 2rem;
+      margin-top: 0 !important;
+
+      &--2 {
+        margin-top: 0 !important;
+      }
+    }
+
     @include mobile {
       flex-direction: column;
       gap: 3.5rem;
@@ -944,9 +953,34 @@ onUnmounted(() => {
     }
   }
 
+  @media (max-width: 1024px) {
+    &--large,
+    &--staggered,
+    &--tall,
+    &--wide {
+      width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
+      margin-top: 0 !important;
+    }
+
+    &__loc,
+    &__area {
+      font-size: 13px;
+    }
+  }
+
   @include mobile {
     width: 100% !important;
     flex: 1 1 100% !important;
+
+    &--large,
+    &--staggered,
+    &--tall,
+    &--wide {
+      width: 100% !important;
+      flex: 1 1 100% !important;
+      margin-top: 0 !important;
+    }
   }
 
   &__media-wrap {

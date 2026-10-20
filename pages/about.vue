@@ -690,21 +690,22 @@ function buildFlightPath() {
     ];
   } else {
     // Dynamic Serpentine Architectural Guide for Mobile (W < 640)
-    // Orthogonal U-turn waypoints that form pure circular rounded S-curves across gaps
-    const gl = 10;
-    const gr = Math.max(W - 10, 310);
+    // Sits safely in the outer gutters and traverses through the inter-section gaps
+    const gl = 14;
+    const gr = Math.round(W - 14);
     const midX = Math.round(W / 2);
 
-    const topY = rManifesto ? Math.max(0, rManifesto.top - 20) : 0;
-    const yGap1 = rManifesto && rPrinciples ? Math.round((rManifesto.bottom + rPrinciples.top) / 2) : 520;
-    const yGap2 = rPrinciples && rMethod ? Math.round((rPrinciples.bottom + rMethod.top) / 2) : 1080;
-    const yGap3 = rMethod && rCarousel ? Math.round((rMethod.bottom + rCarousel.top) / 2) : 1620;
-    const yGap4 = rCarousel && rCtaBox ? Math.round((rCarousel.bottom + rCtaBox.top) / 2) : 2120;
-    const endY = rCtaBtn ? rCtaBtn.top + 18 : (rCtaBox ? rCtaBox.top + 18 : H - 45);
+    const topY = rManifesto ? Math.max(0, rManifesto.top - 16) : 0;
+    const yGap1 = rManifesto && rPrinciples ? Math.round((rManifesto.bottom + rPrinciples.top) / 2) : 900;
+    const yGap2 = rPrinciples && rMethod ? Math.round((rPrinciples.bottom + rMethod.top) / 2) : 2050;
+    const yGap3 = rMethod && rCarousel ? Math.round((rMethod.bottom + rCarousel.top) / 2) : 3050;
+    const yGap4 = rCarousel && rCtaBox ? Math.round((rCarousel.bottom + rCtaBox.top) / 2) : 3850;
+    const endY = rCtaBtn ? rCtaBtn.top + 14 : (rCtaBox ? rCtaBox.bottom - 40 : H - 40);
+    const ctaX = rCtaBtn ? rCtaBtn.centerX : midX;
 
     points = [
       { x: midX, y: topY },
-      { x: gl, y: topY + 16 },
+      { x: gl, y: topY + 14 },
       { x: gl, y: yGap1 },
       { x: gr, y: yGap1 },
       { x: gr, y: yGap2 },
@@ -712,12 +713,12 @@ function buildFlightPath() {
       { x: gl, y: yGap3 },
       { x: gr, y: yGap3 },
       { x: gr, y: yGap4 },
-      { x: rCtaBtn ? Math.min(W - 36, rCtaBtn.centerX) : midX, y: yGap4 },
-      { x: rCtaBtn ? Math.min(W - 36, rCtaBtn.centerX) : midX, y: endY }
+      { x: ctaX, y: yGap4 },
+      { x: ctaX, y: endY }
     ];
   }
 
-  const pathData = buildRoundedPathString(points, isDesktop ? 80 : (isTablet ? 48 : 38));
+  const pathData = buildRoundedPathString(points, isDesktop ? 80 : (isTablet ? 42 : 20));
   basePathEl.setAttribute('d', pathData);
   activePathEl.setAttribute('d', pathData);
 
@@ -1069,6 +1070,13 @@ onMounted(async () => {
     }, 200);
   };
   window.addEventListener('resize', onResize, { passive: true });
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+      buildFlightPath();
+      ScrollTrigger.refresh();
+    }, { passive: true, once: true });
+  }
 });
 
 onUnmounted(() => {
@@ -1207,8 +1215,12 @@ onUnmounted(() => {
     }
 
     @include mobile {
-      font-size: clamp(1.65rem, 7.5vw, 2.5rem);
+      font-size: clamp(1.35rem, 6.2vw, 2.2rem);
       line-height: 1.05;
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      font-size: clamp(1.2rem, 5.5vh, 1.8rem);
     }
   }
 }
@@ -1237,7 +1249,7 @@ onUnmounted(() => {
     @include mobile {
       padding-left: 18px;
       padding-right: 18px;
-      gap: 52px;
+      gap: 72px;
     }
   }
 }
@@ -1279,8 +1291,12 @@ onUnmounted(() => {
   }
 
   @include mobile {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
+
+    .about-flight-node__pulse {
+      inset: -4px;
+    }
   }
 
   &__pulse {
@@ -1363,10 +1379,15 @@ onUnmounted(() => {
     font-family: $font-serif;
     font-size: clamp(1.85rem, 3.2vw, 3.25rem);
     font-weight: 400;
-    line-height: 1.15;
+    line-height: 1.2;
     letter-spacing: -0.02em;
     color: $color-text-primary;
     margin: 0;
+
+    :deep(.split-line-mask) {
+      padding-bottom: 0.22em !important;
+      margin-bottom: -0.22em !important;
+    }
   }
 
   &__col-right {
@@ -1488,6 +1509,12 @@ onUnmounted(() => {
   border-radius: 4px;
   padding: clamp(24px, 5vw, 72px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+
+  @include mobile {
+    padding: 24px 18px;
+  }
 
   &__grid {
     display: grid;
@@ -1589,8 +1616,10 @@ onUnmounted(() => {
 
 // TIMELINE
 .about-timeline {
+  width: 100%;
   max-width: 1100px;
   margin: 0 auto;
+  box-sizing: border-box;
 
   &__header {
     margin-bottom: clamp(28px, 4vh, 60px);
@@ -1603,15 +1632,22 @@ onUnmounted(() => {
     line-height: 1.1;
     margin: 0;
     color: $color-text-primary;
+    word-break: break-word;
   }
 
   &__carousel-box {
+    width: 100%;
+    box-sizing: border-box;
     background: #ffffff;
     border: 1px solid $color-border-light;
     border-radius: 4px;
     overflow: hidden;
     padding: clamp(20px, 3.5vw, 48px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+
+    @include mobile {
+      padding: 24px 18px;
+    }
   }
 
   &__carousel-grid {
@@ -1694,6 +1730,13 @@ onUnmounted(() => {
     justify-content: space-between;
     padding-top: 1.5rem;
     border-top: 1px solid $color-border-light;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+      padding-top: 1.25rem;
+      gap: 12px;
+    }
   }
 
   &__dots {
@@ -1722,11 +1765,48 @@ onUnmounted(() => {
       background-color: $color-text-primary;
       transform: scale(1.3);
     }
+
+    @media (max-width: 1024px) {
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      min-width: 32px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    @include mobile {
+      width: 10px;
+      height: 10px;
+      min-width: 10px;
+      min-height: 10px;
+      padding: 0;
+      position: relative;
+      box-sizing: border-box;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 36px;
+        height: 36px;
+      }
+
+      &--active {
+        transform: scale(1.4);
+      }
+    }
   }
 
   &__nav-btns {
     display: flex;
     gap: 10px;
+
+    @include mobile {
+      gap: 8px;
+    }
   }
 
   &__nav-btn {
@@ -1744,6 +1824,13 @@ onUnmounted(() => {
     cursor: pointer;
     touch-action: manipulation;
     transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    @include mobile {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+    }
 
     &:hover,
     &:active {
@@ -1768,6 +1855,12 @@ onUnmounted(() => {
     flex-direction: column;
     gap: 2rem;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+      padding: 28px 20px;
+    }
 
     @include tablet-up {
       flex-direction: row;
@@ -1842,7 +1935,7 @@ onUnmounted(() => {
     text-decoration: underline;
     text-underline-offset: 4px;
     text-align: center;
-    min-height: 36px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

@@ -551,6 +551,11 @@ onUnmounted(() => {
     line-height: 1.45;
     color: #111111;
     margin: 0;
+
+    @media (max-width: 1024px) {
+      font-size: 14px;
+      line-height: 1.5;
+    }
   }
 
   &__lead-col {
@@ -566,6 +571,16 @@ onUnmounted(() => {
     color: #111111;
     margin: 0;
     will-change: transform, opacity;
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      font-size: clamp(22px, 2.8vw, 30px);
+      line-height: 1.3;
+    }
+
+    @media (max-width: 767px) {
+      font-size: clamp(18px, 5.2vw, 24px);
+      line-height: 1.35;
+    }
   }
 
   // -------------------------------------------------------------
@@ -625,6 +640,10 @@ onUnmounted(() => {
     font-weight: 400;
     color: #111111;
     margin: 0;
+
+    @media (max-width: 1024px) {
+      font-size: 13px;
+    }
   }
 
   &__cred-item-desc {
@@ -633,6 +652,11 @@ onUnmounted(() => {
     line-height: 1.45;
     color: #888888;
     margin: 0;
+
+    @media (max-width: 1024px) {
+      font-size: 12px;
+      line-height: 1.5;
+    }
   }
 
   &__cred-pub-item {
@@ -641,6 +665,11 @@ onUnmounted(() => {
     line-height: 1.45;
     color: #555555;
     margin: 0 0 0.5rem 0;
+
+    @media (max-width: 1024px) {
+      font-size: 12px;
+      line-height: 1.5;
+    }
 
     &:last-child {
       margin-bottom: 0;
@@ -652,6 +681,10 @@ onUnmounted(() => {
     font-size: 11px;
     color: #888888;
     margin-top: 0.5rem;
+
+    @media (max-width: 1024px) {
+      font-size: 12px;
+    }
   }
 
   // -------------------------------------------------------------
@@ -661,6 +694,10 @@ onUnmounted(() => {
     width: 100%;
     max-width: 1780px;
     margin-bottom: clamp(140px, 22vh, 280px);
+
+    @media (max-width: 1024px) {
+      margin-bottom: clamp(60px, 12vh, 120px);
+    }
   }
 
   &__huge-serif {
@@ -676,6 +713,18 @@ onUnmounted(() => {
     margin: 0;
     padding: 0;
     text-align: left;
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 0.96;
+      letter-spacing: -0.025em;
+    }
+
+    @media (max-width: 767px) {
+      font-size: clamp(26px, 7.5vw, 42px);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+    }
   }
 
   &__serif-mask {

@@ -97,6 +97,7 @@ const peopleImgsRef = ref<HTMLElement | null>(null);
 
 let mm: gsap.MatchMedia | null = null;
 let rafId = 0;
+let mobileRafId = 0;
 
 // =========================================================================
 // 17 STUDIO & PROCESS PHOTOS (Mapped to People 1..17)
@@ -174,322 +175,311 @@ onMounted(() => {
     const imgsLayer = peopleImgsRef.value;
     const photoCards = Array.from(imgsLayer.children) as HTMLElement[];
     const n = photoCards.length;
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let visible = false;
 
-    mm = gsap.matchMedia();
+    const morphState = {
+      scrollProgress: 0,
+      section1Progress: 0,
+      morphProgress: 0,
+      halfProgress: 0,
+      section3Progress: 0,
+      exitProgress: 0,
+      photosOpacity: 0,
+    };
 
-    // =========================================================================
-    // DESKTOP: PRECISE GEOMETRIC CIRCLE ENGINE
-    // Core Idea: Every photo sits on ONE big circle ("ring"), evenly spaced,
-    // and rotated to match its position on the circle:
-    // Top of ring = upright (0°), Right side = 90° clockwise,
-    // Bottom = 180° upside down, Left = -90° counter-clockwise.
-    // Between stages only radius, center and photo size change.
-    // =========================================================================
-    mm.add('(min-width: 768px)', () => {
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-      let visible = false;
+    const setVisible = (val: boolean) => {
+      if (visible === val) return;
+      visible = val;
+      imgsLayer.classList.toggle('is-visible', val);
+      morphState.photosOpacity = val ? 1 : 0;
+    };
 
-      const morphState = {
-        scrollProgress: 0,
-        section1Progress: 0,
-        morphProgress: 0,
-        halfProgress: 0,
-        section3Progress: 0,
-        exitProgress: 0,
-        photosOpacity: 0,
-      };
+    const measure = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+    };
 
-      const setVisible = (val: boolean) => {
-        if (visible === val) return;
-        visible = val;
-        imgsLayer.classList.toggle('is-visible', val);
-        morphState.photosOpacity = val ? 1 : 0;
-      };
+    const vw = (v: number) => (v * width) / 100;
+    const vh = (v: number) => (v * height) / 100;
 
-      const measure = () => {
-        width = window.innerWidth;
-        height = window.innerHeight;
-      };
+    // Ultra-smooth cosine ease: slow start, leisurely glide, slow gentle ease-end
+    const slowEase = (t: number) => {
+      const c = clamp(t, 0, 1);
+      return 0.5 * (1 - Math.cos(Math.PI * c));
+    };
 
-      const vw = (v: number) => (v * width) / 100;
-      const vh = (v: number) => (v * height) / 100;
+    // -------------------------------------------------------------
+    // 1. SECTION 1: Giant Conveyor Arc with Smooth Scroll Sliding
+    // Apex tracks headline 1:1 (~35vh below headline bottom, apexX ~20vw)
+    // Radius: ~106vw, rot = -alpha (counter-clockwise)
+    // As user scrolls, photos slide along the arc from right to left
+    // -------------------------------------------------------------
+    function getStateA(i: number, scrollP: number, hbVal: number) {
+      const isMobile = width < 768;
+      const R = isMobile ? vw(140) : vw(106);
+      const size = isMobile ? clamp(vw(26), 96, 115) : vw(19.5);
+      const hb = hbVal;
+      const k = clamp((vh(97) - hb) / vh(31), 0, 1);   // 0 at entry, 1 at first view
+      const apexX = isMobile ? lerp(vw(30), vw(16), k) : lerp(vw(34), vw(20), k);
+      const apexY = Math.max(vh(20), hb + (isMobile ? vh(24) : vh(35)));     // follows the headline, parks near the top
 
-      // Ultra-smooth cosine ease: slow start, leisurely glide, slow gentle ease-end
-      const slowEase = (t: number) => {
-        const c = clamp(t, 0, 1);
-        return 0.5 * (1 - Math.cos(Math.PI * c));
-      };
+      // Smooth scroll sliding along the conveyor track
+      const slideOffset = scrollP * 25;                // Slow, stately slide across the arc
+      const alpha = (i - 1) * 12.5 - slideOffset;
+      const rad = (alpha * Math.PI) / 180;
 
-      // -------------------------------------------------------------
-      // 1. SECTION 1: Giant Conveyor Arc with Smooth Scroll Sliding
-      // Apex tracks headline 1:1 (~35vh below headline bottom, apexX ~20vw)
-      // Radius: ~106vw, Photos: ~19.5vw square, rot = -alpha (counter-clockwise)
-      // As user scrolls, photos slide along the arc from right to left
-      // -------------------------------------------------------------
-      function getStateA(i: number, scrollP: number, hbVal: number) {
-        const R = vw(106);
-        const size = vw(19.5);
-        const hb = hbVal;
-        const k = clamp((vh(97) - hb) / vh(31), 0, 1);   // 0 at entry, 1 at first view
-        const apexX = lerp(vw(34), vw(20), k);
-        const apexY = Math.max(vh(20), hb + vh(35));     // follows the headline, parks near the top
+      const x = apexX + R * Math.sin(rad);
+      const y = apexY - R * (1 - Math.cos(rad));
+      const rot = -alpha;
 
-        // Smooth scroll sliding along the conveyor track
-        const slideOffset = scrollP * 25;                // Slow, stately slide across the arc
-        const alpha = (i - 1) * 12.5 - slideOffset;
-        const rad = (alpha * Math.PI) / 180;
-
-        const x = apexX + R * Math.sin(rad);
-        const y = apexY - R * (1 - Math.cos(rad));
-        const rot = -alpha;
-
-        return { x, y, rot, size, opacity: 1 };
-      }
-
-      // -------------------------------------------------------------
-      // 2. SECTION 2: Closed 360° Orbital Ring around Foundation Year
-      // Radius: ~36vw (72vw wide), Photos: ~9vw, Spacing: ~21.18°
-      // Center at 50vw and vertical midpoint of "2011 Year of Foundation"
-      // Non-crossing angular mapping: Apex (i=1) maps to bottom of ring (180°)
-      // Photos 2, 3, 4 map to right, photo 0 maps to left
-      // -------------------------------------------------------------
-      function getStateB(i: number, scrollP: number, cyVal: number) {
-        const R = vw(36);
-        const cardSize = vw(9);
-        const cx = vw(50);
-        const cy = cyVal;
-
-        const delta = 360 / n;
-        const ringRotation = scrollP * 60;
-        // Apex photo (i=1) maps to bottom of ring (180°), i=2,3,4 to right, i=0,16 to left
-        const theta = 180 - (i - 1) * delta + ringRotation;
-        const rad = (theta * Math.PI) / 180;
-
-        const x = cx + R * Math.sin(rad);
-        const y = cy - R * Math.cos(rad);
-        const rot = theta;
-
-        return { x, y, rot, size: cardSize, opacity: 1 };
-      }
-
-      // -------------------------------------------------------------
-      // 3. SECTION 3: 2-Page Spanning Semi-Circle Motion Engine
-      // Radius: ~44vw, Photos: ~9vw, center (-7vw, cy)
-      // At scrollP = 0 (Page 1 / Stat 1): cy = 96vh -> Top half of circle visible
-      // At scrollP = 1 (Page 2 / Stat 4): cy = 8vh  -> Bottom / other half of circle visible & ends perfectly
-      // Exact uniform spacing across all 17 photos: delta = 360 / 17 ≈ 21.176°
-      // -------------------------------------------------------------
-      function getStateC(i: number, scrollP: number) {
-        const R = vw(44);
-        const cardSize = vw(9);
-        const cx = vw(-7);
-        // cy smoothly travels from bottom (96vh) to top (8vh) across the 2-page section, then continues upwards with the text exit
-        const cy = lerp(vh(96), vh(8), scrollP) - morphState.exitProgress * vh(25);
-
-        // Exact uniform spacing across all 17 photos: exactly delta between every neighbor!
-        const delta = 360 / n;
-        // Continuous, smooth motion as user traverses through the stats
-        const loopRotation = scrollP * 80 + morphState.exitProgress * 20;
-
-        // Angle around the circle: uniform spacing for all 17 photos
-        let theta = (10 + (i - 1) * delta - loopRotation) % 360;
-        if (theta < 0) theta += 360;
-
-        const rad = (theta * Math.PI) / 180;
-        const x = cx + R * Math.sin(rad);
-        const y = cy - R * Math.cos(rad);
-        const rot = theta;
-
-        // Opacity: Fully visible (1) on the crescent arc; naturally fades only as it crosses the left viewport border
-        let opacity = 1;
-        if (x < -cardSize * 0.5) {
+      let opacity = 1;
+      if (isMobile) {
+        // Prevent cards from looping back into top-right or over headline:
+        // Clamps visibility to cards on the lower sweeping conveyor arc only (exactly like desktop)
+        if (alpha > 48 || x > width + size * 0.4 || alpha < -35) {
           opacity = 0;
-        } else if (x < 0) {
-          opacity = clamp((x + cardSize * 0.5) / (cardSize * 0.5), 0, 1);
+        } else if (alpha > 36) {
+          opacity = clamp((48 - alpha) / 12, 0, 1);
+        } else if (alpha < -25) {
+          opacity = clamp((alpha + 35) / 10, 0, 1);
         }
-
-        return { x, y, rot, size: cardSize, opacity };
       }
 
-      const render = () => {
-        if (!visible || width < 10 || height < 10) return;
+      return { x, y, rot, size, opacity };
+    }
 
-        // Batch all DOM queries at frame start (eliminates layout thrashing / lag / flicker)
-        const hb = elProcessRef.value ? elProcessRef.value.getBoundingClientRect().bottom : vh(100);
-        let cyB = vh(73);
-        if (elYearRingRef.value) {
-          const rect = elYearRingRef.value.getBoundingClientRect();
-          cyB = rect.top + rect.height * 0.5;
+    // -------------------------------------------------------------
+    // 2. SECTION 2: Closed 360° Orbital Ring around Foundation Year
+    // Center at 50vw and vertical midpoint of "2011 Year of Foundation"
+    // Non-crossing angular mapping: Apex (i=1) maps to bottom of ring (180°)
+    // Photos 2, 3, 4 map to right, photo 0 maps to left
+    // -------------------------------------------------------------
+    function getStateB(i: number, scrollP: number, cyVal: number) {
+      const isMobile = width < 768;
+      const R = isMobile ? clamp(vw(38), 145, 160) : vw(36);
+      const cardSize = isMobile ? clamp(vw(13.5), 50, 56) : vw(9);
+      const cx = vw(50);
+      const cy = cyVal;
+
+      const delta = 360 / n;
+      const ringRotation = scrollP * 60;
+      // Apex photo (i=1) maps to bottom of ring (180°), i=2,3,4 to right, i=0,16 to left
+      const theta = 180 - (i - 1) * delta + ringRotation;
+      const rad = (theta * Math.PI) / 180;
+
+      const x = cx + R * Math.sin(rad);
+      const y = cy - R * Math.cos(rad);
+      const rot = theta;
+
+      return { x, y, rot, size: cardSize, opacity: 1 };
+    }
+
+    // -------------------------------------------------------------
+    // 3. SECTION 3: 2-Page Spanning Semi-Circle Motion Engine
+    // Center (-7vw desktop, -32vw mobile), cy travels from bottom to top
+    // Exact uniform spacing across all 17 photos: delta = 360 / 17 ≈ 21.176°
+    // -------------------------------------------------------------
+    function getStateC(i: number, scrollP: number) {
+      const isMobile = width < 768;
+      const R = isMobile ? clamp(vw(70), 260, 290) : vw(44);
+      const cardSize = isMobile ? clamp(vw(13.5), 50, 56) : vw(9);
+      const cx = isMobile ? clamp(vw(-32), -135, -115) : vw(-7);
+      // cy smoothly travels from bottom (92vh) to top (8vh) across the records section, then continues upwards with the text exit
+      const cy = lerp(vh(92), vh(8), scrollP) - morphState.exitProgress * vh(25);
+
+      // Exact uniform spacing across all 17 photos: exactly delta between every neighbor!
+      const delta = 360 / n;
+      // Continuous, smooth motion as user traverses through the stats
+      const loopRotation = scrollP * 80 + morphState.exitProgress * 20;
+
+      // Angle around the circle: uniform spacing for all 17 photos
+      let theta = (10 + (i - 1) * delta - loopRotation) % 360;
+      if (theta < 0) theta += 360;
+
+      const rad = (theta * Math.PI) / 180;
+      const x = cx + R * Math.sin(rad);
+      const y = cy - R * Math.cos(rad);
+      const rot = theta;
+
+      // Opacity: Fully visible (1) on the crescent arc; naturally fades only as it crosses the left viewport border
+      let opacity = 1;
+      if (x < -cardSize * 0.5) {
+        opacity = 0;
+      } else if (x < 0) {
+        opacity = clamp((x + cardSize * 0.5) / (cardSize * 0.5), 0, 1);
+      }
+
+      return { x, y, rot, size: cardSize, opacity };
+    }
+
+    const render = () => {
+      if (!visible || width < 10 || height < 10) return;
+
+      // Batch all DOM queries at frame start (eliminates layout thrashing / lag / flicker)
+      const hb = elProcessRef.value ? elProcessRef.value.getBoundingClientRect().bottom : vh(100);
+      let cyB = vh(73);
+      if (elYearRingRef.value) {
+        const rect = elYearRingRef.value.getBoundingClientRect();
+        cyB = rect.top + rect.height * 0.5;
+      }
+
+      // Slow, luxurious cosine easing between animations
+      const mu = slowEase(morphState.morphProgress);
+      const lam = slowEase(morphState.halfProgress);
+      const p1 = morphState.section1Progress;
+      const p2 = morphState.scrollProgress;
+      const p3 = morphState.section3Progress;
+
+      for (let i = 0; i < n; i++) {
+        const card = photoCards[i];
+        if (!card) continue;
+
+        const ptA = getStateA(i, p1, hb);
+        const ptB = getStateB(i, p2, cyB);
+        const ptC = getStateC(i, p3);
+
+        let x: number;
+        let y: number;
+        let rot: number;
+        let size: number;
+        let cardOpacity: number;
+
+        if (lam <= 0.001) {
+          x = lerp(ptA.x, ptB.x, mu);
+          y = lerp(ptA.y, ptB.y, mu);
+          rot = lerpAngle(ptA.rot, ptB.rot, mu);
+          size = lerp(ptA.size, ptB.size, mu);
+          cardOpacity = lerp(ptA.opacity, ptB.opacity, mu);
+        } else {
+          x = lerp(ptB.x, ptC.x, lam);
+          y = lerp(ptB.y, ptC.y, lam);
+          rot = lerpAngle(ptB.rot, ptC.rot, lam);
+          size = lerp(ptB.size, ptC.size, lam);
+          cardOpacity = lerp(ptB.opacity, ptC.opacity, lam);
         }
 
-        // Slow, luxurious cosine easing between animations
-        const mu = slowEase(morphState.morphProgress);
-        const lam = slowEase(morphState.halfProgress);
-        const p1 = morphState.section1Progress;
-        const p2 = morphState.scrollProgress;
-        const p3 = morphState.section3Progress;
+        const hw = size / 2;
+        const hh = size / 2;
 
-        for (let i = 0; i < n; i++) {
-          const card = photoCards[i];
-          if (!card) continue;
+        card.style.width = `${size.toFixed(1)}px`;
+        card.style.height = `${size.toFixed(1)}px`;
+        card.style.transform = `translate3d(${(x - hw).toFixed(1)}px, ${(y - hh).toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg)`;
+        
+        const finalCardOpacity = cardOpacity * morphState.photosOpacity * (1 - morphState.exitProgress);
+        card.style.opacity = Math.max(0, finalCardOpacity).toFixed(3);
+      }
+    };
 
-          const ptA = getStateA(i, p1, hb);
-          const ptB = getStateB(i, p2, cyB);
-          const ptC = getStateC(i, p3);
-
-          let x: number;
-          let y: number;
-          let rot: number;
-          let size: number;
-          let cardOpacity: number;
-
-          if (lam <= 0.001) {
-            x = lerp(ptA.x, ptB.x, mu);
-            y = lerp(ptA.y, ptB.y, mu);
-            rot = lerpAngle(ptA.rot, ptB.rot, mu);
-            size = lerp(ptA.size, ptB.size, mu);
-            cardOpacity = lerp(ptA.opacity, ptB.opacity, mu);
-          } else {
-            x = lerp(ptB.x, ptC.x, lam);
-            y = lerp(ptB.y, ptC.y, lam);
-            rot = lerpAngle(ptB.rot, ptC.rot, lam);
-            size = lerp(ptB.size, ptC.size, lam);
-            cardOpacity = lerp(ptB.opacity, ptC.opacity, lam);
-          }
-
-          const hw = size / 2;
-          const hh = size / 2;
-
-          card.style.width = `${size.toFixed(1)}px`;
-          card.style.height = `${size.toFixed(1)}px`;
-          card.style.transform = `translate3d(${(x - hw).toFixed(1)}px, ${(y - hh).toFixed(1)}px, 0) rotate(${rot.toFixed(2)}deg)`;
-          
-          const finalCardOpacity = cardOpacity * morphState.photosOpacity * (1 - morphState.exitProgress);
-          card.style.opacity = Math.max(0, finalCardOpacity).toFixed(3);
-        }
-      };
-
-      const loop = () => {
-        render();
-        rafId = requestAnimationFrame(loop);
-      };
-
-      measure();
-      window.addEventListener('resize', measure);
+    const loop = () => {
+      render();
       rafId = requestAnimationFrame(loop);
+    };
 
-      // =====================================================================
-      // SCROLL TRIGGERS with 1.5s Physics Damping ("Super Ease" In-Between Stop)
-      // =====================================================================
-      // 1. Entire Section Scroll Master & Visibility
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    rafId = requestAnimationFrame(loop);
+
+    // =====================================================================
+    // SCROLL TRIGGERS with 1.5s Physics Damping ("Super Ease" In-Between Stop)
+    // 100% Identical on Desktop & Mobile Viewports
+    // =====================================================================
+    // 1. Entire Section Scroll Master & Visibility
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: 1.5,
+      onUpdate: (self) => {
+        morphState.scrollProgress = self.progress;
+        if (self.progress > 0 && self.progress < 1) {
+          setVisible(true);
+        } else {
+          setVisible(false);
+        }
+      },
+      onEnter: () => setVisible(true),
+      onEnterBack: () => setVisible(true),
+      onLeave: () => setVisible(false),
+      onLeaveBack: () => setVisible(false),
+    });
+
+    // 2. Section 1 Headline Conveyor Slide
+    if (elProcessRef.value) {
       ScrollTrigger.create({
-        trigger: section,
+        trigger: elProcessRef.value,
         start: 'top bottom',
         end: 'bottom top',
         scrub: 1.5,
         onUpdate: (self) => {
-          morphState.scrollProgress = self.progress;
-          if (self.progress > 0 && self.progress < 1) {
-            setVisible(true);
-          } else {
-            setVisible(false);
-          }
+          morphState.section1Progress = self.progress;
         },
-        onEnter: () => setVisible(true),
-        onEnterBack: () => setVisible(true),
-        onLeave: () => setVisible(false),
-        onLeaveBack: () => setVisible(false),
+      });
+    }
+
+    // 3. Year of Foundation (2011) 360° Ring Assembly Morph (Slow, Eased & Smooth)
+    if (elYearRef.value) {
+      ScrollTrigger.create({
+        trigger: elYearRef.value,
+        start: 'top bottom+=30vh',
+        end: 'center center',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          morphState.morphProgress = self.progress;
+        },
+      });
+    }
+
+    // 4. Company Records Crescent Morph & Continuous Looping Carousel
+    if (elRecordRef.value) {
+      // Slow, eased morph from 360° ring into the half-hidden cutoff circle
+      ScrollTrigger.create({
+        trigger: elRecordRef.value,
+        start: 'top bottom+=25vh',
+        end: 'top center+=15vh',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          morphState.halfProgress = self.progress;
+        },
       });
 
-      // 2. Section 1 Headline Conveyor Slide
-      if (elProcessRef.value) {
-        ScrollTrigger.create({
-          trigger: elProcessRef.value,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5,
-          onUpdate: (self) => {
-            morphState.section1Progress = self.progress;
-          },
-        });
-      }
+      // Continuous revolving loop across the records section
+      ScrollTrigger.create({
+        trigger: elRecordRef.value,
+        start: 'top center',
+        end: 'bottom center',
+        scrub: 1.5,
+        onUpdate: (self) => {
+          morphState.section3Progress = self.progress;
+        },
+      });
 
-      // 3. Year of Foundation (2011) 360° Ring Assembly Morph (Slow, Eased & Smooth)
-      if (elYearRef.value) {
-        ScrollTrigger.create({
-          trigger: elYearRef.value,
-          start: 'top bottom+=30vh',
-          end: 'center center',
-          scrub: 1.5,
-          onUpdate: (self) => {
-            morphState.morphProgress = self.progress;
-          },
-        });
-      }
+      // Exit synchronization: smoothly fades and carries the photos out in exact harmony as the final stat leaves
+      ScrollTrigger.create({
+        trigger: elRecordRef.value,
+        start: 'bottom center',
+        end: 'bottom top+=15vh',
+        scrub: 1.2,
+        onUpdate: (self) => {
+          morphState.exitProgress = self.progress;
+        },
+      });
 
-      // 4. Company Records Crescent Morph & Continuous Looping Carousel
-      if (elRecordRef.value) {
-        // Slow, eased morph from 360° ring into the half-hidden cutoff circle
+      // 5. Highlight Active Stat Item (.ohb -> .ouc) - 100% Intact
+      const statItems = gsap.utils.toArray<HTMLElement>('.ohb', elRecordRef.value);
+      statItems.forEach((item) => {
         ScrollTrigger.create({
-          trigger: elRecordRef.value,
-          start: 'top bottom+=25vh',
-          end: 'top center+=15vh',
-          scrub: 1.5,
-          onUpdate: (self) => {
-            morphState.halfProgress = self.progress;
-          },
-        });
-
-        // Continuous revolving loop across the 2-page records section
-        ScrollTrigger.create({
-          trigger: elRecordRef.value,
+          trigger: item,
           start: 'top center',
           end: 'bottom center',
-          scrub: 1.5,
-          onUpdate: (self) => {
-            morphState.section3Progress = self.progress;
-          },
+          onEnter: () => item.classList.add('ouc'),
+          onEnterBack: () => item.classList.add('ouc'),
+          onLeave: () => item.classList.remove('ouc'),
+          onLeaveBack: () => item.classList.remove('ouc'),
         });
-
-        // Exit synchronization: smoothly fades and carries the photos out in exact harmony as the final stat leaves
-        ScrollTrigger.create({
-          trigger: elRecordRef.value,
-          start: 'bottom center',
-          end: 'bottom top+=15vh',
-          scrub: 1.2,
-          onUpdate: (self) => {
-            morphState.exitProgress = self.progress;
-          },
-        });
-
-        // 5. Highlight Active Stat Item (.ohb -> .ouc) - 100% Intact
-        const statItems = gsap.utils.toArray<HTMLElement>('.ohb', elRecordRef.value);
-        statItems.forEach((item) => {
-          ScrollTrigger.create({
-            trigger: item,
-            start: 'top center',
-            end: 'bottom center',
-            onEnter: () => item.classList.add('ouc'),
-            onEnterBack: () => item.classList.add('ouc'),
-            onLeave: () => item.classList.remove('ouc'),
-            onLeaveBack: () => item.classList.remove('ouc'),
-          });
-        });
-      }
-
-      return () => {
-        window.removeEventListener('resize', measure);
-        if (rafId) cancelAnimationFrame(rafId);
-      };
-    });
-
-    // Mobile reduced motion fallback
-    mm.add('(prefers-reduced-motion: reduce)', () => {
-      if (peopleImgsRef.value) {
-        gsap.set(peopleImgsRef.value.children, { opacity: 1 });
-      }
-    });
+      });
+    }
   });
 });
 
@@ -525,9 +515,9 @@ onUnmounted(() => {
 
   @media (max-width: 767.98px) {
     --rem: 0.2666666667vw;
-    overflow: hidden;
-    padding-bottom: calc(60 * var(--rem));
-    padding-top: calc(60 * var(--rem));
+    overflow: visible;
+    padding-bottom: clamp(60px, 12vh, 100px);
+    padding-top: clamp(80px, 14vh, 140px);
   }
 }
 
@@ -572,8 +562,7 @@ onUnmounted(() => {
   z-index: 10;
 
   @media (max-width: 767.98px) {
-    margin-bottom: calc(80 * var(--rem));
-    margin-top: calc(80 * var(--rem));
+    margin: clamp(75vh, 85vh, 100vh) auto;
   }
 
   .vrc {
@@ -585,12 +574,12 @@ onUnmounted(() => {
     .vrc {
       align-items: center;
       display: flex;
-      height: calc(345 * var(--rem));
+      min-height: clamp(340px, 85vw, 380px);
       justify-content: center;
       margin-left: auto;
       margin-right: auto;
       position: relative;
-      width: calc(345 * var(--rem));
+      width: 100%;
     }
   }
 
@@ -606,7 +595,9 @@ onUnmounted(() => {
   @media (max-width: 767.98px) {
     .kca {
       position: relative;
-      z-index: 1;
+      z-index: 10;
+      font-size: clamp(22px, 6vw, 28px) !important;
+      line-height: 0.95 !important;
     }
   }
 
@@ -618,8 +609,8 @@ onUnmounted(() => {
 
     @media (max-width: 767.98px) {
       flex-direction: column;
-      gap: calc(24 * var(--rem));
-      margin-top: calc(40 * var(--rem));
+      gap: 20px;
+      margin-top: clamp(24px, 5vh, 40px);
     }
 
     .iek {
@@ -629,7 +620,13 @@ onUnmounted(() => {
       margin: 0;
       line-height: 1.35;
 
+      @media (max-width: 1024px) {
+        font-size: 15px;
+        width: min(100%, 380px);
+      }
+
       @media (max-width: 767.98px) {
+        font-size: 14px;
         width: 100%;
       }
     }
@@ -665,9 +662,21 @@ onUnmounted(() => {
   }
 
   @media (max-width: 767.98px) {
-    display: block;
-    height: 100%;
-    width: 100%;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 5;
+    overflow: visible;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease;
+
+    &.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   .elr {
@@ -688,18 +697,16 @@ onUnmounted(() => {
     }
 
     @media (max-width: 767.98px) {
-      height: calc(var(--ring-size) * var(--rem));
-      width: calc(var(--ring-size) * var(--rem));
-      left: 50%;
       position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(var(--ring-radius) * var(--rem) * -1)) rotate(calc(var(--angle) * -1));
-      border-radius: 50%;
+      top: 0;
+      left: 0;
+      border-radius: 3px;
       overflow: hidden;
-
-      &:nth-child(2n) {
-        display: none;
-      }
+      background-color: #141414;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transform-origin: center center;
+      will-change: transform;
     }
   }
 }
@@ -733,8 +740,8 @@ onUnmounted(() => {
     width: min(44vw, calc(857 * var(--rem)));
 
     @media (max-width: 767.98px) {
-      margin-left: 0;
-      width: 100%;
+      margin-left: clamp(155px, 42vw, 175px);
+      width: calc(100% - clamp(155px, 42vw, 175px));
       max-width: none;
     }
 
@@ -751,10 +758,14 @@ onUnmounted(() => {
       }
 
       @media (max-width: 767.98px) {
-        gap: calc(15 * var(--rem));
-        max-width: calc(250 * var(--rem));
-        opacity: 1;
-        padding-bottom: calc(48 * var(--rem));
+        gap: 12px;
+        max-width: 100%;
+        opacity: 0.2;
+        padding-bottom: clamp(16vh, 22vh, 28vh);
+
+        &.ouc {
+          opacity: 1;
+        }
       }
 
       &:last-child {
@@ -767,7 +778,7 @@ onUnmounted(() => {
         margin: 0;
 
         @media (max-width: 767.98px) {
-          text-indent: calc(40 * var(--rem));
+          text-indent: 0;
         }
       }
     }
@@ -784,9 +795,13 @@ onUnmounted(() => {
   letter-spacing: -0.03em;
   line-height: 0.7;
 
+  @media (max-width: 1024px) {
+    font-size: clamp(48px, 6.5vw, 76px);
+  }
+
   @media (max-width: 767.98px) {
-    font-size: calc(40 * var(--rem));
-    line-height: 0.85;
+    font-size: clamp(34px, 9vw, 44px);
+    line-height: 0.88;
   }
 }
 
@@ -797,9 +812,13 @@ onUnmounted(() => {
   letter-spacing: -0.03em;
   line-height: 0.9;
 
+  @media (max-width: 1024px) {
+    font-size: clamp(32px, 4.5vw, 54px);
+  }
+
   @media (max-width: 767.98px) {
-    font-size: calc(36 * var(--rem));
-    line-height: 0.95;
+    font-size: clamp(22px, 6.5vw, 32px);
+    line-height: 1.0;
   }
 }
 
@@ -810,8 +829,12 @@ onUnmounted(() => {
   letter-spacing: -0.02em;
   line-height: 1.2;
 
+  @media (max-width: 1024px) {
+    font-size: 15px;
+  }
+
   @media (max-width: 767.98px) {
-    font-size: calc(14 * var(--rem));
+    font-size: 14px;
   }
 }
 

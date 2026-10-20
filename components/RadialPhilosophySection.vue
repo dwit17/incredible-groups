@@ -471,7 +471,7 @@ onUnmounted(() => {
     }
   }
 
-  // Radial spokes & labels container (80vh x 80vh, exact Kononenko .ctw)
+  // Radial spokes & labels container
   .vision-radial-box {
     height: 80vh;
     width: 80vh;
@@ -483,9 +483,14 @@ onUnmounted(() => {
     user-select: none;
     z-index: 1;
 
+    @media (max-width: 1024px) {
+      height: min(72vw, 72vh);
+      width: min(72vw, 72vh);
+    }
+
     @media (max-width: 767.98px) {
-      height: 270px;
-      width: 270px;
+      height: min(82vw, 290px);
+      width: min(82vw, 290px);
     }
   }
 
@@ -513,8 +518,12 @@ onUnmounted(() => {
     inset: 0;
     font-size: 12px;
 
+    @media (max-width: 1024px) {
+      font-size: 11px;
+    }
+
     @media (max-width: 767.98px) {
-      font-size: 9px;
+      font-size: 10px;
     }
 
     .vision-label-num {
@@ -547,8 +556,13 @@ onUnmounted(() => {
     z-index: 3;
     pointer-events: none;
 
+    @media (max-width: 1024px) {
+      width: 88%;
+      max-width: 520px;
+    }
+
     @media (max-width: 767.98px) {
-      width: 85%;
+      width: 88%;
       max-width: 320px;
     }
   }
@@ -574,9 +588,14 @@ onUnmounted(() => {
     margin: 0;
     padding: 0;
 
+    @media (max-width: 1024px) {
+      font-size: clamp(32px, 5.2vw, 50px);
+      line-height: 0.90;
+    }
+
     @media (max-width: 767.98px) {
-      font-size: clamp(26px, 7vw, 36px);
-      line-height: 0.92;
+      font-size: clamp(22px, 6.8vw, 32px);
+      line-height: 0.94;
     }
 
     &__mask {

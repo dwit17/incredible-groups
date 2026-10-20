@@ -19,6 +19,9 @@
       @mousemove="onMouseMove"
       @mouseenter="onMouseEnter"
       @mouseleave="onMouseLeave"
+      @touchstart.passive="onTouchStart"
+      @touchmove.passive="onTouchMove"
+      @touchend.passive="onTouchEnd"
     >
       <!-- WebGL Materialization Canvas (100% GPU-Accelerated) -->
       <canvas
@@ -98,6 +101,39 @@ const onMouseEnter = () => {
 
 const onMouseLeave = () => {
   targetHover.value = 0.0;
+};
+
+let touchTimeout: any = null;
+
+const onTouchStart = (e: TouchEvent) => {
+  if (touchTimeout) clearTimeout(touchTimeout);
+  if (!e.touches.length) return;
+  const touch = e.touches[0];
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  targetMouseX.value = (touch.clientX - rect.left) / rect.width;
+  targetMouseY.value = (touch.clientY - rect.top) / rect.height;
+  targetHover.value = 1.0;
+};
+
+const onTouchMove = (e: TouchEvent) => {
+  if (touchTimeout) clearTimeout(touchTimeout);
+  if (!e.touches.length) return;
+  const touch = e.touches[0];
+  const canvas = canvasRef.value;
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  targetMouseX.value = (touch.clientX - rect.left) / rect.width;
+  targetMouseY.value = (touch.clientY - rect.top) / rect.height;
+  targetHover.value = 1.0;
+};
+
+const onTouchEnd = () => {
+  if (touchTimeout) clearTimeout(touchTimeout);
+  touchTimeout = setTimeout(() => {
+    targetHover.value = 0.0;
+  }, 2200);
 };
 
 // -------------------------------------------------------------
@@ -359,8 +395,9 @@ const render = () => {
   if (locations.uThreshA) gl.uniform1f(locations.uThreshA, thresholdA.value);
 
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const lensRadius = (window.innerWidth < 768 ? Math.min(window.innerWidth * 0.28, 110) : 160.0) * dpr;
   if (locations.uMouse) gl.uniform2f(locations.uMouse, mouseX.value, mouseY.value);
-  if (locations.uMouseRad) gl.uniform1f(locations.uMouseRad, 160.0 * dpr);
+  if (locations.uMouseRad) gl.uniform1f(locations.uMouseRad, lensRadius);
   if (locations.uMouseHov) gl.uniform1f(locations.uMouseHov, currentHover.value);
 
   gl.drawArrays(gl.TRIANGLES, 0, 6);
@@ -608,19 +645,50 @@ onUnmounted(() => {
     padding: 0;
   }
 
-  @include mobile {
+  @media (max-width: 1024px) {
     &__title-box {
-      padding: 8vh 16px 5vh 16px;
+      padding: 9vh 24px 6vh 24px;
     }
 
     &__title {
-      font-size: clamp(38px, 9.5vw, 54px);
-      line-height: 0.96;
+      font-size: clamp(38px, 6.2vw, 64px);
+    }
+
+    &__stage {
+      width: 100%;
+      height: 80dvh;
+      min-height: 520px;
     }
 
     &__editorial {
-      padding-top: 3.5rem;
-      padding-bottom: 5rem;
+      padding-top: 4rem;
+      padding-bottom: 6rem;
+    }
+
+    &__narrative-p {
+      font-size: clamp(20px, 2.8vw, 30px);
+    }
+  }
+
+  @media (max-width: 767px) {
+    &__title-box {
+      padding: 7vh 16px 4vh 16px;
+    }
+
+    &__title {
+      font-size: clamp(30px, 8.8vw, 44px);
+      line-height: 0.98;
+    }
+
+    &__stage {
+      width: 100%;
+      height: 65dvh;
+      min-height: 380px;
+    }
+
+    &__editorial {
+      padding-top: 3rem;
+      padding-bottom: 4.5rem;
     }
 
     &__editorial-inner {
@@ -633,8 +701,8 @@ onUnmounted(() => {
     }
 
     &__narrative-p {
-      font-size: clamp(18px, 5vw, 24px);
-      line-height: 1.35;
+      font-size: clamp(16px, 4.4vw, 21px);
+      line-height: 1.4;
     }
   }
 }

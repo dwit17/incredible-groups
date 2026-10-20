@@ -819,9 +819,16 @@ onUnmounted(() => {
   white-space: nowrap;
   transition: all $duration-fast ease;
 
+  @media (max-width: 1024px) {
+    font-size: 14px;
+    min-height: 44px;
+    padding: 0.5rem 1.15rem;
+  }
+
   @include mobile {
-    font-size: 0.75rem;
-    padding: 0.4rem 0.85rem;
+    font-size: 14px;
+    min-height: 44px;
+    padding: 0.5rem 1rem;
     flex-shrink: 0;
   }
 
@@ -852,6 +859,10 @@ onUnmounted(() => {
   font-family: $font-mono;
   font-size: 0.75rem;
   color: $color-text-dim;
+
+  @media (max-width: 1024px) {
+    font-size: 13px;
+  }
 }
 
 // Asymmetric Gallery Grid

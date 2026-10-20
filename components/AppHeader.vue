@@ -603,11 +603,13 @@ onUnmounted(() => {
       border-radius: 4px;
       color: $color-text-light;
       font-family: $font-sans;
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      padding: 6px 12px;
-      min-height: 36px;
+      padding: 10px 16px;
+      min-height: 44px;
+      min-width: 44px;
+      box-sizing: border-box;
       cursor: pointer;
       touch-action: manipulation;
       transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -623,17 +625,24 @@ onUnmounted(() => {
     &-list {
       display: flex;
       flex-direction: column;
-      gap: clamp(0.85rem, 2vh, 1.5rem);
+      gap: clamp(0.75rem, 1.8vh, 1.5rem);
       margin: 1rem 0;
       flex-grow: 1;
       justify-content: center;
+
+      @media (max-height: 520px) and (orientation: landscape) {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.4rem 1.5rem;
+        margin: 0.5rem 0;
+      }
     }
 
     &-item {
       display: inline-flex;
-      align-items: baseline;
+      align-items: center;
       font-family: $font-serif;
-      font-size: clamp(1.6rem, 5.5vw, 3.2rem);
+      font-size: clamp(1.4rem, 4.5vw, 2.8rem);
       color: $color-text-light;
       text-decoration: none;
       min-height: 44px;
@@ -641,6 +650,11 @@ onUnmounted(() => {
       letter-spacing: -0.02em;
       transition: transform 0.25s ease, color 0.25s ease;
       touch-action: manipulation;
+
+      @media (max-height: 520px) and (orientation: landscape) {
+        font-size: 1.15rem;
+        min-height: 38px;
+      }
 
       &:hover,
       &:active {
@@ -669,15 +683,22 @@ onUnmounted(() => {
       @include tablet-up {
         grid-template-columns: 1fr 1fr;
       }
+
+      @media (max-height: 520px) and (orientation: landscape) {
+        padding-top: 0.5rem;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+      }
     }
 
     &-wa {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
       color: $color-accent;
       margin-top: 0.25rem;
       text-decoration: none;
-      min-height: 32px;
-      line-height: 32px;
+      min-height: 44px;
+      box-sizing: border-box;
     }
   }
 }

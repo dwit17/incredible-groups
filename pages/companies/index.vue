@@ -628,6 +628,10 @@ onUnmounted(() => {
     @include tablet {
       padding: 6rem 0 4rem;
     }
+
+    @include mobile {
+      padding: 3.5rem 0 2.5rem;
+    }
   }
 
   &__content {
@@ -666,9 +670,10 @@ onUnmounted(() => {
     gap: clamp(2rem, 5vw, 6rem);
     margin-bottom: 4.5rem;
 
-    @include tablet {
+    @media (max-width: 1024px) {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: 1.75rem;
+      margin-bottom: 3rem;
     }
   }
 

@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useSiteLoaded } from '~/composables/useSiteLoaded';
@@ -99,6 +99,12 @@ const playEntranceAnimation = () => {
   }
 };
 
+watch(isSiteLoaded, (loaded) => {
+  if (loaded) {
+    playEntranceAnimation();
+  }
+});
+
 onMounted(() => {
   if (!import.meta.client) return;
 
@@ -115,12 +121,12 @@ onMounted(() => {
       };
       window.addEventListener('site-unveiled', handleUnveil);
 
-      // Failsafe timer (trigger animation after 1.5s max even if event didn't fire)
+      // Failsafe timer (trigger animation after 1.2s max even if event didn't fire)
       setTimeout(() => {
         if (!hasPlayedEntrance) {
           playEntranceAnimation();
         }
-      }, 1500);
+      }, 1200);
     }
 
     // Scroll Parallax & Subtle Scale
@@ -166,6 +172,13 @@ onUnmounted(() => {
   padding: 0;
   overflow: hidden;
   background-color: #0c0d0e;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-width: 100%;
+    height: 100dvh;
+    height: 100svh;
+  }
 
   // 100vh Edge-to-Edge Canvas
   &__canvas {
@@ -228,9 +241,24 @@ onUnmounted(() => {
     pointer-events: none;
     max-width: 90vw;
 
-    @include mobile {
-      bottom: 1.5rem;
-      left: 1.25rem;
+    @media (min-width: 768px) and (max-width: 1024px) {
+      bottom: clamp(1.75rem, 3.5vh, 2.5rem);
+      left: clamp(1.5rem, 3.5vw, 2.5rem);
+      right: clamp(1.5rem, 3.5vw, 2.5rem);
+      max-width: calc(100% - 3rem);
+    }
+
+    @media (max-width: 767px) {
+      bottom: max(1.25rem, env(safe-area-inset-bottom));
+      left: max(1.125rem, env(safe-area-inset-left));
+      right: max(1.125rem, env(safe-area-inset-right));
+      max-width: calc(100% - 2.25rem);
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      bottom: max(0.85rem, env(safe-area-inset-bottom));
+      left: max(1.25rem, env(safe-area-inset-left));
+      right: auto;
     }
   }
 
@@ -247,6 +275,10 @@ onUnmounted(() => {
     line-height: 0.94;
     padding-bottom: 0.1em; // prevents descender clipping
     white-space: nowrap;
+
+    @media (max-width: 767px) {
+      white-space: normal;
+    }
   }
 
   &__title-line {
@@ -263,8 +295,19 @@ onUnmounted(() => {
       color: #ffffff;
       text-transform: none;
 
-      @include mobile {
-        font-size: clamp(1.85rem, 8.4vw, 3.2rem);
+      @media (min-width: 768px) and (max-width: 1024px) {
+        font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+        line-height: 0.94;
+      }
+
+      @media (max-width: 767px) {
+        font-size: clamp(2rem, 8.8vw, 3.25rem);
+        line-height: 0.95;
+      }
+
+      @media (max-height: 500px) and (orientation: landscape) {
+        font-size: clamp(1.4rem, 6.5vh, 2.2rem);
+        line-height: 1;
       }
     }
 
@@ -278,8 +321,19 @@ onUnmounted(() => {
       color: #ffffff;
       text-transform: none;
 
-      @include mobile {
-        font-size: clamp(1.85rem, 8.4vw, 3.2rem);
+      @media (min-width: 768px) and (max-width: 1024px) {
+        font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+        line-height: 0.94;
+      }
+
+      @media (max-width: 767px) {
+        font-size: clamp(2rem, 8.8vw, 3.25rem);
+        line-height: 0.95;
+      }
+
+      @media (max-height: 500px) and (orientation: landscape) {
+        font-size: clamp(1.4rem, 6.5vh, 2.2rem);
+        line-height: 1;
       }
     }
   }

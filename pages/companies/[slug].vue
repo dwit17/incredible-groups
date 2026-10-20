@@ -9,7 +9,7 @@
       <div class="company-hero-bg">
         <img
           ref="bannerImgRef"
-          :src="company.gallery?.[0]?.url || '/placeholders/hero-architecture.jpg'"
+          :src="company.gallery?.[0]?.url || '/images/hero-architecture.jpg'"
           :alt="`${company.name} Operational Benchmark`"
           class="company-hero-img"
           loading="eager"
@@ -759,6 +759,7 @@ onUnmounted(() => {
     text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
+    min-height: 44px;
     line-height: 1.2;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     box-sizing: border-box;

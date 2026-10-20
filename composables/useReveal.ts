@@ -66,7 +66,7 @@ export function splitTextIntoLines(el: HTMLElement, options: { inline?: boolean 
     el.innerHTML = allLineStrings
       .map(
         line =>
-          `<span class="split-line-mask" style="display:${displayVal};overflow:hidden;vertical-align:top;padding-bottom:0.08em;line-height:inherit;"><span class="split-line-inner" style="display:${displayVal};will-change:transform,opacity;">${line}</span></span>`
+          `<span class="split-line-mask" style="display:${displayVal};overflow:hidden;vertical-align:top;padding-bottom:0.2em;margin-bottom:-0.2em;line-height:inherit;"><span class="split-line-inner" style="display:${displayVal};will-change:transform,opacity;">${line}</span></span>`
       )
       .join(isInline ? ' ' : '');
 
@@ -113,7 +113,7 @@ export function splitTextIntoLines(el: HTMLElement, options: { inline?: boolean 
   el.innerHTML = lineStrings
     .map(
       line =>
-        `<span class="split-line-mask" style="display:${displayVal};overflow:hidden;vertical-align:top;padding-bottom:0.08em;line-height:inherit;"><span class="split-line-inner" style="display:${displayVal};will-change:transform,opacity;">${line}</span></span>`
+        `<span class="split-line-mask" style="display:${displayVal};overflow:hidden;vertical-align:top;padding-bottom:0.2em;margin-bottom:-0.2em;line-height:inherit;"><span class="split-line-inner" style="display:${displayVal};will-change:transform,opacity;">${line}</span></span>`
     )
     .join(isInline ? ' ' : '');
 

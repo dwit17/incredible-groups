@@ -447,13 +447,13 @@ const renderBadges = (cachedFacesList?: Array<{ el: HTMLElement; front: HTMLElem
   // Sized proportionally for mobile, tablet, and laptop/desktop screens
   // -------------------------------------------------------------
   const rx = isMobile 
-    ? Math.max(width * 0.34, 120) 
+    ? Math.min(width * 0.44, 172) 
     : isTablet 
       ? Math.min(width * 0.36, 380) 
       : Math.min(width * 0.38, 520);
 
   const ry = isMobile 
-    ? Math.min(height * 0.28, 200) 
+    ? Math.min(width * 0.23, 90) 
     : isTablet 
       ? Math.min(height * 0.30, 250) 
       : Math.min(height * 0.31, 270);
@@ -492,7 +492,7 @@ const renderBadges = (cachedFacesList?: Array<{ el: HTMLElement; front: HTMLElem
       zIndex = 25;
       scale = 0.90 + 0.16 * depth; // 0.90 -> 1.06x balanced size
       opacity = 0.92 + 0.08 * depth; // 0.92 -> 1.0
-      faceTransitionProgress = Math.min(1, depth * 3.0); // Fast blend to 1 as it enters front
+      faceTransitionProgress = depth > 0.05 ? 1 : Math.max(0, depth / 0.05); // Fast crisp blend to 1 as it enters front
     } else {
       // Background: BEHIND text (z-index: 2 vs text z-index: 10)
       zIndex = 2;
@@ -598,7 +598,7 @@ onUnmounted(() => {
   -webkit-font-smoothing: antialiased;
 
   @include mobile {
-    font-size: clamp(20px, 5.2vw, 28px);
+    font-size: clamp(20px, 4.8vw, 24px);
     line-height: 1.2;
     letter-spacing: -0.02em;
   }
@@ -639,15 +639,31 @@ onUnmounted(() => {
   margin-left: calc(-1 * clamp(72px, 6.8vw, 120px) / 2);
   margin-top: calc(-1 * clamp(72px, 6.8vw, 120px) / 2);
   border-radius: 50%;
+  overflow: hidden;
   will-change: transform, opacity;
   pointer-events: auto;
   cursor: pointer;
   transition: box-shadow 0.3s ease;
 
+  @media (max-width: 1024px) {
+    width: clamp(66px, 8.5vw, 92px);
+    height: clamp(66px, 8.5vw, 92px);
+    margin-left: calc(-1 * clamp(66px, 8.5vw, 92px) / 2);
+    margin-top: calc(-1 * clamp(66px, 8.5vw, 92px) / 2);
+  }
+
+  @media (max-width: 767.98px) {
+    width: clamp(40px, 10.5vw, 46px);
+    height: clamp(40px, 10.5vw, 46px);
+    margin-left: calc(-1 * clamp(40px, 10.5vw, 46px) / 2);
+    margin-top: calc(-1 * clamp(40px, 10.5vw, 46px) / 2);
+  }
+
   &__face {
     position: absolute;
     inset: 0;
     border-radius: 50%;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -656,6 +672,10 @@ onUnmounted(() => {
     box-sizing: border-box;
     will-change: opacity;
     transition: background-color 0.25s ease;
+
+    @media (max-width: 767.98px) {
+      padding: 3px;
+    }
 
     // FRONT Face: Solid light white/grey background with dark logos
     &--front {
@@ -908,6 +928,167 @@ onUnmounted(() => {
       font-size: clamp(9.5px, 0.85vw, 12.5px);
       font-weight: 700;
       letter-spacing: 0.12em;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .brand-name {
+      font-size: 7.5px !important;
+      letter-spacing: 0.02em !important;
+      line-height: 1 !important;
+    }
+    .brand-sub {
+      font-size: 4.5px !important;
+      letter-spacing: 0.04em !important;
+      margin-top: 1px !important;
+    }
+    .brand-svg {
+      width: 16px !important;
+      margin-bottom: 1px !important;
+    }
+
+    &.brand-logo--era {
+      .brand-svg--era {
+        width: 16px !important;
+        margin-bottom: 1px !important;
+      }
+      .brand-name--era {
+        font-size: 8px !important;
+        letter-spacing: 0.08em !important;
+      }
+      .brand-sub--era {
+        font-size: 4.2px !important;
+        letter-spacing: 0.04em !important;
+      }
+    }
+
+    &.brand-logo--ingrad {
+      .brand-svg--icon {
+        width: 13px !important;
+        margin-bottom: 1px !important;
+      }
+      .brand-name--ingrad {
+        font-size: 7.5px !important;
+      }
+    }
+
+    &.brand-logo--little {
+      .brand-name--little {
+        font-size: 10px !important;
+      }
+    }
+
+    &.brand-logo--naiman {
+      .brand-icon-n {
+        font-size: 10px !important;
+        margin-bottom: 0 !important;
+      }
+      .brand-name {
+        font-size: 6.8px !important;
+      }
+      .brand-sub {
+        font-size: 4.5px !important;
+      }
+    }
+
+    &.brand-logo--kazakov {
+      .brand-name--kazakov {
+        font-size: 7px !important;
+        letter-spacing: 0.04em !important;
+      }
+      .brand-script {
+        font-size: 6.5px !important;
+      }
+    }
+
+    &.brand-logo--whitewill {
+      .brand-svg--whitewill {
+        width: 15px !important;
+        margin-bottom: 1px !important;
+      }
+      .brand-name--whitewill {
+        font-size: 7px !important;
+      }
+    }
+
+    &.brand-logo--a101 {
+      .brand-svg--tree {
+        width: 14px !important;
+        margin-bottom: 1px !important;
+      }
+      .brand-name--a101 {
+        font-size: 7.5px !important;
+      }
+      .brand-sub--a101 {
+        font-size: 4.2px !important;
+      }
+    }
+
+    &.brand-logo--bolshevik {
+      .brand-name--bolshevik {
+        font-size: 6.8px !important;
+        letter-spacing: 0.02em !important;
+      }
+      .brand-svg--wave {
+        width: 18px !important;
+      }
+    }
+
+    &.brand-logo--showme {
+      .brand-name--showme {
+        font-size: 7px !important;
+      }
+    }
+
+    &.brand-logo--seal {
+      .brand-svg--seal {
+        width: 16px !important;
+      }
+    }
+
+    &.brand-logo--shield {
+      .brand-sub--shield {
+        font-size: 4.2px !important;
+        margin-bottom: 1px !important;
+      }
+      .brand-svg--shield {
+        width: 12px !important;
+      }
+    }
+
+    &.brand-logo--tt {
+      .brand-svg--tt {
+        width: 15px !important;
+      }
+    }
+
+    &.brand-logo--coldy {
+      .brand-name--coldy {
+        font-size: 7.5px !important;
+        letter-spacing: 0.06em !important;
+      }
+    }
+
+    &.brand-logo--oproperties {
+      .brand-name--oproperties {
+        font-size: 6.5px !important;
+      }
+    }
+
+    &.brand-logo--zorge {
+      .brand-name--zorge {
+        font-size: 6.8px !important;
+      }
+    }
+
+    &.brand-logo--thegame {
+      .brand-svg--diamond {
+        width: 10px !important;
+        margin-bottom: 1px !important;
+      }
+      .brand-name--thegame {
+        font-size: 6.2px !important;
+      }
     }
   }
 }

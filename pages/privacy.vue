@@ -260,6 +260,14 @@ onUnmounted(() => {
     padding: 0.25rem 0;
     transition: color 0.2s ease;
 
+    @media (max-width: 1024px) {
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 0.25rem;
+      font-size: 14px;
+    }
+
     &:hover {
       color: $color-text-primary;
     }

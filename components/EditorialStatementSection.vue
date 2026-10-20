@@ -222,10 +222,16 @@ onUnmounted(() => {
     padding: 0;
     font-synthesis: none;
 
-    @include mobile {
-      font-size: clamp(2.2rem, 9.5vw, 3.4rem);
+    @media (min-width: 768px) and (max-width: 1024px) {
+      font-size: clamp(2.5rem, 5.2vw, 4.2rem);
       line-height: 0.96;
-      letter-spacing: -0.035em;
+      letter-spacing: -0.03em;
+    }
+
+    @include mobile {
+      font-size: clamp(2rem, 8.5vw, 3.25rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
     }
 
@@ -265,6 +271,10 @@ onUnmounted(() => {
     margin: 0 auto;
     text-align: left;
 
+    @media (min-width: 768px) and (max-width: 1024px) {
+      gap: 2rem;
+    }
+
     @include mobile {
       flex-direction: column;
       gap: 1.25rem;
@@ -284,6 +294,11 @@ onUnmounted(() => {
     line-height: 1.65;
     color: #666a71;
     margin: 0;
+
+    @media (max-width: 1024px) {
+      font-size: 15px;
+      line-height: 1.6;
+    }
   }
 
   // Full-Bleed 100vw x 100vh Image Canvas with Curtain Overlap Unveil

@@ -611,32 +611,95 @@ onUnmounted(() => {
   }
 
   // Responsive Breakpoints
-  @include mobile {
-    padding-top: 4rem;
-    padding-bottom: 6rem;
+  @media (max-width: 1024px) {
+    padding-top: clamp(4.5rem, 9vh, 7rem);
+    padding-bottom: clamp(5.5rem, 11vh, 9rem);
 
     &__header {
-      margin-bottom: 3rem;
+      margin-bottom: clamp(3rem, 6vh, 5rem);
     }
 
     &__title {
-      font-size: clamp(36px, 9.5vw, 52px);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
     }
 
     &__gallery {
-      gap: 3.5rem;
+      gap: clamp(3.5rem, 7vh, 6rem);
+    }
+
+    &__row {
+      gap: 2rem;
+      margin-top: 0 !important;
+
+      &--2, &--4, &--5 {
+        margin-top: 0 !important;
+      }
+    }
+
+    &__card {
+      &--pokrovskoe, &--millenium, &--bolshevik, &--kns, &--almaty, &--elihouse {
+        width: calc(50% - 1rem);
+        flex: 1 1 calc(50% - 1rem);
+        margin-top: 0 !important;
+      }
+
+      &--kotelnaya {
+        width: 100%;
+        flex: 1 1 100%;
+        margin-top: 0 !important;
+      }
+
+      &--vision {
+        width: min(100%, 420px);
+        flex: 0 1 min(100%, 420px);
+        margin-top: 0 !important;
+      }
+    }
+
+    &__name,
+    &__area {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    padding-top: 3.5rem;
+    padding-bottom: 5rem;
+
+    &__header {
+      margin-bottom: 2.5rem;
+    }
+
+    &__title {
+      font-size: clamp(28px, 8.5vw, 42px);
+    }
+
+    &__gallery {
+      gap: 2.75rem;
     }
 
     &__row {
       flex-direction: column;
-      gap: 3.5rem;
+      gap: 2.75rem;
       margin-top: 0 !important;
       padding-left: 0 !important;
     }
 
     &__card {
       width: 100% !important;
+      flex: 1 1 100% !important;
       margin-top: 0 !important;
+
+      &--pokrovskoe, &--millenium, &--bolshevik, &--kns, &--kotelnaya, &--vision, &--almaty, &--elihouse {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        margin-top: 0 !important;
+      }
+    }
+
+    &__name,
+    &__area {
+      font-size: 14px;
     }
   }
 }

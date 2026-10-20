@@ -697,10 +697,15 @@ onUnmounted(() => {
     gap: 2.5rem;
   }
 
-  @include tablet {
+  @media (max-width: 1024px) {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.75rem;
     align-items: flex-start;
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 }
 
@@ -828,6 +833,11 @@ onUnmounted(() => {
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   box-sizing: border-box;
+
+  @include mobile {
+    white-space: normal;
+    text-align: center;
+  }
 
   .btn-icon {
     display: inline-flex;
